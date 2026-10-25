@@ -369,7 +369,7 @@ El CRM no exige cuenta verificada, pero sí sesión. Cada consulta de `farm_*` f
 - `Csrf::validate()` se ejecuta antes de despachar cualquier método distinto de GET, HEAD u OPTIONS; un token inválido produce 419.
 - El token se regenera al iniciar y cerrar sesión y se imprime con `csrf_field()`.
 - Toda salida dinámica pasa por `e()` (`htmlspecialchars` con `ENT_QUOTES` y UTF-8).
-- `Response::send()` agrega CSP (`default-src 'self'`, `script-src 'self'`), `X-Content-Type-Options`, `X-Frame-Options: DENY`, `Referrer-Policy` y `Permissions-Policy`.
+- `Response::send()` agrega CSP (`default-src 'self'`, `script-src 'self'`), `X-Content-Type-Options`, `Referrer-Policy` y `Permissions-Policy`. El encuadre se restringe con `frame-ancestors`, que permite el propio sitio y los dominios de Hostinger para que funcione la vista previa del panel; no se usa `X-Frame-Options: DENY` porque bloquearía esa vista previa.
 - HSTS se agrega sólo cuando `Request::isSecure()` es verdadero.
 
 ### Archivos
