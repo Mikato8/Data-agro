@@ -1,0 +1,93 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    name: PHP + PostgreSQL
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: diagnostico
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: pdo_pgsql, pgsql, curl, mbstring, fileinfo, gd, intl
+          coverage: none
+
+      - name: Configurar entorno
+        run: |
+          cat > .env <<'EOF'
+          APP_NAME="Diagnóstico Veterinario"
+          APP_ENV=testing
+          APP_DEBUG=false
+          APP_URL=http://127.0.0.1:8080
+          APP_TIMEZONE=America/Mexico_City
+          APP_LOCALE=es_MX
+          DATABASE_URL="postgresql://postgres:postgres@127.0.0.1:5432/diagnostico?sslmode=disable"
+          DATABASE_URL_UNPOOLED="postgresql://postgres:postgres@127.0.0.1:5432/diagnostico?sslmode=disable"
+          DB_DRIVER=pdo
+          SESSION_NAME=dv_session
+          SESSION_LIFETIME=7200
+          SESSION_SECURE=false
+          UPLOAD_MAX_BYTES=5242880
+          UPLOAD_MAX_FILES=6
+          MAIL_ENABLED=false
+          AUTO_VERIFY_USERS=false
+          EOF
+          mkdir -p storage/logs storage/sessions storage/cache public/uploads/cases
+
+      - name: Lint PHP
+        run: |
+          find app config routes bin -name '*.php' -print0 | xargs -0 -n1 php -l
+
+      - name: Migrar y sembrar
+        env:
+          DEMO_PASSWORD: 'CiDemoPassword2026!'
+        run: |
+          php bin/migrate.php
+          php bin/seed.php --demo
+          php bin/check.php
+
+      - name: Pruebas de humo
+        run: |
+          php -S 127.0.0.1:8080 -t public public/router.php > storage/logs/server.log 2>&1 &
+          echo $! > /tmp/dv_server.pid
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:8080/salud > /dev/null; then
+              break
+            fi
+            sleep 1
+          done
+          ./tests/smoke.sh
+          kill "$(cat /tmp/dv_server.pid)" || true
+
+      - name: Logs del servidor si falla
+        if: failure()
+        run: |
+          echo '--- storage/logs/server.log ---'
+          cat storage/logs/server.log || true
+          echo '--- storage/logs/app-*.log ---'
+          cat storage/logs/app-*.log || true

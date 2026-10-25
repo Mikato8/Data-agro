@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#07332c"/>
+      <stop offset="1" stop-color="#0d5c4d"/>
+    </linearGradient>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0H0V48" fill="none" stroke="#ffffff" stroke-opacity="0.07"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  <circle cx="1060" cy="110" r="260" fill="#e9b872" opacity="0.12"/>
+  <circle cx="1130" cy="520" r="200" fill="#e76f51" opacity="0.12"/>
+  <g transform="translate(90,110)">
+    <rect width="96" height="96" rx="28" fill="#f7f3ea"/>
+    <path d="M16 54h14l6.4-17 9.2 28 6.4-13.6H80" fill="none" stroke="#0d5c4d" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <text x="90" y="300" fill="#f7f3ea" font-family="Georgia, 'Times New Roman', serif" font-size="74" font-weight="700">Diagnóstico Veterinario</text>
+  <text x="90" y="372" fill="#dff2ea" font-family="Arial, Helvetica, sans-serif" font-size="34">Casos clínicos que enseñan.</text>
+  <text x="90" y="418" fill="#dff2ea" font-family="Arial, Helvetica, sans-serif" font-size="34">Decisiones que mejoran.</text>
+  <text x="90" y="540" fill="#e9b872" font-family="Arial, Helvetica, sans-serif" font-size="24" letter-spacing="3">PORTAL DE CASOS CLÍNICOS · MÉXICO</text>
+</svg>

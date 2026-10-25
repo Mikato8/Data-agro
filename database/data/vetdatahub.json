@@ -1,0 +1,780 @@
+{
+  "source_repository": "https://github.com/Mikato8/VetDataHub",
+  "source_commit": "ed700be",
+  "imported_at": "2026-10-23",
+  "categories": [
+    {
+      "key": "animal_condition",
+      "label": "Condición animal",
+      "count": 1
+    },
+    {
+      "key": "avian",
+      "label": "Aves",
+      "count": 1
+    },
+    {
+      "key": "behavioral",
+      "label": "Conducta",
+      "count": 9
+    },
+    {
+      "key": "canine",
+      "label": "Caninos",
+      "count": 7
+    },
+    {
+      "key": "epidermiology",
+      "label": "Epidemiología",
+      "count": 1
+    },
+    {
+      "key": "equine",
+      "label": "Equinos",
+      "count": 6
+    },
+    {
+      "key": "farm",
+      "label": "Producción animal",
+      "count": 2
+    },
+    {
+      "key": "feline",
+      "label": "Felinos",
+      "count": 2
+    },
+    {
+      "key": "genetics",
+      "label": "Genética",
+      "count": 3
+    },
+    {
+      "key": "microbiology",
+      "label": "Microbiología",
+      "count": 1
+    },
+    {
+      "key": "others",
+      "label": "Otros",
+      "count": 34
+    },
+    {
+      "key": "pathology",
+      "label": "Patología",
+      "count": 2
+    },
+    {
+      "key": "rabbit-disorder",
+      "label": "Conejos",
+      "count": 1
+    },
+    {
+      "key": "veterinary_images",
+      "label": "Imágenes veterinarias",
+      "count": 2
+    },
+    {
+      "key": "wildlife",
+      "label": "Fauna silvestre",
+      "count": 15
+    }
+  ],
+  "datasets": [
+    {
+      "title": "Animal Condition Classification Dataset",
+      "description": "Dataset forf classifying animals on the basis of disease symptoms.",
+      "url": "https://www.kaggle.com/datasets/willianoliveiragibin/animal-condition",
+      "source": "Kaggle",
+      "category": "animal_condition",
+      "category_label": "Condición animal"
+    },
+    {
+      "title": "Bird and Mammal Census (CalCOFI, NMFS, CPR)",
+      "description": "Bird and mammal observations aboard CalCOFI (1987-2021, ongoing), NMFS (1996-2021, ongoing) and CPR (2003-2006, completed) cruises.",
+      "url": "https://www.kaggle.com/datasets/jishnukoliyadan/bird-and-mammal-census-calcofi-nmfs-cpr",
+      "source": "Kaggle",
+      "category": "avian",
+      "category_label": "Aves"
+    },
+    {
+      "title": "Inertial data for dog behaviour classification",
+      "description": "The dataset includes movement sensor data from sensors placed on the collar and the harness of a dog and recorded while the dog is given tasks or activities to perform. The task are: galloping, lying on chest, sitting, sniffing, standing, trotting, and walking. The movement sensors used are: ActiGraph GT9X Link (ActiGraph LLC, Florida, USA) and they include 3D accelerometer and 3D gyroscope. The sampling rate used is 100 Hz.",
+      "url": "https://www.kaggle.com/datasets/benjamingray44/inertial-data-for-dog-behaviour-classification",
+      "source": "Kaggle",
+      "category": "behavioral",
+      "category_label": "Conducta"
+    },
+    {
+      "title": "Animal behavior prediction",
+      "description": "Predicting rumination to understand cattle health",
+      "url": "https://www.kaggle.com/datasets/obulikarthikeyan/animal-behavior-prediction",
+      "source": "Kaggle",
+      "category": "behavioral",
+      "category_label": "Conducta"
+    },
+    {
+      "title": "Animals with skelet key points and action mark to predict animal behavior",
+      "description": "This dataset can be used to solve the problem of animal behavior recognition based on its image.",
+      "url": "https://www.kaggle.com/datasets/egorovalexeyd/animals-with-skelet-key-points-and-action-mark?select=animals_data_augm.csv",
+      "source": "Kaggle",
+      "category": "behavioral",
+      "category_label": "Conducta"
+    },
+    {
+      "title": "Dog Behavior Analysis Dataset",
+      "description": "Dog behavior classification with movement sensors",
+      "url": "https://www.kaggle.com/datasets/arashnic/animal-behavior-analysis",
+      "source": "Kaggle",
+      "category": "behavioral",
+      "category_label": "Conducta"
+    },
+    {
+      "title": "Mammal Abundance and Behavior in Response to hunting",
+      "description": "This dataset provides an insightful look into the various impacts that hunting has on mammal species in two different landscapes - southern Germany and the southeastern United States. Through camera trap data collected from both yards and forests, researchers have gained valuable information on abundance and behaviors as they relate to varying intensities of hunting in each country. Our dataset includes details such as deployment location, habitats, species family name, individual counts per species, county of origin, latitude/longitude coordinates, habitat type and hunter status. With this information we can clearly see how humans affect animal populations by hunting them for sport or sustenance. This resource provides a comprehensive study of mammalian abundance dynamics under differing intensities of hunting across two regions for further exploration into the relationship between human interference and wildlife populations",
+      "url": "https://www.kaggle.com/datasets/thedevastator/mammal-abundance-and-behavior-in-response-to-hun",
+      "source": "Kaggle",
+      "category": "behavioral",
+      "category_label": "Conducta"
+    },
+    {
+      "title": "CBVD-5(Cow Behavior Video Dataset)",
+      "description": "This dataset consists of video data capturing cow behavior, collected using seven surveillance cameras. The cameras used are Dahua cameras with 2.8mm and 3.6mm lenses (model M/K). The data collection process involved the use of Dahua DH-S3000C-16GT 16-port gigabit network switches and Dahua DH-NVR2216-HDS3 network hard disk recorders. The cameras were set up to monitor the cows' daily behavior on the farm continuously for a period of five days, ensuring 24-hour surveillance.",
+      "url": "https://www.kaggle.com/datasets/fandaoerji/cbvd-5cow-behavior-video-dataset",
+      "source": "Kaggle",
+      "category": "behavioral",
+      "category_label": "Conducta"
+    },
+    {
+      "title": "Wild Brown Rat Predator Response",
+      "description": "The dataset contains results of an experiment examining the complex and fascinating antipredator responses of wild brown rats (Rattus norvegicus) to both cat fur and possum fur odour cues in a semi-natural environment. This experiment sought to explore how such animals think, feel, and react when presented with potential danger signals in their environment.",
+      "url": "https://www.kaggle.com/datasets/thedevastator/wild-brown-rat-predator-response",
+      "source": "Kaggle",
+      "category": "behavioral",
+      "category_label": "Conducta"
+    },
+    {
+      "title": "Animal_behaviour_accelometere_data",
+      "description": "HERE WE ARE HAVING ACCELEROMETER DATA ALONG WITH THREE AXES, BASED ON THESE ACCELEROMETER AXES DATA, FIRST WE NEED TO CLUSTER THE DATA IN THEIR RESPECTIVE BEHAVIOR AND AFTER THAT WE NEED TO PREDICT THE RUMINATION FOR ENCOUNTERING EARLY DISEASE USING VARIOUS MACHINE LEARNING MODEL.",
+      "url": "https://www.kaggle.com/datasets/uihkjgfduyg7o8ga/animal-behaviour-accelometere-data",
+      "source": "Kaggle",
+      "category": "behavioral",
+      "category_label": "Conducta"
+    },
+    {
+      "title": "Breed Heterozygosity vs Dog Intelligence",
+      "description": "Exploring Correlations in Dog Behavior",
+      "url": "https://www.kaggle.com/datasets/thedevastator/breed-heterozygosity-vs-dog-intelligence",
+      "source": "Kaggle",
+      "category": "behavioral",
+      "category_label": "Conducta"
+    },
+    {
+      "title": "Dog Teeth Age",
+      "description": "This dataset contains 44 dog teeth images together with their ages.",
+      "url": "https://github.com/department-of-vet-pathology-unizg/dog_age.git",
+      "source": "GitHub",
+      "category": "canine",
+      "category_label": "Caninos"
+    },
+    {
+      "title": "Dog Breed Classification Dataset",
+      "description": "A Dataset for Dog Breed Classification featuring 120 different dog breeds",
+      "url": "https://www.kaggle.com/datasets/dilakshanchandrasena/dog-breed-classification",
+      "source": "GitHub",
+      "category": "canine",
+      "category_label": "Caninos"
+    },
+    {
+      "title": "DogBreed",
+      "description": "Classify the Friendly Canines.The image data is divided into train, test and validation datasets. Each contains the 133 classes of the dogs that can be identified.",
+      "url": "https://www.kaggle.com/datasets/dharminshah/dogbreed",
+      "source": "Kaggle",
+      "category": "canine",
+      "category_label": "Caninos"
+    },
+    {
+      "title": "Dog Parks of NYC",
+      "description": "Where can a dog be a dog in NYC? The city's official off-leash areas.The data were last updated by the City of New York April 11, 2017.",
+      "url": "https://www.kaggle.com/datasets/new-york-city/dog-parks-of-nyc",
+      "source": "Kaggle",
+      "category": "canine",
+      "category_label": "Caninos"
+    },
+    {
+      "title": "Dogs Intelligence and Size",
+      "description": "An Exploration of Breed-Based Characteristics. This dataset provides valuable insights into the potential relationship between size and intelligence in different breeds of dogs. It includes data from a research conducted by Stanley Coren, a professor of canine psychology at the University of British Columbia, as well as breed size data from the American Kennel Club (AKC).",
+      "url": "https://www.kaggle.com/datasets/thedevastator/canine-intelligence-and-size",
+      "source": "Kaggle",
+      "category": "canine",
+      "category_label": "Caninos"
+    },
+    {
+      "title": "Fit* a Dog for me?",
+      "description": "Over 170 unique dog breeds and their Traits, find out whats the difference",
+      "url": "https://www.kaggle.com/datasets/pranav941/hows-that-dog-for-me",
+      "source": "Kaggle",
+      "category": "canine",
+      "category_label": "Caninos"
+    },
+    {
+      "title": "Dog Intelligence Comparison Based on Size",
+      "description": "If you love quirky datasets and dogs, this dataset is for you! This dataset is based on research by Stanley Coren, a professor of canine psychology at Univ. of BC. This dataset is based on research by Stanley Coren, a professor of canine psychology at the University of British Columbia. When Coren first published his book in 1994, there was a high degree of dispute of his analysis, though over time his work has been largely accepted.",
+      "url": "https://www.kaggle.com/datasets/jasleensondhi/dog-intelligence-comparison-based-on-size",
+      "source": "Kaggle",
+      "category": "canine",
+      "category_label": "Caninos"
+    },
+    {
+      "title": "EMPRES Global Animal Disease Surveillance",
+      "description": "Data downloaded from the EMPRES Global Animal Disease Information System. Data shows the when, where and what of animal disease outbreaks from the last 2 years, including African swine fever, Foot and mouth disease and bird-flu. Numbers of cases, deaths, etc are also included.",
+      "url": "https://www.kaggle.com/datasets/tentotheminus9/empres-global-animal-disease-surveillance",
+      "source": "Kaggle",
+      "category": "epidermiology",
+      "category_label": "Epidemiología"
+    },
+    {
+      "title": "Equine Death and Breakdown",
+      "description": "The Equine Death and Breakdown report lists horses that have broken down, been injured, or have died at New York State race tracks.",
+      "url": "https://www.kaggle.com/datasets/mpwolke/cusersmarildownloadsequinecsv",
+      "source": "Kaggle",
+      "category": "equine",
+      "category_label": "Equinos"
+    },
+    {
+      "title": "Horse Racing - Big Data Derby",
+      "description": "This dataset contains a wide variety of data you can use to assess performance and health of horses. The data was chosen to support the 2022 Big Data Derby.",
+      "url": "https://www.kaggle.com/datasets/jpmiller/race-data",
+      "source": "Kaggle",
+      "category": "equine",
+      "category_label": "Equinos"
+    },
+    {
+      "title": "NYS Equine Death and Breakdown",
+      "description": "This is a dataset hosted by the State of New York. The state has an open data platform found here and they update their information according the amount of data that is brought in. Explore New York State using Kaggle and all of the data sources available through the State of New York organization page!",
+      "url": "https://www.kaggle.com/datasets/new-york-state/nys-equine-death-and-breakdown",
+      "source": "Kaggle",
+      "category": "equine",
+      "category_label": "Equinos"
+    },
+    {
+      "title": "Equine Safety",
+      "description": "This dataset contains data to support our analysis for equine performance and safety. You can find descriptions of each file in the file description.",
+      "url": "https://www.kaggle.com/datasets/jpmiller/equine-safety",
+      "source": "Kaggle",
+      "category": "equine",
+      "category_label": "Equinos"
+    },
+    {
+      "title": "Horse Survival Dataset",
+      "description": "Horse Survival Prediction - Classification Problem Predict whether or not a horse can survive based upon past medical conditions.",
+      "url": "https://www.kaggle.com/datasets/yasserh/horse-survival-dataset",
+      "source": "Kaggle",
+      "category": "equine",
+      "category_label": "Equinos"
+    },
+    {
+      "title": "Global Shark Attack",
+      "description": "Shark attacks on humans around the world with metadata to animal and person",
+      "url": "https://www.kaggle.com/datasets/mexwell/global-shark-attack",
+      "source": "Kaggle",
+      "category": "equine",
+      "category_label": "Equinos"
+    },
+    {
+      "title": "Effects of On-Farm Hatching on Layer Chicks",
+      "description": "This dataset captures the effects of a comparative study between on-farm hatching (OFH) and conventional hatching methods on layer chicks. It explores the short-term stress indicators, long-term cognitive development, factors underpinning learning, and overall animal welfare in relation to these two incubation methods. The data contains detailed observations of chick behaviours (including Asleep/resting, Drinking, Foraging and Spurting behaviours), weight gain measures over time, and cognitive tests in Y-mazes with various paradigms. Corticosterone levels taken before and after transportation have also been documented. The results of this investigative research aim to shed insight into available strategies for improving animal welfare standards for poultry industries worldwide",
+      "url": "https://www.kaggle.com/datasets/thedevastator/effects-of-on-farm-hatching-on-layer-chicks",
+      "source": "Kaggle",
+      "category": "farm",
+      "category_label": "Producción animal"
+    },
+    {
+      "title": "Mastitis-Disease-Detection",
+      "description": "Mastitis is a common and costly disease affecting dairy cows, characterized by inflammation of the mammary glands. It leads to reduced milk production, poor milk quality, increased veterinary costs, and potential harm to animal welfare. Clinical Mastitis: This is the most recognizable form of mastitis, characterized by visible signs of inflammation in the udder. Subclinical Mastitis: Subclinical mastitis is not visibly apparent but can be detected through laboratory tests.",
+      "url": "https://www.kaggle.com/datasets/sivaprathishsiva/mastitis-disease-detection",
+      "source": "Kaggle",
+      "category": "farm",
+      "category_label": "Producción animal"
+    },
+    {
+      "title": "Feline Reticulocytes",
+      "description": "This dataset contains images and labels of feline reticulocytes (an immature red blood cell without a nucleus, having a granular or reticulated appearance when suitably stained). This data was used as the basis of the following paper - Using Convolutional Neural Networks for Determining Reticulocyte Percentage in Cats. The dataset was created using equipment that is easily accessible to veterinarians: a standard laboratory microscope and two types of cameras: a basic microscope camera and a smartphone camera.",
+      "url": "https://www.kaggle.com/datasets/tentotheminus9/feline-reticulocytes",
+      "source": "Kaggle",
+      "category": "feline",
+      "category_label": "Felinos"
+    },
+    {
+      "title": "Cheetah, Hyena, Jaguar and Tiger",
+      "description": "Distinguish the feline animals",
+      "url": "https://www.kaggle.com/datasets/iluvchicken/cheetah-jaguar-and-tiger",
+      "source": "Kaggle",
+      "category": "feline",
+      "category_label": "Felinos"
+    },
+    {
+      "title": "Mice Protein Expression",
+      "description": "Expression levels of 77 proteins measured in the cerebral cortex",
+      "url": "https://www.kaggle.com/datasets/ruslankl/mice-protein-expression",
+      "source": "Kaggle",
+      "category": "genetics",
+      "category_label": "Genética"
+    },
+    {
+      "title": "Mouse Protein Expression",
+      "description": "Modeling Down Syndrome in Mice",
+      "url": "https://www.kaggle.com/datasets/washingtongold/mpempe",
+      "source": "Kaggle",
+      "category": "genetics",
+      "category_label": "Genética"
+    },
+    {
+      "title": "Genome Information For Sequenced Organisms",
+      "description": "taxonomy, statistics and dna sequence links for species with sequenced genomes",
+      "url": "https://www.kaggle.com/datasets/camnugent/genome-information-for-sequenced-organisms/data",
+      "source": "Kaggle",
+      "category": "genetics",
+      "category_label": "Genética"
+    },
+    {
+      "title": "Bacteria Dataset",
+      "description": "This dataset provides a comprehensive overview of 200 unique bacterial species. It includes detailed information on each species': - Scientific classification - Natural habitats - Potential impacts on human health Meticulously compiled for data scientists and researchers, this collection serves as a foundational resource for studies in microbiology, public health, and environmental science. The dataset offers valuable insights into the diverse roles bacteria play in ecosystems and their interactions with humans, making it suitable for a wide range of scientific applications and analyses.",
+      "url": "https://www.kaggle.com/datasets/kanchana1990/bacteria-dataset",
+      "source": "Kaggle",
+      "category": "microbiology",
+      "category_label": "Microbiología"
+    },
+    {
+      "title": "Animal Condition",
+      "description": "The \"Animal Condition Classification Dataset\" presents a unique and intricate data challenge in the realm of animal health assessment. Featuring a diverse array of animal species, ranging from birds to mammals, this dataset enables the development of predictive models to determine whether an animal's condition is dangerous or not based on five distinct symptoms. The dataset's diversity opens doors to creating a classification system that transcends taxonomic boundaries, making it particularly valuable for people interested in animal welfare and wildlife conservation. However, its manual collection process introduces potential sources of error, including spelling mistakes and variations in symptom representation. This necessitates meticulous data-cleaning efforts",
+      "url": "https://www.kaggle.com/datasets/willianoliveiragibin/animal-condition/data",
+      "source": "Kaggle",
+      "category": "others",
+      "category_label": "Otros"
+    },
+    {
+      "title": "Animal Shelter Analytics",
+      "description": "This dataset contains data on animals shelter and can be used for exploratory data analysis",
+      "url": "https://www.kaggle.com/datasets/jackdaoud/animal-shelter-analytics",
+      "source": "Kaggle",
+      "category": "others",
+      "category_label": "Otros"
+    },
+    {
+      "title": "Austin Animal Center Shelter Outcomes",
+      "description": "The dataset contains shelter outcomes of several types of animals and breeds from 10/1/2013 till 2017 at The Austin Animal Center.",
+      "url": "https://www.kaggle.com/datasets/aaronschlegel/austin-animal-center-shelter-outcomes-and/data",
+      "source": "Kaggle",
+      "category": "others",
+      "category_label": "Otros"
+    },
+    {
+      "title": "Animals 151",
+      "description": "Dataset of 151 Animal species for image classification",
+      "url": "https://www.kaggle.com/datasets/sharansmenon/animals141",
+      "source": "Kaggle",
+      "category": "others",
+      "category_label": "Otros"
+    },
+    {
+      "title": "Animal Bites",
+      "description": "In the United States, animal bites are often reported to law enforcement (such as animal control). The main concern with an animal bite is that the animal may be rabid. This dataset includes information on over 9,000 animal bites which occurred near Louisville, Kentucky from 1985 to 2017 and includes information on whether the animal was quarantined after the bite occurred and whether that animal was rabid.",
+      "url": "https://www.kaggle.com/datasets/rtatman/animal-bites",
+      "source": "Kaggle",
+      "category": "others",
+      "category_label": "Otros"
+    },
+    {
+      "title": "Animal Information Dataset",
+      "description": "This dataset encompasses a diverse array of attributes pertaining to various animal species worldwide. The dataset prominently includes fields such as Animal, Height (cm), Weight (kg), Color, Lifespan (years), Diet, Habitat, Predators, Average Speed (km/h), Countries Found, Conservation Status, Family, Gestation Period (days), Top Speed (km/h), Social Structure, and Offspring per Birth. These columns collectively offer a comprehensive understanding of animal characteristics, habitats, behaviors, and conservation statuses. Researchers and enthusiasts can utilize this dataset to analyze animal traits, study their habitats, explore dietary patterns, assess conservation needs, and conduct a wide range of ecological research and wildlife studies.",
+      "url": "https://www.kaggle.com/datasets/iamsouravbanerjee/animal-information-dataset",
+      "source": "Kaggle",
+      "category": "others",
+      "category_label": "Otros"
+    },
+    {
+      "title": "Sea Animals Image Dataset",
+      "description": "The dataset contains different images of marine animals. Some images were taken from pixabay.com and requires no license or attribution when used. Other images were taken from flickr.com where attribution to the original authors will be required when used commercially. Currently, there are 19 different classes available and may be extended further in the future. The images are resized to either (300px, n) or (n,300px) where n is a pixel size less than 300px.",
+      "url": "https://www.kaggle.com/datasets/vencerlanz09/sea-animals-image-dataste",
+      "source": "Kaggle",
+      "category": "others",
+      "category_label": "Otros"
+    },
+    {
+      "title": "Animal Kingdom Taxonomy",
+      "description": "This is a dataset containing the taxonomy information about 960 different animals all over the world. Each column represents the Kingdom, Phylum, Class, Order, Family, Genus and Scientific Name of an animal.",
+      "url": "https://www.kaggle.com/datasets/hasanarcas/animal-kingdom-taxonomy",
+      "source": "Kaggle",
+      "category": "others",
+      "category_label": "Otros"
+    },
+    {
+      "title": "Arthropod Taxonomy Orders Object Detection Dataset",
+      "description": "The dataset consists of images of arthropods in jpeg format and object boundary boxes in json format. There are between one and 50 objects per image. This dataset is actively maintained, and new orders will be added on a regular basis. Currently, the following orders are covered with at least 2000 objects per order: Araneae (spiders), adults, juveniles Coleoptera (beetles), adults Diptera (true flies, including mosquitoes, midges, crane file etc.), adults Hemiptera (true bugs, including aphids, cicadas, planthoppers, shield bugs etc.), adults and nymphs Hymenoptera (ants, bees, wasps), adults Lepidoptera (butterflies, moths), adults Odonata (dragonflies, damselflies), adults",
+      "url": "https://www.kaggle.com/datasets/mistag/arthropod-taxonomy-orders-object-detection-dataset",
+      "source": "Kaggle",
+      "category": "others",
+      "category_label": "Otros"
+    },
+    {
+      "title": "Animal -5 Mammal",
+      "description": "This dataset contain 5 different mammals(Cat, Dog , Elephant , Horse , Lion) images about 15k images in total.",
+      "url": "https://www.kaggle.com/datasets/shiv28/animal-5-mammal",
+      "source": "Kaggle",
+      "category": "others",
+      "category_label": "Otros"
+    },
+    {
+      "title": "Mammals Image Classification Dataset (45 Animals)",
+      "description": "is original dataset contains images of 45 different classes of mammals.",
+      "url": "https://www.kaggle.com/datasets/asaniczka/mammals-image-classification-dataset-45-animals",
+      "source": "Kaggle",
+      "category": "others",
+      "category_label": "Otros"
+    },
+    {
+      "title": "Austin Animal Center Shelter Intakes and Outcomes",
+      "description": "The data contains intakes and outcomes of animals entering the Austin Animal Center from the beginning of October 2013 to the present day. The datasets are also freely available on the Socrata Open Data Access API and are updated daily.",
+      "url": "https://www.kaggle.com/datasets/aaronschlegel/austin-animal-center-shelter-intakes-and-outcomes",
+      "source": "Kaggle",
+      "category": "others",
+      "category_label": "Otros"
+    },
+    {
+      "title": "Animal Care and Control Adopted Animals",
+      "description": "animal situation in Bloomington Animal Shelter from 2017-2020",
+      "url": "https://www.kaggle.com/datasets/jinbonnie/animal-data",
+      "source": "Kaggle",
+      "category": "others",
+      "category_label": "Otros"
+    },
+    {
+      "title": "Animal Image Dataset(DOG, CAT and PANDA)",
+      "description": "",
+      "url": "https://www.kaggle.com/datasets/ashishsaxena2209/animal-image-datasetdog-cat-and-panda",
+      "source": "Kaggle",
+      "category": "others",
+      "category_label": "Otros"
+    },
+    {
+      "title": "Movebank: Animal Tracking",
+      "description": "Movebank is a free, online database of animal tracking data hosted by the Max Planck Institute for Ornithology. It is designed to help animal tracking researchers to manage, share, protect, analyze, and archive their data. Movebank is an international project with over 11,000 users, including people from research and conservation groups around the world. The animal tracking data accessible through Movebank belongs to researchers all over the world. These researchers can choose to make part or all of their study information and animal tracks visible to other registered users, or to the public.",
+      "url": "https://www.kaggle.com/datasets/pulkit8595/movebank-animal-tracking",
+      "source": "Kaggle",
+      "category": "others",
+      "category_label": "Otros"
+    },
+    {
+      "title": "Animal Classification",
+      "description": "The dataset has been scraped from various websites such as Google, Pexels, Pixabay, Unsplash etc. This dataset contains 4 animal folders containing 1000 images per animal. The animals are: Buffalo Elephant Rhino Zebra",
+      "url": "https://www.kaggle.com/datasets/ayushv322/animal-classification",
+      "source": "Kaggle",
+      "category": "others",
+      "category_label": "Otros"
+    },
+    {
+      "title": "Animal Dataset",
+      "description": "398 different species and sub-species of animals",
+      "url": "https://www.kaggle.com/datasets/goelyash/animal-dataset",
+      "source": "Kaggle",
+      "category": "others",
+      "category_label": "Otros"
+    },
+    {
+      "title": "Animal Condition Classification Dataset",
+      "description": "Predict if an animal's condition is dangerous based on its symptoms.",
+      "url": "https://www.kaggle.com/datasets/gracehephzibahm/animal-disease",
+      "source": "Kaggle",
+      "category": "others",
+      "category_label": "Otros"
+    },
+    {
+      "title": "Animal Welfare",
+      "description": "Every animal deserves to have a good life.",
+      "url": "https://www.kaggle.com/datasets/imtkaggleteam/animal-welfare",
+      "source": "Kaggle",
+      "category": "others",
+      "category_label": "Otros"
+    },
+    {
+      "title": "Pathogen Detection | Salmonella Enterica",
+      "description": "",
+      "url": "https://www.kaggle.com/datasets/imtkaggleteam/pathogen-detection-salmonella-enterica",
+      "source": "Kaggle",
+      "category": "others",
+      "category_label": "Otros"
+    },
+    {
+      "title": "Animal Testing in the US in 2016",
+      "description": "USDA Annual Report of Animal Usage by FY2016",
+      "url": "https://www.kaggle.com/datasets/mmsant/animals-testing-in-the-us-in-2016",
+      "source": "Kaggle",
+      "category": "others",
+      "category_label": "Otros"
+    },
+    {
+      "title": "Collection of 34 Animal Species",
+      "description": "34 Different Animal Dataset for Supervised and Unsupervised Learning",
+      "url": "https://www.kaggle.com/datasets/muki2003/34-animal-dataset",
+      "source": "Kaggle",
+      "category": "others",
+      "category_label": "Otros"
+    },
+    {
+      "title": "Fish Recognition Ground-Truth data",
+      "description": "This fish data is acquired from a live video dataset resulting in 27370 verified fish images. The whole dataset is divided into 23 clusters and each cluster is presented by a representative species, which is based on the synapomorphies characteristic from the extent that the taxon is monophyletic.",
+      "url": "https://www.kaggle.com/datasets/madhushreesannigrahi/fish-recognition-ground-truth-data",
+      "source": "Kaggle",
+      "category": "others",
+      "category_label": "Otros"
+    },
+    {
+      "title": "Fish Head and Tail Detection Dataset",
+      "description": "Welcome to the Fish Head and Tail Detection Dataset, a valuable resource for pioneering research and experimentation in fish head and tail detection, with a specific emphasis on identifying fish heads and tails. This dataset comprises a meticulously curated collection of 200 images, each richly annotated to facilitate advanced exploration.",
+      "url": "https://www.kaggle.com/datasets/jocelyndumlao/fish-head-and-tail-detection-dataset",
+      "source": "Kaggle",
+      "category": "others",
+      "category_label": "Otros"
+    },
+    {
+      "title": "DCASE-2023-TASK-5 Few-shot Bioacoustic Event Detection",
+      "description": "This task focuses on sound event detection in a few-shot learning setting for animal (mammal and bird) vocalisations. Participants will be expected to create a method that can extract information from five exemplar vocalisations (shots) of mammals or birds and detect and classify sounds in field recordings.",
+      "url": "https://www.kaggle.com/datasets/aguado/dcase-2023-task-5",
+      "source": "Kaggle",
+      "category": "others",
+      "category_label": "Otros"
+    },
+    {
+      "title": "Austin Animal Center Data",
+      "description": "Austin Animal Center Live Data: Real-time animal intakes and outcomes",
+      "url": "https://www.kaggle.com/datasets/thedevastator/austin-animal-center-data",
+      "source": "Kaggle",
+      "category": "others",
+      "category_label": "Otros"
+    },
+    {
+      "title": "(2012-2019) Baton Rouge, LA Animal Control Calls",
+      "description": "Geocoded Baton Rouge, Louisiana - Animal Control Calls",
+      "url": "https://www.kaggle.com/datasets/kerneler/2019-baton-rouge-la-animal-control-calls",
+      "source": "Kaggle",
+      "category": "others",
+      "category_label": "Otros"
+    },
+    {
+      "title": "🐶Pet's Facial Expression Image Dataset😸",
+      "description": "This dataset contains 1000 face images of various pets, such as dogs, cats, rabbits, hamsters, sheep, horses, and birds. The images capture the diversity of expressions these animals can display, such as happiness, sadness, anger etc. You can apply ML techniques to gain insights into pet emotions and personalities, create fun and creative projects with pet face images, and contribute to pet face recognition research and animal welfare",
+      "url": "https://www.kaggle.com/datasets/anshtanwar/pets-facial-expression-dataset/data",
+      "source": "Kaggle",
+      "category": "others",
+      "category_label": "Otros"
+    },
+    {
+      "title": "Adoptions by Breed and Date",
+      "description": "Animals, Breeds, and Outcomes This dataset contains information about adopted animals from the Bloomington Animal Shelter. The migration from their former software, AnimalShelterNet, to the newer system Shelter Manager allowed us to preserve as much of this information as possible. It records data on intakedate, intakereason, istransfer, sheltercode, animalname and more. Each field contains unique information such as breed name, color and age of the animal which can be used to gain a better understanding of adoption trends in this area. Additionally it has fields on movement type/date and return/death records can help track changes in animal welfare technology over time.",
+      "url": "https://www.kaggle.com/datasets/thedevastator/analyzing-adoption-trends-at-the-bloomington-ani",
+      "source": "Kaggle",
+      "category": "others",
+      "category_label": "Otros"
+    },
+    {
+      "title": "NNDSS - Rabies, animal to Rubella, congenital",
+      "description": "Explore Open Data from the Centers for Disease Control This is a dataset hosted by the Centers for Disease Control and Prevention. The organization has an open data platform found here and they update their information according the amount of data that is brought in. Explore CDC Data using Kaggle and all of the data sources available through the CDC organization page!",
+      "url": "https://www.kaggle.com/datasets/cdc/nndss-rabies-animal-to-rubella-congenital",
+      "source": "Kaggle",
+      "category": "others",
+      "category_label": "Otros"
+    },
+    {
+      "title": "Animal health classification",
+      "description": "# Animal image for Recognition Images of four different types of animals for image classification. This dataset comprises images of four distinct types of animals: nilgai, horse, cow, and water buffalos. The primary objective of this dataset is to facilitate the classification of images within these four categories.",
+      "url": "https://www.kaggle.com/datasets/mdismielhossenabir/animal-image-for-recognition",
+      "source": "Kaggle",
+      "category": "others",
+      "category_label": "Otros"
+    },
+    {
+      "title": "Animals",
+      "description": "Biological Classification of Animals Biological classification or scientific classification is a method of classification and arrangement of biologists with distinctive organisms. Which classifies the types according to the common physical properties. Content This data frame has more than 1300 biological classification of animals. The delightful thing about this data frame is that, anyone who took any biology class in their life can simply understand, use and benefits from. I would love to see how other people would deal with this data frame, I think it is useful and they will be so creative. • Animal Name: The animal name. • Kingdom: The animal kingdom. • Phylum: The animal phylum. • Subphylum: The animal subphylum, if it has. • Class: The animal class. • Subclass: The animal subclass, if it has. • Infraclass: The animal infraclass, if it has. • Order: The animal order. • Superorder: The animal superorder, if it has. • Suborder: The animal suborder, if it has. • Infraorder: The animal infraorder, if it has. • Family: The animal family. • Superfamily: The animal superfamily, if it has. • Subfamily: The animal subfamily, if it has. • Genus: The animal genus, can be empty in rare...",
+      "url": "https://www.kaggle.com/datasets/hessahalkhattabi/animals",
+      "source": "Kaggle",
+      "category": "others",
+      "category_label": "Otros"
+    },
+    {
+      "title": "Recognize Animals",
+      "description": "Can you train a machine that would tell you the name of animal? Image recognition is a vital component in robotics such as driverless vehicles or domestic robots. Image recognition is also important in image search engines such as Google or Bing image search whereby you use rich image content to query for similar stuff. Like in Google photos where the system uses image recognition to categorize your images into things like cats, dogs, people, and so on so that you can quickly search your albums for things like, “give me photos of my cat”, that's awesome.",
+      "url": "https://www.kaggle.com/datasets/pratik2901/animal-dataset",
+      "source": "Kaggle",
+      "category": "others",
+      "category_label": "Otros"
+    },
+    {
+      "title": "Animal Breed - Cats and Dogs",
+      "description": "Animal Breed Classification AI Challenge Dataset The dataset belongs to Dockship's Animal Breed Classification AI Challenge. The dataset contains images of 37 breeds of cats and dogs from around the world. It contains two directories \"TRAIN\" and \"TEST\" with 5890 and 1500 images respectively. The training images are provided in the directory of the specific class itself. The names of the directories are \"class labels\" to be used for submission. The aim is to classify the \"TEST\" images into one of the 37 classes.[Download](https://www.kaggle.com/datasets/imsparsh/animal-breed-cats-and-dogs)",
+      "url": "https://www.kaggle.com/datasets/imsparsh/animal-breed-cats-and-dogs",
+      "source": "Kaggle",
+      "category": "others",
+      "category_label": "Otros"
+    },
+    {
+      "title": "Mitosis WSI CCMCT Training Set",
+      "description": "Large-scale mitotic figure data set on canine cutaneous mast cell tumor",
+      "url": "https://www.kaggle.com/datasets/marcaubreville/mitosis-wsi-ccmct-training-set",
+      "source": "Kaggle",
+      "category": "pathology",
+      "category_label": "Patología"
+    },
+    {
+      "title": "Mitosis WSI CCMCT Test Set",
+      "description": "Large-scale mitotic figure data set on canine cutaneous mast cell tumor",
+      "url": "https://www.kaggle.com/datasets/marcaubreville/mitosis-wsi-ccmct-test-set",
+      "source": "Kaggle",
+      "category": "pathology",
+      "category_label": "Patología"
+    },
+    {
+      "title": "Rabit disorder dataset",
+      "description": "Contains Rabit disorder data which includes diagnosis term, birth date, sex , source breed, date of death and much more. taken from free and open source offficial uk govt free veterinary dataset",
+      "url": "https://figshare.com/articles/dataset/VetCompass_Rabbit_2019_Disorder_Open_Access_Data/24717699?file=43430145",
+      "source": "figshare",
+      "category": "rabbit-disorder",
+      "category_label": "Conejos"
+    },
+    {
+      "title": "Animal Faces",
+      "description": "This dataset, also known as Animal Faces-HQ (AFHQ), consists of 16,130 high-quality images at 512×512 resolution.There are three domains of classes, each providing about 5000 images. By having multiple (three)domains and diverse images of various breeds per each domain, AFHQ sets a challenging image-to-image translation problem. The classes are: Cat,Dog,Wildlife.",
+      "url": "https://www.kaggle.com/datasets/andrewmvd/animal-faces",
+      "source": "Kaggle",
+      "category": "veterinary_images",
+      "category_label": "Imágenes veterinarias"
+    },
+    {
+      "title": "Ioxididae ticks",
+      "description": "This dataset contains images of ticks from six genera # Animal Image Dataset (90 Different Animals) In this Dataset, we have 5400 Animal Images in 90 different categories or classes.",
+      "url": "https://www.kaggle.com/datasets/iamsouravbanerjee/animal-image-dataset-90-different-animals",
+      "source": "Kaggle",
+      "category": "veterinary_images",
+      "category_label": "Imágenes veterinarias"
+    },
+    {
+      "title": "Zoo Animals Extended Dataset",
+      "description": "The Zoo Animal Classification Dataset originally consists of 101 animals in a zoo and 16 variables with several features that describe them (the attributes), besides the class to which each animal belongs (the target). That original dataset is often used in Machine Learning, as it is a complete and yet simple example to practice classification problems with multi-label classes. However, as it provides only a hundred rows, some ML algorithms might not perform well. That is exactly where this extended dataset fits in.",
+      "url": "https://www.kaggle.com/datasets/agajorte/zoo-animals-extended-dataset",
+      "source": "Kaggle",
+      "category": "wildlife",
+      "category_label": "Fauna silvestre"
+    },
+    {
+      "title": "Zoo Animal Classification",
+      "description": "This dataset consists of 101 animals from a zoo. There are 16 variables with various traits to describe the animals.The 7 Class Types are: Mammal, Bird, Reptile, Fish, Amphibian, Bug and Invertebrate. The purpose for this dataset is to be able to predict the classification of the animals, based upon the variables. It is the perfect dataset for those who are new to learning Machine Learning.",
+      "url": "https://www.kaggle.com/datasets/uciml/zoo-animal-classification",
+      "source": "Kaggle",
+      "category": "wildlife",
+      "category_label": "Fauna silvestre"
+    },
+    {
+      "title": "Wild Animals",
+      "description": "This dataset contain images of wild animals.",
+      "url": "https://www.kaggle.com/datasets/vishweshsalodkar/wild-animals",
+      "source": "Kaggle",
+      "category": "wildlife",
+      "category_label": "Fauna silvestre"
+    },
+    {
+      "title": "ZOO Animal Life Expectancies",
+      "description": "In this dataset, you will find information about estimates for North American zoo and aquarium vertebrate animals for 330 different species.",
+      "url": "https://www.kaggle.com/datasets/rishidamarla/zoo-animal-life-expectancies",
+      "source": "Kaggle",
+      "category": "wildlife",
+      "category_label": "Fauna silvestre"
+    },
+    {
+      "title": "Biodiversity in National Parks",
+      "description": "National Park species lists provide information on the presence and status of species in our national parks. These species lists are works in progress and the absence of a species from a list does not necessarily mean the species is absent from a park. The time and effort spent on species inventories varies from park to park, which may result in data gaps. Species taxonomy changes over time and reflects regional variations or preferences; therefore, records may be listed under a different species name. Each park species record includes a species ID, park name, taxonomic information, scientific name, one or more common names, record status, occurrence (verification of species presence in park), nativeness (species native or foreign to park), abundance (presence and visibility of species in park), seasonality (season and nature of presence in park), and conservation status (species classification according to US Fish & Wildlife Service). Taxonomic classes have been translated from Latin to English for species categorization; order, family, and scientific name (genus, species, subspecies) are in Latin.",
+      "url": "https://www.kaggle.com/datasets/nationalparkservice/park-biodiversity",
+      "source": "Kaggle",
+      "category": "wildlife",
+      "category_label": "Fauna silvestre"
+    },
+    {
+      "title": "Wildlife Animals Images",
+      "description": "",
+      "url": "https://www.kaggle.com/datasets/anshulmehtakaggl/wildlife-animals-images",
+      "source": "Kaggle",
+      "category": "wildlife",
+      "category_label": "Fauna silvestre"
+    },
+    {
+      "title": "Animal Species Classification - V3",
+      "description": "The vision behind creating this dataset is to have a data set for classifying animal species. A lot of animal species can be included in this data set, which is why it gets revised regularly. This will help to create a machine-learning model that can accurately classify animal species.",
+      "url": "https://www.kaggle.com/datasets/utkarshsaxenadn/animal-image-classification-dataset",
+      "source": "Kaggle",
+      "category": "wildlife",
+      "category_label": "Fauna silvestre"
+    },
+    {
+      "title": "Animals Detection Images Dataset",
+      "description": "Collection of wild animal species with annotations",
+      "url": "https://www.kaggle.com/datasets/antoreepjana/animals-detection-images-dataset",
+      "source": "Kaggle",
+      "category": "wildlife",
+      "category_label": "Fauna silvestre"
+    },
+    {
+      "title": "Animals",
+      "description": "Clean version of SHIV28's Animal -5 Mammal dataset. It contains about 15K pictures of animals : cats, dogs, elephants, horses & lions. Images have been collected from Google Images.",
+      "url": "https://www.kaggle.com/datasets/antobenedetti/animals",
+      "source": "Kaggle",
+      "category": "wildlife",
+      "category_label": "Fauna silvestre"
+    },
+    {
+      "title": "Camera Trap Performance for Nocturnal Mammals",
+      "description": "Insights into Flying Squirrel Populations in Urban Environments",
+      "url": "https://www.kaggle.com/datasets/thedevastator/camera-trap-performance-for-nocturnal-mammals",
+      "source": "Kaggle",
+      "category": "wildlife",
+      "category_label": "Fauna silvestre"
+    },
+    {
+      "title": "Wildlife Explorer Dataset",
+      "description": "The \"Wildlife Explorer Dataset\" is a comprehensive collection of animal information sourced from various reputable online resources, carefully curated and compiled for research and analysis purposes. With over 900 files, including images, text documents, and multimedia content, this dataset offers a wealth of knowledge on a wide range of fascinating creatures.",
+      "url": "https://www.kaggle.com/datasets/dipitvasdev/animals",
+      "source": "Kaggle",
+      "category": "wildlife",
+      "category_label": "Fauna silvestre"
+    },
+    {
+      "title": "GPS Data of Seabirds",
+      "description": "File containing the GPS dive data, with lon/lat centred around each colony for anonymity. Dive data is included at the true/false level depending on classification and the maximum dive recorded in a 100 second window is also included. gps.zip",
+      "url": "https://www.kaggle.com/datasets/saurabhshahane/predicting-animal-behavior-using-gps",
+      "source": "Kaggle",
+      "category": "wildlife",
+      "category_label": "Fauna silvestre"
+    },
+    {
+      "title": "Sea Animals Domain Adaptation Dataset",
+      "description": "Many datasets of sea animals for domain adaptation classification",
+      "url": "https://www.kaggle.com/datasets/gusanagy/sea-animals-domain-adaptation-dataset",
+      "source": "Kaggle",
+      "category": "wildlife",
+      "category_label": "Fauna silvestre"
+    },
+    {
+      "title": "animal_dataset",
+      "description": "Beginner level dataset for CNN Animal Image Dataset is a curated collection of images featuring four fascinating creatures: bears, crows, elephants, and rats. This dataset serves as an ideal starting point for honing your skills in building and training basic Convolutional Neural Network (CNN) models.",
+      "url": "https://www.kaggle.com/datasets/ikjotsingh221/animal-dataset",
+      "source": "Kaggle",
+      "category": "wildlife",
+      "category_label": "Fauna silvestre"
+    },
+    {
+      "title": "Zoo Animals",
+      "description": "Can you predict an animal based on its attributes?A simple database containing 17 Boolean-valued attributes describing animals. The \"type\" attribute appears to be the class attribute.",
+      "url": "https://www.kaggle.com/datasets/ulrikthygepedersen/zoo-animals",
+      "source": "Kaggle",
+      "category": "wildlife",
+      "category_label": "Fauna silvestre"
+    }
+  ]
+}

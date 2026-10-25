@@ -1,0 +1,47 @@
+# Secretos y entorno
+.env
+.env.*
+!.env.example
+
+# Dependencias
+vendor/
+node_modules/
+
+# Almacenamiento local
+storage/*
+!storage/logs/
+!storage/cache/
+!storage/sessions/
+storage/logs/*
+!storage/logs/.gitkeep
+storage/cache/*
+!storage/cache/.gitkeep
+storage/sessions/*
+!storage/sessions/.gitkeep
+
+# Archivos subidos por usuarios
+public/uploads/*
+!public/uploads/.htaccess
+!public/uploads/cases/
+public/uploads/cases/*
+!public/uploads/cases/.gitkeep
+
+# Logs y sistema
+*.log
+.DS_Store
+Thumbs.db
+
+# Editores
+.idea/
+.vscode/
+*.swp
+
+# Pruebas locales
+.phpunit.result.cache
+coverage/
+
+# Paquetes de despliegue
+dist/
+
+# Llave SSH local de despliegue
+.ssh/
