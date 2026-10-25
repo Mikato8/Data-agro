@@ -11,8 +11,8 @@
         <div class="page-hero-grid">
             <div>
                 <span class="eyebrow">Sin tecnicismos</span>
-                <h1>Glosario para veterinarios</h1>
-                <p class="page-hero-lead">Los términos que aparecen en los repositorios, explicados en lenguaje clínico. Si no sabes qué es una API o un dataset, empieza aquí.</p>
+                <h1>Glosario para agrónomos</h1>
+                <p class="page-hero-lead">Los términos que aparecen en los repositorios y en los datos abiertos, explicados con ejemplos del campo mexicano. Si no sabes qué es una API o un dataset, empieza aquí.</p>
             </div>
             <div class="page-hero-aside">
                 <span class="big-number"><?= count($terms) ?></span>
@@ -24,7 +24,7 @@
 
 <section class="section section-tight">
     <div class="container">
-        <div class="sign-search glossary-search">
+        <div class="symptom-search glossary-search">
             <?= icon('search', 'icon icon-sm') ?>
             <input type="search" placeholder="Filtrar término: dataset, API, licencia…" aria-label="Filtrar glosario" data-glossary-filter>
         </div>

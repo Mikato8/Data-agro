@@ -17,32 +17,38 @@ final class CaseDocx
         $body .= self::p('Folio ' . $case['folio'] . ' · ' . format_date((string) $case['published_at'], 'd/m/Y') . ' · ' . $case['author_name'], 'Meta');
         $body .= self::p('');
 
-        $body .= self::p('Datos del paciente', 'Heading1');
-        $patient = 'Especie: ' . $case['species_name'];
-        if (!empty($case['breed_name'])) {
-            $patient .= ' · Raza: ' . $case['breed_name'];
+        $body .= self::p('Datos del cultivo y la parcela', 'Heading1');
+        $plot = 'Cultivo: ' . $case['crop_name'];
+        if (!empty($case['variety_name'])) {
+            $plot .= ' · Variedad: ' . $case['variety_name'];
         }
-        $patient .= ' · Sexo: ' . sex_label((string) $case['sex']);
-        $patient .= ' · Edad: ' . age_label($case['age_value'] !== null ? (int) $case['age_value'] : null, $case['age_unit']);
-        if ($case['weight_kg'] !== null) {
-            $patient .= ' · Peso: ' . $case['weight_kg'] . ' kg';
+        $plot .= ' · Ciclo: ' . cycle_label((string) ($case['cycle'] ?? 'no_aplica'));
+        $plot .= ' · Etapa: ' . stage_label((string) ($case['crop_stage'] ?? 'no_aplica'));
+        if (($case['area_ha'] ?? null) !== null) {
+            $plot .= ' · Superficie: ' . $case['area_ha'] . ' ha';
+        }
+        if (($case['incidence_pct'] ?? null) !== null) {
+            $plot .= ' · Incidencia: ' . $case['incidence_pct'] . ' %';
         }
         if (!empty($case['state_name'])) {
-            $patient .= ' · Estado: ' . $case['state_name'];
+            $plot .= ' · Estado: ' . $case['state_name'];
         }
-        $body .= self::p($patient);
-        $body .= self::p('Entorno: ' . setting_label((string) $case['setting']) . ' · Desenlace: ' . outcome_label((string) $case['outcome']));
-        if (!empty($case['icd11_code'])) {
-            $body .= self::p('Código ICD-11: ' . $case['icd11_code']);
+        if (!empty($case['municipality'])) {
+            $plot .= ' · Municipio: ' . $case['municipality'];
+        }
+        $body .= self::p($plot);
+        $body .= self::p('Sistema: ' . system_label((string) ($case['system'] ?? 'campo_abierto')) . ' · Resultado: ' . outcome_label((string) $case['outcome']));
+        if (!empty($case['reference_code'])) {
+            $body .= self::p('Clave de referencia: ' . $case['reference_code']);
         }
 
         foreach ([
             'Motivo de consulta' => (string) $case['chief_complaint'],
-            'Anamnesis' => (string) $case['anamnesis'],
-            'Exploración física' => (string) $case['physical_exam'],
-            'Estudios y diagnóstico' => (string) $case['diagnostics'],
-            'Diagnósticos diferenciales' => (string) $case['differentials'],
-            'Tratamiento y manejo' => (string) $case['treatment'],
+            'Historial de manejo' => (string) $case['crop_history'],
+            'Inspección de campo' => (string) $case['field_inspection'],
+            'Análisis y diagnóstico' => (string) $case['lab_tests'],
+            'Diagnóstico diferencial' => (string) $case['differentials'],
+            'Manejo recomendado' => (string) $case['management'],
             'Discusión y aprendizaje' => (string) $case['discussion'],
             'Referencias' => (string) $case['references_text'],
         ] as $heading => $content) {
@@ -61,12 +67,12 @@ final class CaseDocx
 
         $body .= self::p('Cómo citar este caso', 'Heading1');
         $year = !empty($case['published_at']) ? date('Y', strtotime((string) $case['published_at'])) : date('Y');
-        $body .= self::p($case['author_name'] . ' (' . $year . '). ' . $case['title'] . '. Diagnóstico Veterinario. ' . url('/casos/' . $case['slug']));
+        $body .= self::p($case['author_name'] . ' (' . $year . '). ' . $case['title'] . '. AgroDiagnóstico. ' . url('/casos/' . $case['slug']));
         $body .= self::p('Licencia: ' . $case['license']);
         if (!empty($case['images'])) {
             $body .= self::p('Las imágenes del caso están disponibles en la versión web: ' . url('/casos/' . $case['slug']), 'Meta');
         }
-        $body .= self::p('Documento generado desde Diagnóstico Veterinario. El contenido es educativo y no sustituye el juicio clínico ni la atención veterinaria presencial.', 'Meta');
+        $body .= self::p('Documento generado desde AgroDiagnóstico. El contenido es educativo y no sustituye el juicio clínico ni la atención agronómica presencial.', 'Meta');
 
         $document = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
             . '<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">'
@@ -115,8 +121,8 @@ final class CaseDocx
             . 'xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" '
             . 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">'
             . '<dc:title>' . self::xml($case['title']) . '</dc:title>'
-            . '<dc:creator>Diagnóstico Veterinario</dc:creator>'
-            . '<cp:lastModifiedBy>Diagnóstico Veterinario</cp:lastModifiedBy>'
+            . '<dc:creator>AgroDiagnóstico</dc:creator>'
+            . '<cp:lastModifiedBy>AgroDiagnóstico</cp:lastModifiedBy>'
             . '<dcterms:created xsi:type="dcterms:W3CDTF">' . $created . '</dcterms:created>'
             . '<dcterms:modified xsi:type="dcterms:W3CDTF">' . $created . '</dcterms:modified>'
             . '</cp:coreProperties>';
@@ -124,7 +130,7 @@ final class CaseDocx
         $app = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
             . '<Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/extended-properties" '
             . 'xmlns:vt="http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes">'
-            . '<Application>Diagnóstico Veterinario</Application></Properties>';
+            . '<Application>AgroDiagnóstico</Application></Properties>';
 
         $path = tempnam(sys_get_temp_dir(), 'dv_docx_');
         if ($path === false) {

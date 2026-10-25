@@ -2,15 +2,13 @@
 /** @var array<string, mixed> $resource */
 /** @var array<int, array<string, mixed>> $related */
 /** @var bool $isFavorite */
-/** @var int $vethubTotal */
-/** @var int $petevalTotal */
 $accessTone = $resource['access'] === 'abierto' ? 'success' : 'warning';
 $isRequest = $resource['access'] === 'solicitud';
 $reviewed = !empty($resource['reviewed_at']) ? format_date((string) $resource['reviewed_at'], 'd M Y') : null;
-$citation = trim(($resource['organization'] ?: 'Diagnóstico Veterinario') . '. ' . $resource['title'] . '. ' . $resource['url']);
+$citation = trim(($resource['organization'] ?: 'AgroDiagnóstico') . '. ' . $resource['title'] . '. ' . $resource['url']);
 $requestTemplate = "Asunto: Solicitud de acceso a " . $resource['title'] . "\n\n"
     . "Estimado equipo de " . ($resource['organization'] ?: 'la institución') . ":\n\n"
-    . "Mi nombre es [nombre completo] y soy médico veterinario con cédula profesional [número]. "
+    . "Mi nombre es [nombre completo] y soy ingeniero agrónomo con cédula profesional [número]. "
     . "Me interesa utilizar " . $resource['title'] . " para [objetivo: docencia, investigación, tesis, análisis de casos].\n\n"
     . "¿Podrían indicarme el proceso de solicitud, los requisitos de uso y las condiciones de licencia? "
     . "Quedo atento a su respuesta.\n\n"
@@ -58,28 +56,6 @@ $requestTemplate = "Asunto: Solicitud de acceso a " . $resource['title'] . "\n\n
 <section class="section section-tight">
     <div class="container resource-detail-layout">
         <article class="resource-detail">
-            <?php if ($resource['slug'] === 'peteval'): ?>
-                <div class="vethub-callout">
-                    <div>
-                        <span class="eyebrow">Explorador integrado</span>
-                        <h2>Consulta <?= number_format($petevalTotal) ?> registros anonimizados del benchmark</h2>
-                        <p>Filtra por etiqueta ICD-11, enfermedad o texto clínico. Descarga el Parquet y el artículo sin salir del portal.</p>
-                    </div>
-                    <a class="btn btn-primary" href="<?= e(url('/peteval')) ?>">Abrir PetEVAL <?= icon('arrow-right', 'icon icon-sm') ?></a>
-                </div>
-            <?php endif; ?>
-
-            <?php if ($resource['slug'] === 'vetdatahub'): ?>
-                <div class="vethub-callout">
-                    <div>
-                        <span class="eyebrow">Catálogo integrado</span>
-                        <h2>Explora los <?= number_format($vethubTotal) ?> datasets dentro del portal</h2>
-                        <p>Busca por área, fuente o tema y abre cada conjunto de datos en su fuente original, sin tener que navegar por GitHub.</p>
-                    </div>
-                    <a class="btn btn-primary" href="<?= e(url('/vetdatahub')) ?>">Abrir catálogo <?= icon('arrow-right', 'icon icon-sm') ?></a>
-                </div>
-            <?php endif; ?>
-
             <section class="resource-block resource-block-highlight">
                 <span class="eyebrow">Para qué te sirve</span>
                 <h2>Qué puedes hacer con este recurso</h2>
@@ -138,7 +114,7 @@ $requestTemplate = "Asunto: Solicitud de acceso a " . $resource['title'] . "\n\n
                 <?= icon('alert-triangle', 'icon') ?>
                 <div>
                     <strong>Recurso de terceros.</strong>
-                    <p>Diagnóstico Veterinario no controla la disponibilidad, la licencia ni las condiciones de acceso de este recurso. Verifica la información en la fuente oficial antes de usarla en investigación, docencia o decisiones clínicas.</p>
+                    <p>AgroDiagnóstico no controla la disponibilidad, la licencia ni las condiciones de acceso de este recurso. Verifica la información en la fuente oficial antes de usarla en investigación, docencia o decisiones agronómicas.</p>
                 </div>
             </div>
 
@@ -165,7 +141,7 @@ $requestTemplate = "Asunto: Solicitud de acceso a " . $resource['title'] . "\n\n
         <aside class="case-sidebar">
             <div class="sidebar-card">
                 <h2 class="sidebar-title"><?= icon('file-text', 'icon icon-sm') ?> Ficha del recurso</h2>
-                <dl class="patient-data">
+                <dl class="plot-data">
                     <div><dt>Tipo</dt><dd><?= e(category_label($resource['category'])) ?></dd></div>
                     <div><dt>Acceso</dt><dd><?= e(access_label($resource['access'])) ?></dd></div>
                     <div><dt>Organización</dt><dd><?= e($resource['organization'] ?: 'No especificada') ?></dd></div>

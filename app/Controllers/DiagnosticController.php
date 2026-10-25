@@ -9,98 +9,98 @@ use App\Core\Flash;
 use App\Core\Request;
 use App\Core\Response;
 use App\Repositories\CatalogRepository;
-use App\Repositories\DiseaseRepository;
-use App\Services\UrgencyAiClient;
+use App\Repositories\ProblemRepository;
+use App\Services\RiskAiClient;
 
 final class DiagnosticController extends BaseController
 {
     public function index(Request $request): Response
     {
         $catalog = new CatalogRepository();
-        $speciesList = $catalog->species();
-        $code = (string) $request->query('species', 'canino');
-        $species = $catalog->speciesByCode($code) ?? ($speciesList[0] ?? null);
-        if ($species === null) {
-            $this->notFound('No hay especies configuradas.');
+        $cropsList = $catalog->crops();
+        $code = (string) $request->query('crops', '');
+        $crops = $catalog->cropsByCode($code) ?? ($cropsList[0] ?? null);
+        if ($crops === null) {
+            $this->notFound('No hay cultivos configurados en el catálogo.');
         }
 
-        $diseaseRepo = new DiseaseRepository();
-        $signs = $diseaseRepo->signsForSpecies((int) $species['id']);
+        $problemRepo = new ProblemRepository();
+        $symptoms = $problemRepo->symptomsForCrops((int) $crops['id']);
         $grouped = [];
-        foreach ($signs as $sign) {
-            $sign['id'] = (int) $sign['id'];
-            $grouped[(string) $sign['category']][] = $sign;
+        foreach ($symptoms as $symptom) {
+            $symptom['id'] = (int) $symptom['id'];
+            $grouped[(string) $symptom['category']][] = $symptom;
         }
 
         return $this->view('diagnostic.index', [
-            'title' => 'Apoyo diagnóstico por similitud · Diagnóstico Veterinario',
-            'metaDescription' => 'Selecciona especie y signos clínicos para obtener diagnósticos diferenciales ponderados, con signos clave y nivel de urgencia.',
-            'speciesList' => $speciesList,
-            'species' => $species,
+            'title' => 'Apoyo diagnóstico por similitud · AgroDiagnóstico',
+            'metaDescription' => 'Selecciona cultivo y síntomas para obtener diagnósticos diferenciales ponderados, con síntomas clave y nivel de emergencia.',
+            'cropsList' => $cropsList,
+            'crops' => $crops,
             'signGroups' => $grouped,
             'bodyClass' => 'page-diagnostic',
         ]);
     }
 
-    public function signs(Request $request): Response
+    public function symptoms(Request $request): Response
     {
         $catalog = new CatalogRepository();
-        $species = $catalog->speciesByCode((string) $request->query('species', 'canino'));
-        if ($species === null) {
+        $crops = $catalog->cropsByCode((string) $request->query('crops', ''));
+        if ($crops === null) {
             return Response::json(['groups' => []]);
         }
-        $signs = (new DiseaseRepository())->signsForSpecies((int) $species['id']);
+        $symptoms = (new ProblemRepository())->symptomsForCrops((int) $crops['id']);
         $groups = [];
-        foreach ($signs as $sign) {
-            $groups[(string) $sign['category']][] = [
-                'id' => (int) $sign['id'],
-                'name' => $sign['name'],
-                'slug' => $sign['slug'],
+        foreach ($symptoms as $symptom) {
+            $groups[(string) $symptom['category']][] = [
+                'id' => (int) $symptom['id'],
+                'name' => $symptom['name'],
+                'slug' => $symptom['slug'],
             ];
         }
-        return Response::json(['species' => $species['name'], 'groups' => $groups]);
+        return Response::json(['crops' => $crops['name'], 'groups' => $groups]);
     }
 
     public function analyze(Request $request): Response
     {
         $catalog = new CatalogRepository();
-        $speciesList = $catalog->species();
-        $species = $catalog->speciesByCode($request->string('species'));
-        if ($species === null) {
-            Flash::error('Selecciona una especie válida.');
+        $cropsList = $catalog->crops();
+        $crops = $catalog->cropsByCode($request->string('crops'));
+        if ($crops === null) {
+            Flash::error('Selecciona un cultivo válido.');
             return $this->redirect('/apoyo-diagnostico');
         }
 
-        $rawSigns = $request->post('signs', []);
-        $signIds = [];
+        $rawSigns = $request->post('symptoms', []);
+        $symptomIds = [];
         if (is_array($rawSigns)) {
             foreach ($rawSigns as $raw) {
                 $id = (int) $raw;
                 if ($id > 0) {
-                    $signIds[$id] = $id;
+                    $symptomIds[$id] = $id;
                 }
             }
         }
-        $signIds = array_values(array_slice($signIds, 0, 20));
-        if ($signIds === []) {
-            Flash::error('Selecciona al menos un signo clínico para calcular los diferenciales.');
-            return $this->redirect('/apoyo-diagnostico?species=' . rawurlencode((string) $species['code']));
+        $symptomIds = array_values(array_slice($symptomIds, 0, 20));
+        if ($symptomIds === []) {
+            Flash::error('Selecciona al menos un síntoma clínico para calcular los diferenciales.');
+            return $this->redirect('/apoyo-diagnostico?crops=' . rawurlencode((string) $crops['code']));
         }
 
-        $diseaseRepo = new DiseaseRepository();
-        $results = $diseaseRepo->match((int) $species['id'], $signIds, count($signIds));
+        $problemRepo = new ProblemRepository();
+        $results = $problemRepo->match((int) $crops['id'], $symptomIds, count($symptomIds));
         $selectedSigns = Database::select(
-            'select id, name, category from clinical_signs where id = any($1::int[]) order by category, name',
-            ['{' . implode(',', $signIds) . '}']
+            'select id, name, category from symptoms where id = any($1::int[]) order by category, name',
+            ['{' . implode(',', $symptomIds) . '}']
         );
 
         return $this->view('diagnostic.results', [
-            'title' => 'Diferenciales sugeridos · Diagnóstico Veterinario',
-            'metaDescription' => 'Resultados de apoyo diagnóstico por similitud de signos clínicos.',
-            'species' => $species,
-            'speciesList' => $speciesList,
+            'title' => 'Diferenciales sugeridos · AgroDiagnóstico',
+            'metaDescription' => 'Resultados de apoyo diagnóstico por similitud de síntomas.',
+            'crops' => $crops,
+            'cropsList' => $cropsList,
             'selectedSigns' => $selectedSigns,
-            'selectedIds' => $signIds,
+            'selectedIds' => $symptomIds,
             'results' => $results,
             'bodyClass' => 'page-diagnostic',
         ]);
@@ -108,10 +108,10 @@ final class DiagnosticController extends BaseController
 
     public function aiForm(Request $request): Response
     {
-        $client = new UrgencyAiClient();
+        $client = new RiskAiClient();
         return $this->view('diagnostic.ai', [
-            'title' => 'IA de urgencia veterinaria · Diagnóstico Veterinario',
-            'metaDescription' => 'Clasificador SetFit + ONNX que orienta el nivel de urgencia de un relato clínico veterinario. Herramienta educativa, no diagnóstica.',
+            'title' => 'Clasificador de riesgo fitosanitario · AgroDiagnóstico',
+            'metaDescription' => 'Clasificador orientativo del nivel de riesgo fitosanitario de un relato de campo. Herramienta educativa, no sustituye el diagnóstico.',
             'configured' => $client->isConfigured(),
             'text' => '',
             'result' => null,
@@ -122,7 +122,7 @@ final class DiagnosticController extends BaseController
 
     public function aiClassify(Request $request): Response
     {
-        $client = new UrgencyAiClient();
+        $client = new RiskAiClient();
         $text = trim($request->string('text'));
         $error = null;
         $result = null;
@@ -134,23 +134,23 @@ final class DiagnosticController extends BaseController
         } elseif (mb_strlen($text) > 2000) {
             $error = 'El texto es demasiado largo. Usa un máximo de 2,000 caracteres.';
         } else {
-            $last = (int) ($_SESSION['ai_urgency_last'] ?? 0);
+            $last = (int) ($_SESSION['ai_risk_last'] ?? 0);
             if (time() - $last < 2) {
                 $error = 'Espera un par de segundos antes de volver a clasificar.';
             } else {
-                $_SESSION['ai_urgency_last'] = time();
+                $_SESSION['ai_risk_last'] = time();
                 try {
                     $result = $client->classify($text);
                 } catch (\RuntimeException $e) {
                     $error = $e->getMessage();
-                    \App\Core\Logger::warning('Fallo del clasificador de urgencia', ['message' => $e->getMessage()]);
+                    \App\Core\Logger::warning('Fallo del clasificador de riesgo', ['message' => $e->getMessage()]);
                 }
             }
         }
 
         return $this->view('diagnostic.ai', [
-            'title' => 'IA de urgencia veterinaria · Diagnóstico Veterinario',
-            'metaDescription' => 'Clasificador SetFit + ONNX que orienta el nivel de urgencia de un relato clínico veterinario. Herramienta educativa, no diagnóstica.',
+            'title' => 'Clasificador de riesgo fitosanitario · AgroDiagnóstico',
+            'metaDescription' => 'Clasificador orientativo del nivel de riesgo fitosanitario de un relato de campo. Herramienta educativa, no sustituye el diagnóstico.',
             'configured' => $client->isConfigured(),
             'text' => $text,
             'result' => $result,
@@ -159,37 +159,37 @@ final class DiagnosticController extends BaseController
         ]);
     }
 
-    public function diseases(Request $request): Response
+    public function problems(Request $request): Response
     {
         $filters = [
             'q' => $request->string('q'),
-            'species' => $request->string('species'),
+            'crops' => $request->string('crops'),
             'category' => $request->string('category'),
         ];
-        $repo = new DiseaseRepository();
+        $repo = new ProblemRepository();
         $catalog = new CatalogRepository();
 
-        return $this->view('diseases.index', [
-            'title' => 'Fichas de enfermedades · Diagnóstico Veterinario',
-            'metaDescription' => 'Directorio de enfermedades veterinarias con signos clave, diagnóstico, tratamiento y prevención en español.',
-            'diseases' => $repo->all($filters),
+        return $this->view('problems.index', [
+            'title' => 'Plagas y enfermedades · AgroDiagnóstico',
+            'metaDescription' => 'Directorio de plagas, enfermedades y deficiencias con síntomas clave, manejo y prevención para cultivos de México.',
+            'problems' => $repo->all($filters),
             'filters' => $filters,
-            'speciesList' => $catalog->species(),
+            'cropsList' => $catalog->crops(),
             'categories' => $repo->categories(),
         ]);
     }
 
-    public function disease(Request $request, string $slug): Response
+    public function problem(Request $request, string $slug): Response
     {
-        $disease = (new DiseaseRepository())->findBySlug($slug);
-        if ($disease === null) {
-            $this->notFound('No encontramos esta ficha de enfermedad.');
+        $problem = (new ProblemRepository())->findBySlug($slug);
+        if ($problem === null) {
+            $this->notFound('No encontramos esta ficha fitosanitaria.');
         }
 
-        return $this->view('diseases.show', [
-            'title' => $disease['name'] . ' · Diagnóstico Veterinario',
-            'metaDescription' => excerpt($disease['summary'], 160),
-            'disease' => $disease,
+        return $this->view('problems.show', [
+            'title' => $problem['name'] . ' · AgroDiagnóstico',
+            'metaDescription' => excerpt($problem['summary'], 160),
+            'problem' => $problem,
             'canonical' => url('/enfermedades/' . $slug),
         ]);
     }

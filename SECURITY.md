@@ -6,7 +6,7 @@ La rama `main` recibe correcciones de seguridad. Si despliegas una copia, manté
 
 ## Cómo reportar una vulnerabilidad
 
-No abras un issue público para vulnerabilidades. Escribe a **seguridad@diagnosticoveterinario.mx** con:
+No abras un issue público para vulnerabilidades. Escribe a **seguridad@diagnosticoagrónomo.mx** con:
 
 - Descripción del problema y pasos para reproducirlo.
 - Impacto estimado.

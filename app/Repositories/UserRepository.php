@@ -37,7 +37,7 @@ final class UserRepository
                 $data['name'],
                 $data['email'],
                 $data['password_hash'],
-                $data['role'] ?? 'veterinario',
+                $data['role'] ?? 'agronomo',
                 $data['status'] ?? 'pendiente',
                 $data['license_number'] ?? null,
                 $data['institution'] ?? null,
@@ -81,7 +81,7 @@ final class UserRepository
                 end,
                 status = case
                     when (name is distinct from $1 or license_number is distinct from $2)
-                         and status = \'verificado\' and role = \'veterinario\' then \'pendiente\'
+                         and status = \'verificado\' and role = \'agronomo\' then \'pendiente\'
                     else status
                 end
              where id = $6',
@@ -121,7 +121,7 @@ final class UserRepository
             $params[] = $status;
             $where[] = 'u.status = $' . count($params);
         }
-        if ($role !== '' && in_array($role, ['veterinario', 'editor', 'admin'], true)) {
+        if ($role !== '' && in_array($role, ['agronomo', 'editor', 'admin'], true)) {
             $params[] = $role;
             $where[] = 'u.role = $' . count($params);
         }
@@ -154,11 +154,11 @@ final class UserRepository
      */
     public function anonymizeAndDelete(int $id): void
     {
-        Database::execute('delete from clinic_sales where owner_id = $1', [$id]);
-        Database::execute('delete from clinic_prescriptions where owner_id = $1', [$id]);
-        Database::execute('delete from clinic_appointments where owner_id = $1', [$id]);
-        Database::execute('delete from clinic_patients where owner_id = $1', [$id]);
-        Database::execute('delete from clinic_products where owner_id = $1', [$id]);
+        Database::execute('delete from farm_sales where owner_id = $1', [$id]);
+        Database::execute('delete from farm_recommendations where owner_id = $1', [$id]);
+        Database::execute('delete from farm_visits where owner_id = $1', [$id]);
+        Database::execute('delete from farm_plots where owner_id = $1', [$id]);
+        Database::execute('delete from farm_inputs where owner_id = $1', [$id]);
         Database::execute(
             "update users set
                 name = 'Cuenta eliminada',

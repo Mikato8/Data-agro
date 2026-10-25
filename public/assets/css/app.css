@@ -1,15 +1,15 @@
 /* ==========================================================================
-   Diagnóstico Veterinario · sistema de diseño
+   AgroDiagnóstico · sistema de diseño
    ========================================================================== */
 
 :root {
-    --teal-950: #062e28;
-    --teal-900: #073a32;
-    --teal-800: #0a4a3f;
-    --teal-700: #0d5c4d;
-    --teal-600: #137a64;
-    --teal-100: #dff2ea;
-    --teal-50: #f0f8f5;
+    --moss-950: #0f2417;
+    --moss-900: #15301f;
+    --moss-800: #24452f;
+    --moss-700: #2f5a3d;
+    --moss-600: #4f7a52;
+    --moss-100: #e2edda;
+    --moss-50: #f3f7ec;
     --sand-50: #fcfaf5;
     --sand-100: #f7f3ea;
     --sand-200: #efe7d7;
@@ -69,13 +69,13 @@ svg {
 }
 
 a {
-    color: var(--teal-700);
+    color: var(--moss-700);
     text-decoration-thickness: 1px;
     text-underline-offset: 3px;
 }
 
 a:hover {
-    color: var(--teal-600);
+    color: var(--moss-600);
 }
 
 h1, h2, h3, h4 {
@@ -176,7 +176,7 @@ button {
     align-items: center;
     gap: 9px;
     margin-bottom: 14px;
-    color: var(--teal-700);
+    color: var(--moss-700);
     font-size: 12px;
     font-weight: 700;
     letter-spacing: .14em;
@@ -200,7 +200,7 @@ button {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    color: var(--teal-700);
+    color: var(--moss-700);
     font-size: 14px;
     font-weight: 700;
     text-decoration: none;
@@ -208,7 +208,7 @@ button {
 
 .text-link:hover {
     gap: 10px;
-    color: var(--teal-600);
+    color: var(--moss-600);
 }
 
 .text-link-light {
@@ -226,7 +226,7 @@ button {
     padding: 0;
     background: none;
     border: 0;
-    color: var(--teal-700);
+    color: var(--moss-700);
     font-size: 13px;
     font-weight: 600;
     text-decoration: underline;
@@ -283,13 +283,13 @@ button {
 }
 
 .btn-primary {
-    background: var(--teal-700);
+    background: var(--moss-700);
     color: var(--white);
     box-shadow: 0 6px 18px rgba(13, 92, 77, .22);
 }
 
 .btn-primary:hover {
-    background: var(--teal-800);
+    background: var(--moss-800);
     color: var(--white);
 }
 
@@ -299,18 +299,18 @@ button {
 }
 
 .btn-dark:hover {
-    background: var(--teal-900);
+    background: var(--moss-900);
     color: var(--white);
 }
 
 .btn-outline {
-    border-color: var(--teal-700);
-    color: var(--teal-700);
+    border-color: var(--moss-700);
+    color: var(--moss-700);
     background: transparent;
 }
 
 .btn-outline:hover {
-    background: var(--teal-700);
+    background: var(--moss-700);
     color: var(--white);
 }
 
@@ -326,12 +326,12 @@ button {
 
 .btn-sand {
     background: var(--sand-100);
-    color: var(--teal-900);
+    color: var(--moss-900);
 }
 
 .btn-sand:hover {
     background: var(--white);
-    color: var(--teal-900);
+    color: var(--moss-900);
 }
 
 .btn-ghost-light {
@@ -401,10 +401,10 @@ button {
     color: #cfe8df;
 }
 
-.badge-urgency-critica { background: #fee4e2; color: #912018; }
-.badge-urgency-alta { background: #fef0e0; color: #9a4a05; }
-.badge-urgency-media { background: #fdf7dc; color: #7a5a00; }
-.badge-urgency-baja { background: #e8f5ee; color: #05603a; }
+.badge-risk-critica { background: #fee4e2; color: #912018; }
+.badge-risk-alta { background: #fef0e0; color: #9a4a05; }
+.badge-risk-media { background: #fdf7dc; color: #7a5a00; }
+.badge-risk-baja { background: #e8f5ee; color: #05603a; }
 
 .avatar {
     display: inline-flex;
@@ -414,8 +414,8 @@ button {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: var(--teal-100);
-    color: var(--teal-800);
+    background: var(--moss-100);
+    color: var(--moss-800);
     font-size: 13px;
     font-weight: 800;
     letter-spacing: .03em;
@@ -425,7 +425,7 @@ button {
 .avatar-xs { width: 26px; height: 26px; font-size: 10px; }
 .avatar-sm { width: 34px; height: 34px; font-size: 11px; }
 .avatar-lg { width: 64px; height: 64px; font-size: 19px; }
-.avatar-xl { width: 96px; height: 96px; font-size: 28px; background: var(--sand-200); color: var(--teal-800); }
+.avatar-xl { width: 96px; height: 96px; font-size: 28px; background: var(--sand-200); color: var(--moss-800); }
 
 .avatar-upload-preview {
     display: flex;
@@ -493,9 +493,9 @@ button {
 
 a.tag:hover,
 .tag.is-active {
-    border-color: var(--teal-700);
-    background: var(--teal-50);
-    color: var(--teal-800);
+    border-color: var(--moss-700);
+    background: var(--moss-50);
+    color: var(--moss-800);
 }
 
 .tag-sm {
@@ -573,7 +573,7 @@ a.tag:hover,
 
 .brand-sub {
     margin-top: 4px;
-    color: var(--teal-700);
+    color: var(--moss-700);
     font-size: 9px;
     font-weight: 800;
     letter-spacing: .24em;
@@ -612,7 +612,7 @@ a.tag:hover,
 
 .main-nav > a:hover,
 .main-nav > a.is-active {
-    color: var(--teal-800);
+    color: var(--moss-800);
 }
 
 .main-nav > a:hover::after,
@@ -746,7 +746,7 @@ a.tag:hover,
 .user-menu-panel a:hover,
 .user-menu-panel button:hover {
     background: var(--sand-100);
-    color: var(--teal-800);
+    color: var(--moss-800);
 }
 
 .user-menu-panel .icon {
@@ -825,7 +825,7 @@ a.tag:hover,
     background:
         radial-gradient(circle at 82% 10%, rgba(217, 164, 65, .18), transparent 34%),
         radial-gradient(circle at 8% 90%, rgba(19, 122, 100, .35), transparent 36%),
-        var(--teal-950);
+        var(--moss-950);
     color: var(--sand-100);
 }
 
@@ -1001,7 +1001,7 @@ a.tag:hover,
     gap: 12px;
 }
 
-.hero-case-species {
+.hero-case-crop {
     font-size: 13px;
     font-weight: 700;
 }
@@ -1031,7 +1031,7 @@ a.tag:hover,
 .hero-case-diagnosis strong {
     display: block;
     margin-top: 6px;
-    color: var(--teal-800);
+    color: var(--moss-800);
     font-family: var(--font-serif);
     font-size: 25px;
     line-height: 1.16;
@@ -1049,7 +1049,7 @@ a.tag:hover,
 }
 
 .hero-case h2 a:hover {
-    color: var(--teal-700);
+    color: var(--moss-700);
 }
 
 .hero-case > p {
@@ -1093,7 +1093,7 @@ a.tag:hover,
 
 .hero-case-footer .text-link {
     font-size: 12px;
-    color: var(--teal-700);
+    color: var(--moss-700);
 }
 
 .hero-case-badge {
@@ -1105,7 +1105,7 @@ a.tag:hover,
     gap: 5px;
     padding: 7px 12px;
     border-radius: 999px;
-    background: var(--teal-700);
+    background: var(--moss-700);
     color: var(--white);
     font-size: 10px;
     font-weight: 700;
@@ -1234,7 +1234,7 @@ a.tag:hover,
     mask-image: radial-gradient(circle at 50% 50%, black, transparent 75%);
 }
 
-.case-card-species {
+.case-card-crop {
     position: absolute;
     left: 14px;
     bottom: 12px;
@@ -1282,7 +1282,7 @@ a.tag:hover,
 }
 
 .case-card h3 a:hover {
-    color: var(--teal-700);
+    color: var(--moss-700);
 }
 
 .case-card-diagnosis {
@@ -1350,7 +1350,7 @@ a.tag:hover,
     border-radius: var(--radius-xl);
     background:
         radial-gradient(circle at 100% 0%, rgba(217, 164, 65, .18), transparent 42%),
-        var(--teal-900);
+        var(--moss-900);
     color: var(--sand-100);
     box-shadow: var(--shadow-lg);
 }
@@ -1384,7 +1384,7 @@ a.tag:hover,
 
 .check-list .icon {
     margin-top: 2px;
-    color: var(--teal-600);
+    color: var(--moss-600);
 }
 
 .check-list-light li {
@@ -1523,8 +1523,8 @@ a.tag:hover,
     width: 42px;
     height: 42px;
     border-radius: 12px;
-    background: var(--teal-50);
-    color: var(--teal-700);
+    background: var(--moss-50);
+    color: var(--moss-700);
 }
 
 .resource-card .badge {
@@ -1556,11 +1556,11 @@ a.tag:hover,
     font-weight: 600;
 }
 
-.section-diseases {
+.section-problems {
     padding-top: 0;
 }
 
-.diseases-band {
+.problems-band {
     display: grid;
     grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr);
     gap: 56px;
@@ -1571,24 +1571,24 @@ a.tag:hover,
     background: var(--sand-100);
 }
 
-.diseases-intro h2 {
+.problems-intro h2 {
     margin-bottom: 14px;
     font-size: clamp(28px, 3.2vw, 38px);
 }
 
-.diseases-intro p {
+.problems-intro p {
     margin-bottom: 22px;
     color: var(--muted);
     font-size: 14px;
 }
 
-.disease-list {
+.problem-list {
     display: grid;
     gap: 0;
     border-top: 1px solid var(--line);
 }
 
-.disease-row {
+.problem-row {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -1598,37 +1598,37 @@ a.tag:hover,
     text-decoration: none;
 }
 
-.disease-row:hover {
-    color: var(--teal-700);
+.problem-row:hover {
+    color: var(--moss-700);
 }
 
-.disease-row-main {
+.problem-row-main {
     display: flex;
     flex-direction: column;
     min-width: 0;
     flex: 1;
 }
 
-.disease-row-main strong {
+.problem-row-main strong {
     font-size: 14px;
 }
 
-.disease-row-main small {
+.problem-row-main small {
     color: var(--muted);
     font-size: 11px;
 }
 
-.urgency-dot {
+.risk-dot {
     width: 9px;
     height: 9px;
     border-radius: 50%;
     flex: 0 0 auto;
 }
 
-.urgency-critica { background: #d92d20; }
-.urgency-alta { background: #e77e23; }
-.urgency-media { background: #d9a441; }
-.urgency-baja { background: #38a169; }
+.risk-critica { background: #d92d20; }
+.risk-alta { background: #e77e23; }
+.risk-media { background: #d9a441; }
+.risk-baja { background: #38a169; }
 
 /* ==========================================================================
    CTA
@@ -1727,7 +1727,7 @@ a.tag:hover,
 }
 
 .breadcrumb a:hover {
-    color: var(--teal-700);
+    color: var(--moss-700);
 }
 
 .breadcrumb span {
@@ -1788,7 +1788,7 @@ a.tag:hover,
 }
 
 .big-number {
-    color: var(--teal-800);
+    color: var(--moss-800);
     font-family: var(--font-serif);
     font-size: clamp(42px, 5vw, 58px);
     font-weight: 600;
@@ -1815,7 +1815,7 @@ a.tag:hover,
 }
 
 .stat-strip strong {
-    color: var(--teal-800);
+    color: var(--moss-800);
     font-family: var(--font-serif);
     font-size: 24px;
 }
@@ -1937,8 +1937,8 @@ a.tag:hover,
     height: 64px;
     margin-bottom: 18px;
     border-radius: 50%;
-    background: var(--teal-50);
-    color: var(--teal-700);
+    background: var(--moss-50);
+    color: var(--moss-700);
 }
 
 .empty-icon .icon {
@@ -1977,7 +1977,7 @@ a.tag:hover,
     display: inline-flex;
     align-items: center;
     gap: 5px;
-    color: var(--teal-700);
+    color: var(--moss-700);
     font-size: 13px;
     font-weight: 700;
     text-decoration: none;
@@ -2011,7 +2011,7 @@ a.tag:hover,
 }
 
 .page-number.is-current {
-    background: var(--teal-700);
+    background: var(--moss-700);
     color: var(--white);
 }
 
@@ -2049,7 +2049,7 @@ a.tag:hover,
     margin-bottom: 12px;
 }
 
-.species-pill {
+.crops-pill {
     display: inline-flex;
     align-items: center;
     gap: 5px;
@@ -2061,15 +2061,58 @@ a.tag:hover,
     font-weight: 700;
 }
 
-.species-canino { background: #eef4ff; color: #294a7a; }
-.species-felino { background: #fff4e8; color: #8a4b06; }
-.species-equino { background: #f4ede5; color: #6d4c2f; }
-.species-bovino { background: #eef1e7; color: #4a5e2f; }
-.species-porcino { background: #fceef0; color: #8a3340; }
-.species-ovino { background: #f2f0e8; color: #5d5a3f; }
-.species-caprino { background: #f0eee6; color: #5e573f; }
-.species-ave { background: #fff8dd; color: #7a5a00; }
-.species-exotico { background: #eaf5ef; color: #1f5e44; }
+/* cereales */
+.crops-maiz { background: #fdf3d7; color: #7a5300; }
+.crops-trigo { background: #fdf3d7; color: #7a5300; }
+.crops-sorgo { background: #fdf3d7; color: #7a5300; }
+.crops-arroz { background: #fdf3d7; color: #7a5300; }
+.crops-cebada { background: #fdf3d7; color: #7a5300; }
+.crops-avena { background: #fdf3d7; color: #7a5300; }
+/* leguminosas */
+.crops-frijol { background: #f7e9e2; color: #7d3c22; }
+.crops-garbanzo { background: #f7e9e2; color: #7d3c22; }
+.crops-cacahuate { background: #f7e9e2; color: #7d3c22; }
+.crops-soya { background: #f7e9e2; color: #7d3c22; }
+/* industriales */
+.crops-cana { background: #eef1e0; color: #4a5e2f; }
+.crops-agave { background: #eef1e0; color: #4a5e2f; }
+.crops-algodon { background: #eef1e0; color: #4a5e2f; }
+.crops-ajonjoli { background: #eef1e0; color: #4a5e2f; }
+.crops-girasol { background: #eef1e0; color: #4a5e2f; }
+/* estimulantes */
+.crops-cafe { background: #f2e8dd; color: #5c3a22; }
+.crops-cacao { background: #f2e8dd; color: #5c3a22; }
+/* frutales */
+.crops-aguacate { background: #fbeaea; color: #7c3030; }
+.crops-limon { background: #fbeaea; color: #7c3030; }
+.crops-naranja { background: #fbeaea; color: #7c3030; }
+.crops-mango { background: #fbeaea; color: #7c3030; }
+.crops-platano { background: #fbeaea; color: #7c3030; }
+.crops-durazno { background: #fbeaea; color: #7c3030; }
+.crops-manzana { background: #fbeaea; color: #7c3030; }
+.crops-guayaba { background: #fbeaea; color: #7c3030; }
+.crops-papaya { background: #fbeaea; color: #7c3030; }
+.crops-pina { background: #fbeaea; color: #7c3030; }
+.crops-coco { background: #fbeaea; color: #7c3030; }
+.crops-vid { background: #fbeaea; color: #7c3030; }
+.crops-fresa { background: #fbeaea; color: #7c3030; }
+.crops-arandano { background: #fbeaea; color: #7c3030; }
+.crops-frambuesa { background: #fbeaea; color: #7c3030; }
+.crops-nogal { background: #fbeaea; color: #7c3030; }
+/* hortalizas */
+.crops-jitomate { background: #e9f3e4; color: #2f5a32; }
+.crops-chile { background: #e9f3e4; color: #2f5a32; }
+.crops-papa { background: #e9f3e4; color: #2f5a32; }
+.crops-cebolla { background: #e9f3e4; color: #2f5a32; }
+.crops-ajo { background: #e9f3e4; color: #2f5a32; }
+.crops-sandia { background: #e9f3e4; color: #2f5a32; }
+.crops-melon { background: #e9f3e4; color: #2f5a32; }
+.crops-pepino { background: #e9f3e4; color: #2f5a32; }
+.crops-calabaza { background: #e9f3e4; color: #2f5a32; }
+.crops-brocoli { background: #e9f3e4; color: #2f5a32; }
+.crops-zanahoria { background: #e9f3e4; color: #2f5a32; }
+.crops-lechuga { background: #e9f3e4; color: #2f5a32; }
+.crops-nopal { background: #e9f3e4; color: #2f5a32; }
 
 .case-title-main h1 {
     max-width: 950px;
@@ -2079,7 +2122,7 @@ a.tag:hover,
 
 .case-deck {
     margin-top: 12px;
-    color: var(--teal-800);
+    color: var(--moss-800);
     font-family: var(--font-serif);
     font-size: 20px;
     line-height: 1.35;
@@ -2115,7 +2158,7 @@ a.tag:hover,
     display: inline-flex;
     align-items: center;
     gap: 3px;
-    color: var(--teal-700);
+    color: var(--moss-700);
 }
 
 .byline-divider {
@@ -2157,7 +2200,7 @@ a.tag:hover,
     margin-bottom: 34px;
     border: 1px solid var(--line);
     border-radius: var(--radius-lg);
-    background: var(--teal-50);
+    background: var(--moss-50);
 }
 
 .case-summary > div {
@@ -2186,7 +2229,7 @@ a.tag:hover,
 }
 
 .summary-diagnosis {
-    color: var(--teal-800) !important;
+    color: var(--moss-800) !important;
     font-family: var(--font-serif);
     font-size: 20px !important;
     line-height: 1.25 !important;
@@ -2251,7 +2294,7 @@ a.tag:hover,
     padding: 24px;
     border: 1px solid #cfe4db;
     border-radius: var(--radius-lg);
-    background: var(--teal-50);
+    background: var(--moss-50);
 }
 
 .case-section-highlight h2 {
@@ -2259,7 +2302,7 @@ a.tag:hover,
 }
 
 .final-diagnosis {
-    color: var(--teal-800);
+    color: var(--moss-800);
     font-family: var(--font-serif);
     font-size: 27px;
     line-height: 1.25;
@@ -2295,8 +2338,8 @@ a.tag:hover,
 .outcome-curado p { color: #3d6b55; }
 .outcome-fallecido, .outcome-eutanasia { background: #fdf1f0; color: #912018; }
 .outcome-fallecido p, .outcome-eutanasia p { color: #7a4a46; }
-.outcome-en_tratamiento, .outcome-secuela { background: #fff8e6; color: #8a4b06; }
-.outcome-en_tratamiento p, .outcome-secuela p { color: #75603d; }
+.outcome-en_manejo, .outcome-secuela { background: #fff8e6; color: #8a4b06; }
+.outcome-en_manejo p, .outcome-secuela p { color: #75603d; }
 
 .case-references {
     padding-top: 4px;
@@ -2550,13 +2593,13 @@ a.tag:hover,
     letter-spacing: .02em;
 }
 
-.patient-data {
+.plot-data {
     display: grid;
     gap: 0;
     margin: 0;
 }
 
-.patient-data div {
+.plot-data div {
     display: flex;
     justify-content: space-between;
     gap: 12px;
@@ -2565,15 +2608,15 @@ a.tag:hover,
     font-size: 12px;
 }
 
-.patient-data div:last-child {
+.plot-data div:last-child {
     border-bottom: 0;
 }
 
-.patient-data dt {
+.plot-data dt {
     color: var(--muted);
 }
 
-.patient-data dd {
+.plot-data dd {
     min-width: 0;
     margin: 0;
     color: var(--ink);
@@ -2655,9 +2698,9 @@ a.tag:hover,
 }
 
 .share-link:hover {
-    border-color: var(--teal-700);
-    background: var(--teal-50);
-    color: var(--teal-800);
+    border-color: var(--moss-700);
+    background: var(--moss-50);
+    color: var(--moss-800);
 }
 
 .license-note {
@@ -2688,7 +2731,7 @@ a.tag:hover,
     background: var(--sand-100);
 }
 
-.similar-species {
+.similar-crops {
     font-size: 20px;
 }
 
@@ -2844,8 +2887,8 @@ a.tag:hover,
     height: 34px;
     flex: 0 0 auto;
     border-radius: 50%;
-    background: var(--teal-50);
-    color: var(--teal-700);
+    background: var(--moss-50);
+    color: var(--moss-700);
     font-size: 11px;
     font-weight: 800;
 }
@@ -2898,7 +2941,7 @@ a.tag:hover,
 .field input:focus,
 .field select:focus,
 .field textarea:focus {
-    border-color: var(--teal-600);
+    border-color: var(--moss-600);
     outline: 0;
     box-shadow: 0 0 0 3px rgba(19, 122, 100, .12);
 }
@@ -2936,12 +2979,12 @@ a.tag:hover,
 }
 
 .password-toggle:hover {
-    background: var(--teal-50);
-    color: var(--teal-700);
+    background: var(--moss-50);
+    color: var(--moss-700);
 }
 
 .password-toggle:focus-visible {
-    outline: 2px solid var(--teal-500);
+    outline: 2px solid var(--moss-500);
     outline-offset: 1px;
 }
 
@@ -3047,8 +3090,8 @@ a.tag:hover,
 }
 
 .check-card:has(input:checked) {
-    border-color: var(--teal-600);
-    background: var(--teal-50);
+    border-color: var(--moss-600);
+    background: var(--moss-50);
 }
 
 .check-card input {
@@ -3056,7 +3099,7 @@ a.tag:hover,
     width: 17px;
     height: 17px;
     flex: 0 0 auto;
-    accent-color: var(--teal-700);
+    accent-color: var(--moss-700);
 }
 
 .check-card span {
@@ -3091,7 +3134,7 @@ a.tag:hover,
     width: 17px;
     height: 17px;
     flex: 0 0 auto;
-    accent-color: var(--teal-700);
+    accent-color: var(--moss-700);
 }
 
 .form-legal {
@@ -3118,16 +3161,16 @@ a.tag:hover,
 
 .file-drop:hover,
 .file-drop.is-dragging {
-    border-color: var(--teal-600);
-    background: var(--teal-50);
+    border-color: var(--moss-600);
+    background: var(--moss-50);
 }
 
 .file-drop .icon {
-    color: var(--teal-700);
+    color: var(--moss-700);
 }
 
 .file-drop strong {
-    color: var(--teal-700);
+    color: var(--moss-700);
 }
 
 .file-drop small {
@@ -3226,7 +3269,7 @@ a.tag:hover,
 }
 
 .sidebar-tip {
-    background: var(--teal-50);
+    background: var(--moss-50);
     border-color: #cfe4db;
 }
 
@@ -3321,7 +3364,7 @@ a.tag:hover,
     border-radius: var(--radius-xl);
     background:
         radial-gradient(circle at 100% 0%, rgba(217, 164, 65, .16), transparent 38%),
-        var(--teal-900);
+        var(--moss-900);
     color: var(--sand-100);
 }
 
@@ -3407,7 +3450,7 @@ a.tag:hover,
     padding: 38px 0 46px;
     background:
         radial-gradient(circle at 86% 18%, rgba(217, 164, 65, .16), transparent 34%),
-        var(--teal-950);
+        var(--moss-950);
     color: var(--sand-100);
 }
 
@@ -3493,13 +3536,13 @@ a.tag:hover,
     font-size: 12px;
 }
 
-.species-tabs {
+.crops-tabs {
     display: flex;
     flex-wrap: wrap;
     gap: 7px;
 }
 
-.species-tab {
+.crops-tab {
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -3513,17 +3556,17 @@ a.tag:hover,
     text-decoration: none;
 }
 
-.species-tab:hover {
-    border-color: var(--teal-600);
+.crops-tab:hover {
+    border-color: var(--moss-600);
 }
 
-.species-tab.is-active {
-    border-color: var(--teal-700);
-    background: var(--teal-700);
+.crops-tab.is-active {
+    border-color: var(--moss-700);
+    background: var(--moss-700);
     color: var(--white);
 }
 
-.sign-search {
+.symptom-search {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -3536,7 +3579,7 @@ a.tag:hover,
     color: var(--muted);
 }
 
-.sign-search input {
+.symptom-search input {
     width: 100%;
     border: 0;
     outline: 0;
@@ -3544,12 +3587,12 @@ a.tag:hover,
     font-size: 13px;
 }
 
-.sign-groups {
+.symptom-groups {
     display: grid;
     gap: 14px;
 }
 
-.sign-group h3 {
+.symptom-group h3 {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -3561,7 +3604,7 @@ a.tag:hover,
     text-transform: uppercase;
 }
 
-.sign-group h3 span {
+.symptom-group h3 span {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -3573,24 +3616,24 @@ a.tag:hover,
     font-size: 9px;
 }
 
-.sign-options {
+.symptom-options {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
 }
 
-.sign-option {
+.symptom-option {
     position: relative;
     cursor: pointer;
 }
 
-.sign-option input {
+.symptom-option input {
     position: absolute;
     opacity: 0;
     pointer-events: none;
 }
 
-.sign-option span {
+.symptom-option span {
     display: inline-flex;
     padding: 6px 10px;
     border: 1px solid var(--line);
@@ -3602,17 +3645,17 @@ a.tag:hover,
     transition: background .15s ease, border-color .15s ease, color .15s ease;
 }
 
-.sign-option:hover span {
-    border-color: var(--teal-600);
+.symptom-option:hover span {
+    border-color: var(--moss-600);
 }
 
-.sign-option input:checked + span {
-    border-color: var(--teal-700);
-    background: var(--teal-700);
+.symptom-option input:checked + span {
+    border-color: var(--moss-700);
+    background: var(--moss-700);
     color: var(--white);
 }
 
-.sign-option input:focus-visible + span {
+.symptom-option input:focus-visible + span {
     outline: 3px solid rgba(217, 164, 65, .7);
     outline-offset: 2px;
 }
@@ -3636,7 +3679,7 @@ a.tag:hover,
 }
 
 .selected-counter strong {
-    color: var(--teal-800);
+    color: var(--moss-800);
     font-family: var(--font-serif);
     font-size: 30px;
     line-height: 1;
@@ -3689,8 +3732,8 @@ a.tag:hover,
     height: 18px;
     flex: 0 0 auto;
     border-radius: 50%;
-    background: var(--teal-50);
-    color: var(--teal-700);
+    background: var(--moss-50);
+    color: var(--moss-700);
     font-size: 9px;
     font-weight: 800;
 }
@@ -3732,7 +3775,7 @@ a.tag:hover,
     gap: 14px;
 }
 
-.selected-signs-bar {
+.selected-symptoms-bar {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
@@ -3778,7 +3821,7 @@ a.tag:hover,
 }
 
 .result-head h2 a:hover {
-    color: var(--teal-700);
+    color: var(--moss-700);
 }
 
 .result-head p {
@@ -3809,7 +3852,7 @@ a.tag:hover,
     display: block;
     height: 100%;
     border-radius: inherit;
-    background: linear-gradient(90deg, var(--teal-600), var(--gold));
+    background: linear-gradient(90deg, var(--moss-600), var(--gold));
 }
 
 .match-meta {
@@ -3822,7 +3865,7 @@ a.tag:hover,
 }
 
 .match-meta strong {
-    color: var(--teal-800);
+    color: var(--moss-800);
 }
 
 .result-summary {
@@ -3872,14 +3915,14 @@ a.tag:hover,
    Enfermedades
    ========================================================================== */
 
-.disease-grid {
+.problem-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 16px;
     margin-top: 24px;
 }
 
-.disease-card {
+.problem-card {
     display: flex;
     flex-direction: column;
     gap: 7px;
@@ -3892,14 +3935,14 @@ a.tag:hover,
     transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
 }
 
-.disease-card:hover {
+.problem-card:hover {
     transform: translateY(-3px);
     border-color: rgba(13, 92, 77, .28);
     box-shadow: var(--shadow-md);
     color: var(--ink);
 }
 
-.disease-card-top {
+.problem-card-top {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -3907,13 +3950,13 @@ a.tag:hover,
     margin-bottom: 2px;
 }
 
-.disease-card h2 {
+.problem-card h2 {
     font-size: 21px;
     line-height: 1.2;
 }
 
 .scientific {
-    color: var(--teal-700);
+    color: var(--moss-700);
     font-family: var(--font-serif);
     font-size: 12px;
     font-style: italic;
@@ -3924,13 +3967,13 @@ a.tag:hover,
     font-size: 16px;
 }
 
-.disease-card > p:not(.scientific) {
+.problem-card > p:not(.scientific) {
     color: var(--muted);
     font-size: 12px;
     line-height: 1.55;
 }
 
-.disease-card-foot {
+.problem-card-foot {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -3941,69 +3984,69 @@ a.tag:hover,
     font-size: 10px;
 }
 
-.disease-card-foot span:first-child {
+.problem-card-foot span:first-child {
     flex: 1;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
-.disease-detail-layout {
+.problem-detail-layout {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 320px;
     gap: 40px;
     align-items: start;
 }
 
-.disease-detail {
+.problem-detail {
     min-width: 0;
 }
 
-.disease-block {
+.problem-block {
     margin-bottom: 30px;
 }
 
-.disease-block h2 {
+.problem-block h2 {
     margin-bottom: 10px;
     padding-bottom: 8px;
     border-bottom: 1px solid var(--line);
     font-size: 25px;
 }
 
-.disease-block > p {
+.problem-block > p {
     color: var(--ink-2);
     font-size: 15px;
     line-height: 1.75;
 }
 
-.disease-block-lead {
+.problem-block-lead {
     margin-bottom: 14px;
     color: var(--muted) !important;
     font-size: 12px !important;
 }
 
-.sign-profile {
+.symptom-profile {
     display: grid;
     gap: 16px;
 }
 
-.sign-profile-group h3 {
+.symptom-profile-group h3 {
     margin-bottom: 5px;
     font-family: var(--font-sans);
-    color: var(--teal-800);
+    color: var(--moss-800);
     font-size: 11px;
     font-weight: 800;
     letter-spacing: .08em;
     text-transform: uppercase;
 }
 
-.sign-profile-list {
+.symptom-profile-list {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 5px 16px;
 }
 
-.sign-profile-item {
+.symptom-profile-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -4017,8 +4060,8 @@ a.tag:hover,
     margin-left: 5px;
     padding: 1px 5px;
     border-radius: 999px;
-    background: var(--teal-50);
-    color: var(--teal-700);
+    background: var(--moss-50);
+    color: var(--moss-700);
     font-size: 8px;
     font-weight: 800;
     letter-spacing: .04em;
@@ -4039,15 +4082,15 @@ a.tag:hover,
     display: block;
     height: 100%;
     border-radius: inherit;
-    background: var(--teal-600);
+    background: var(--moss-600);
 }
 
-.disease-references p {
+.problem-references p {
     color: var(--muted);
     font-size: 12px;
 }
 
-.species-chip-list {
+.crops-chip-list {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
@@ -4069,7 +4112,7 @@ a.tag:hover,
 }
 
 .resource-category {
-    color: var(--teal-700);
+    color: var(--moss-700);
     font-size: 9px;
     font-weight: 800;
     letter-spacing: .1em;
@@ -4093,8 +4136,8 @@ a.tag:hover,
     margin: 20px 0 4px;
     padding: 12px 14px;
     border-radius: var(--radius);
-    background: var(--teal-50);
-    color: var(--teal-800);
+    background: var(--moss-50);
+    color: var(--moss-800);
     font-size: 11px;
     line-height: 1.55;
 }
@@ -4141,7 +4184,7 @@ a.tag:hover,
 }
 
 .profile-hero-stats strong {
-    color: var(--teal-800);
+    color: var(--moss-800);
     font-family: var(--font-serif);
     font-size: 28px;
     line-height: 1;
@@ -4190,7 +4233,7 @@ a.tag:hover,
     padding: 24px 18px;
     background:
         radial-gradient(circle at 100% 0%, rgba(217, 164, 65, .12), transparent 34%),
-        var(--teal-950);
+        var(--moss-950);
     color: var(--sand-100);
     overflow-y: auto;
 }
@@ -4263,11 +4306,11 @@ a.tag:hover,
 
 .admin-nav a.is-active {
     background: var(--sand-100);
-    color: var(--teal-900);
+    color: var(--moss-900);
 }
 
 .admin-nav a.is-active .icon {
-    color: var(--teal-700);
+    color: var(--moss-700);
 }
 
 .admin-sidebar-bottom {
@@ -4370,7 +4413,7 @@ a.tag:hover,
 }
 
 .back-link:hover {
-    color: var(--teal-700);
+    color: var(--moss-700);
 }
 
 .admin-stat-grid {
@@ -4472,8 +4515,8 @@ a.tag:hover,
 }
 
 .admin-card-dark {
-    background: var(--teal-900);
-    border-color: var(--teal-900);
+    background: var(--moss-900);
+    border-color: var(--moss-900);
     color: var(--sand-100);
 }
 
@@ -4626,7 +4669,7 @@ a.admin-list-row:hover {
 }
 
 .table-title a:hover {
-    color: var(--teal-700);
+    color: var(--moss-700);
 }
 
 .table-title small,
@@ -4733,13 +4776,13 @@ a.admin-list-row:hover {
 }
 
 .decision-option:has(input:checked) {
-    border-color: var(--teal-600);
-    background: var(--teal-50);
+    border-color: var(--moss-600);
+    background: var(--moss-50);
 }
 
 .decision-option input {
     margin-top: 2px;
-    accent-color: var(--teal-700);
+    accent-color: var(--moss-700);
 }
 
 .decision-option span {
@@ -4879,8 +4922,8 @@ a.admin-list-row:hover {
     height: 60px;
     margin: 18px auto 12px;
     border-radius: 50%;
-    background: var(--teal-50);
-    color: var(--teal-700);
+    background: var(--moss-50);
+    color: var(--moss-700);
 }
 
 .error-inner h1 {
@@ -4912,7 +4955,7 @@ a.admin-list-row:hover {
 .site-footer {
     margin-top: 0;
     padding: 54px 0 24px;
-    background: var(--teal-950);
+    background: var(--moss-950);
     color: #b9d9cf;
 }
 
@@ -5053,8 +5096,8 @@ a.admin-list-row:hover {
 }
 
 .goal-card.is-active {
-    border-color: var(--teal-700);
-    background: var(--teal-50);
+    border-color: var(--moss-700);
+    background: var(--moss-50);
 }
 
 .goal-icon {
@@ -5065,7 +5108,7 @@ a.admin-list-row:hover {
     height: 36px;
     border-radius: 10px;
     background: var(--sand-100);
-    color: var(--teal-700);
+    color: var(--moss-700);
 }
 
 .goal-card strong {
@@ -5086,7 +5129,7 @@ a.admin-list-row:hover {
     gap: 3px;
     margin-top: auto;
     padding-top: 8px;
-    color: var(--teal-700);
+    color: var(--moss-700);
     font-size: 10px;
     font-weight: 800;
 }
@@ -5134,7 +5177,7 @@ a.admin-list-row:hover {
 }
 
 .topic-match-card h3 a:hover {
-    color: var(--teal-700);
+    color: var(--moss-700);
 }
 
 .topic-match-card p {
@@ -5206,7 +5249,7 @@ a.admin-list-row:hover {
     padding: 24px;
     border: 1px solid #cfe4db;
     border-radius: var(--radius-lg);
-    background: var(--teal-50);
+    background: var(--moss-50);
 }
 
 .recommendation-head {
@@ -5263,7 +5306,7 @@ a.admin-list-row:hover {
     height: 48px;
     border-radius: 13px;
     background: var(--white);
-    color: var(--teal-700);
+    color: var(--moss-700);
 }
 
 .kit-teaser h2 {
@@ -5281,7 +5324,7 @@ a.admin-list-row:hover {
     display: inline-flex;
     align-items: center;
     gap: 4px;
-    color: var(--teal-700);
+    color: var(--moss-700);
     font-weight: 800;
 }
 
@@ -5349,7 +5392,7 @@ a.admin-list-row:hover {
     border-radius: var(--radius-lg);
     background:
         radial-gradient(circle at 92% 10%, rgba(217, 164, 65, .18), transparent 40%),
-        var(--teal-900);
+        var(--moss-900);
     color: var(--sand-100);
 }
 
@@ -5372,7 +5415,7 @@ a.admin-list-row:hover {
 
 .resource-block-highlight {
     border-color: #cfe4db;
-    background: var(--teal-50);
+    background: var(--moss-50);
 }
 
 .resource-info-grid {
@@ -5429,8 +5472,8 @@ a.admin-list-row:hover {
     height: 34px;
     flex: 0 0 auto;
     border-radius: 50%;
-    background: var(--teal-50);
-    color: var(--teal-700);
+    background: var(--moss-50);
+    color: var(--moss-700);
     font-size: 10px;
     font-weight: 800;
 }
@@ -5458,8 +5501,8 @@ a.admin-list-row:hover {
 }
 
 .related-resources a:hover {
-    border-color: var(--teal-600);
-    background: var(--teal-50);
+    border-color: var(--moss-600);
+    background: var(--moss-50);
 }
 
 .related-resources a > span:nth-child(2) {
@@ -5510,8 +5553,8 @@ a.admin-list-row:hover {
     width: 44px;
     height: 44px;
     border-radius: 12px;
-    background: var(--teal-50);
-    color: var(--teal-700);
+    background: var(--moss-50);
+    color: var(--moss-700);
 }
 
 .kit-card h2 {
@@ -5589,7 +5632,7 @@ a.admin-list-row:hover {
     margin-top: 28px;
     padding: 26px;
     border-radius: var(--radius-lg);
-    background: var(--teal-900);
+    background: var(--moss-900);
     color: var(--sand-100);
 }
 
@@ -5612,14 +5655,14 @@ a.admin-list-row:hover {
 }
 
 /* ==========================================================================
-   VetDataHub · catálogo integrado
+   AgroDatos · catálogo integrado
    ========================================================================== */
 
 .vethub-hero {
     padding: 42px 0 54px;
     background:
         radial-gradient(circle at 88% 12%, rgba(217, 164, 65, .18), transparent 34%),
-        var(--teal-950);
+        var(--moss-950);
     color: var(--sand-100);
 }
 
@@ -5688,8 +5731,8 @@ a.admin-list-row:hover {
     margin-bottom: 18px;
     padding: 13px 15px;
     border-radius: var(--radius);
-    background: var(--teal-50);
-    color: var(--teal-800);
+    background: var(--moss-50);
+    color: var(--moss-800);
     font-size: 11px;
     line-height: 1.55;
 }
@@ -5737,8 +5780,8 @@ a.admin-list-row:hover {
 
 .vethub-chip:hover,
 .vethub-chip.is-active {
-    border-color: var(--teal-700);
-    background: var(--teal-700);
+    border-color: var(--moss-700);
+    background: var(--moss-700);
     color: var(--white);
 }
 
@@ -5823,28 +5866,28 @@ a.admin-list-row:hover {
    PetEVAL · explorador del benchmark
    ========================================================================== */
 
-.peteval-hero {
+.agroeval-hero {
     padding: 42px 0 54px;
     background:
         radial-gradient(circle at 88% 12%, rgba(217, 164, 65, .18), transparent 34%),
-        var(--teal-950);
+        var(--moss-950);
     color: var(--sand-100);
 }
 
-.peteval-hero-grid {
+.agroeval-hero-grid {
     display: grid;
     grid-template-columns: minmax(0, 1.25fr) minmax(0, .75fr);
     gap: 40px;
     align-items: end;
 }
 
-.peteval-hero h1 {
+.agroeval-hero h1 {
     color: var(--sand-50);
     font-size: clamp(44px, 6vw, 70px);
     letter-spacing: -.04em;
 }
 
-.peteval-lead {
+.agroeval-lead {
     max-width: 780px;
     margin-top: 12px;
     color: #c8ddd5;
@@ -5852,14 +5895,14 @@ a.admin-list-row:hover {
     line-height: 1.65;
 }
 
-.peteval-actions {
+.agroeval-actions {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
     margin-top: 20px;
 }
 
-.peteval-stats {
+.agroeval-stats {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
@@ -5869,20 +5912,20 @@ a.admin-list-row:hover {
     background: rgba(255, 254, 251, .05);
 }
 
-.peteval-stats div {
+.agroeval-stats div {
     display: flex;
     flex-direction: column;
     gap: 2px;
 }
 
-.peteval-stats strong {
+.agroeval-stats strong {
     color: #e9b872;
     font-family: var(--font-serif);
     font-size: 25px;
     line-height: 1;
 }
 
-.peteval-stats span {
+.agroeval-stats span {
     color: #9dbeb4;
     font-size: 9px;
     font-weight: 700;
@@ -5890,70 +5933,70 @@ a.admin-list-row:hover {
     text-transform: uppercase;
 }
 
-.peteval-note {
+.agroeval-note {
     display: flex;
     gap: 9px;
     margin-bottom: 18px;
     padding: 13px 15px;
     border-radius: var(--radius);
-    background: var(--teal-50);
-    color: var(--teal-800);
+    background: var(--moss-50);
+    color: var(--moss-800);
     font-size: 11px;
     line-height: 1.55;
 }
 
-.peteval-task-grid {
+.agroeval-task-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 12px;
     margin-bottom: 22px;
 }
 
-.peteval-task {
+.agroeval-task {
     padding: 18px;
     border: 1px solid var(--line);
     border-radius: var(--radius);
     background: var(--white);
 }
 
-.peteval-task-icon {
+.agroeval-task-icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     width: 34px;
     height: 34px;
     border-radius: 9px;
-    background: var(--teal-50);
-    color: var(--teal-700);
+    background: var(--moss-50);
+    color: var(--moss-700);
 }
 
-.peteval-task h2 {
+.agroeval-task h2 {
     margin-top: 9px;
     font-family: var(--font-sans);
     font-size: 13px;
     font-weight: 800;
 }
 
-.peteval-task p {
+.agroeval-task p {
     margin-top: 4px;
     color: var(--muted);
     font-size: 11px;
     line-height: 1.55;
 }
 
-.peteval-layout {
+.agroeval-layout {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 320px;
     gap: 28px;
     align-items: start;
 }
 
-.peteval-records {
+.agroeval-records {
     display: grid;
     gap: 10px;
 }
 
-.peteval-record {
+.agroeval-record {
     padding: 17px;
     border: 1px solid var(--line);
     border-radius: var(--radius);
@@ -5961,7 +6004,7 @@ a.admin-list-row:hover {
     box-shadow: var(--shadow-sm);
 }
 
-.peteval-record-top {
+.agroeval-record-top {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -5969,32 +6012,32 @@ a.admin-list-row:hover {
     margin-bottom: 7px;
 }
 
-.peteval-id {
-    color: var(--teal-700);
+.agroeval-id {
+    color: var(--moss-700);
     font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
     font-size: 11px;
     font-weight: 800;
 }
 
-.peteval-id-lg {
-    color: var(--teal-700);
+.agroeval-id-lg {
+    color: var(--moss-700);
     font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
     font-size: .6em;
     letter-spacing: -.02em;
 }
 
-.peteval-sentence {
+.agroeval-sentence {
     color: var(--ink-2);
     font-family: var(--font-serif);
     font-size: 15px;
     line-height: 1.55;
 }
 
-.peteval-record .tag-row {
+.agroeval-record .tag-row {
     margin-top: 8px;
 }
 
-.peteval-record-foot {
+.agroeval-record-foot {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -6007,23 +6050,23 @@ a.admin-list-row:hover {
     font-size: 10px;
 }
 
-.peteval-record-foot .text-link {
+.agroeval-record-foot .text-link {
     font-size: 10px;
 }
 
-.peteval-sidebar {
+.agroeval-sidebar {
     display: grid;
     gap: 12px;
     position: sticky;
     top: 96px;
 }
 
-.peteval-bar-list {
+.agroeval-bar-list {
     display: grid;
     gap: 8px;
 }
 
-.peteval-bar-item > div {
+.agroeval-bar-item > div {
     display: flex;
     justify-content: space-between;
     gap: 8px;
@@ -6032,11 +6075,11 @@ a.admin-list-row:hover {
     line-height: 1.35;
 }
 
-.peteval-bar-item strong {
-    color: var(--teal-700);
+.agroeval-bar-item strong {
+    color: var(--moss-700);
 }
 
-.peteval-bar {
+.agroeval-bar {
     display: block;
     height: 4px;
     margin-top: 3px;
@@ -6045,21 +6088,21 @@ a.admin-list-row:hover {
     background: var(--sand-200);
 }
 
-.peteval-bar > span {
+.agroeval-bar > span {
     display: block;
     height: 100%;
     border-radius: inherit;
-    background: linear-gradient(90deg, var(--teal-600), var(--gold));
+    background: linear-gradient(90deg, var(--moss-600), var(--gold));
 }
 
-.peteval-detail-layout {
+.agroeval-detail-layout {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 320px;
     gap: 30px;
     align-items: start;
 }
 
-.peteval-text-card {
+.agroeval-text-card {
     padding: 24px;
     border: 1px solid var(--line);
     border-radius: var(--radius-lg);
@@ -6067,7 +6110,7 @@ a.admin-list-row:hover {
     box-shadow: var(--shadow-sm);
 }
 
-.peteval-text-head {
+.agroeval-text-head {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -6078,7 +6121,7 @@ a.admin-list-row:hover {
     border-bottom: 1px solid var(--line);
 }
 
-.peteval-legend {
+.agroeval-legend {
     display: inline-flex;
     align-items: center;
     gap: 5px;
@@ -6086,7 +6129,7 @@ a.admin-list-row:hover {
     font-size: 9px;
 }
 
-.legend-disease,
+.legend-problem,
 .legend-anon {
     display: inline-block;
     width: 8px;
@@ -6095,31 +6138,31 @@ a.admin-list-row:hover {
     margin-left: 5px;
 }
 
-.legend-disease { background: #fde68a; }
+.legend-problem { background: #fde68a; }
 .legend-anon { background: #bfdbfe; }
 
-.peteval-text {
+.agroeval-text {
     color: var(--ink-2);
     font-family: var(--font-serif);
     font-size: 17px;
     line-height: 1.8;
 }
 
-.peteval-text mark.entity-disease {
+.agroeval-text mark.entity-problem {
     padding: 1px 3px;
     border-radius: 3px;
     background: #fef3c7;
     color: #7c4a03;
 }
 
-.peteval-text mark.entity-anon {
+.agroeval-text mark.entity-anon {
     padding: 1px 3px;
     border-radius: 3px;
     background: #dbeafe;
     color: #1e3a8a;
 }
 
-.peteval-detail-block {
+.agroeval-detail-block {
     margin-top: 22px;
     padding: 20px;
     border: 1px solid var(--line);
@@ -6127,18 +6170,18 @@ a.admin-list-row:hover {
     background: var(--white);
 }
 
-.peteval-detail-block h2 {
+.agroeval-detail-block h2 {
     margin-bottom: 9px;
     font-size: 23px;
 }
 
-.peteval-entity-list {
+.agroeval-entity-list {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 6px;
 }
 
-.peteval-entity-list > div {
+.agroeval-entity-list > div {
     display: flex;
     align-items: baseline;
     justify-content: space-between;
@@ -6148,25 +6191,25 @@ a.admin-list-row:hover {
     background: var(--sand-50);
 }
 
-.peteval-entity-list strong {
+.agroeval-entity-list strong {
     font-size: 11px;
 }
 
-.peteval-entity-list small {
+.agroeval-entity-list small {
     color: var(--muted);
     font-size: 9px;
     white-space: nowrap;
 }
 
 /* ==========================================================================
-   IA de urgencia · SetFit ONNX
+   IA de emergencia · SetFit ONNX
    ========================================================================== */
 
 .ai-hero {
     padding: 42px 0 52px;
     background:
         radial-gradient(circle at 86% 14%, rgba(217, 164, 65, .2), transparent 34%),
-        var(--teal-950);
+        var(--moss-950);
     color: var(--sand-100);
 }
 
@@ -6267,7 +6310,7 @@ a.admin-list-row:hover {
 }
 
 .ai-form textarea:focus {
-    outline: 2px solid var(--teal-500);
+    outline: 2px solid var(--moss-500);
     outline-offset: 1px;
     background: var(--white);
 }
@@ -6294,8 +6337,8 @@ a.admin-list-row:hover {
 }
 
 .ai-example:hover {
-    border-color: var(--teal-600);
-    color: var(--teal-700);
+    border-color: var(--moss-600);
+    color: var(--moss-700);
 }
 
 .ai-form-foot {
@@ -6324,7 +6367,7 @@ a.admin-list-row:hover {
     margin-bottom: 18px;
     padding: 22px;
     border: 1px solid var(--line);
-    border-left: 5px solid var(--teal-600);
+    border-left: 5px solid var(--moss-600);
     border-radius: var(--radius-lg);
     background: var(--white);
     box-shadow: var(--shadow-sm);
@@ -6348,8 +6391,8 @@ a.admin-list-row:hover {
     width: 40px;
     height: 40px;
     border-radius: 10px;
-    background: var(--teal-50);
-    color: var(--teal-700);
+    background: var(--moss-50);
+    color: var(--moss-700);
 }
 
 .ai-result-critical .ai-result-icon { background: #fee4e2; color: #b42318; }
@@ -6368,7 +6411,7 @@ a.admin-list-row:hover {
 }
 
 .ai-confidence strong {
-    color: var(--teal-700);
+    color: var(--moss-700);
     font-family: var(--font-serif);
     font-size: 28px;
     line-height: 1;
@@ -6418,7 +6461,7 @@ a.admin-list-row:hover {
 }
 
 .ai-score-row strong {
-    color: var(--teal-700);
+    color: var(--moss-700);
     text-align: right;
 }
 
@@ -6433,7 +6476,7 @@ a.admin-list-row:hover {
     display: block;
     height: 100%;
     border-radius: inherit;
-    background: linear-gradient(90deg, var(--teal-600), var(--gold));
+    background: linear-gradient(90deg, var(--moss-600), var(--gold));
 }
 
 .ai-disclaimer {
@@ -6555,7 +6598,7 @@ a.admin-list-row:hover {
 }
 
 .journal-region {
-    color: var(--teal-700);
+    color: var(--moss-700);
     font-size: 8px;
     font-weight: 800;
     letter-spacing: .08em;
@@ -6581,7 +6624,7 @@ a.admin-list-row:hover {
     margin-top: 11px;
     padding-top: 9px;
     border-top: 1px solid var(--line);
-    color: var(--teal-700);
+    color: var(--moss-700);
     font-size: 10px;
     font-weight: 800;
     text-decoration: none;
@@ -6642,7 +6685,7 @@ a.admin-list-row:hover {
     }
 
     .vethub-hero-grid,
-    .peteval-hero-grid,
+    .agroeval-hero-grid,
     .ai-hero-grid {
         grid-template-columns: 1fr;
         gap: 22px;
@@ -6656,12 +6699,12 @@ a.admin-list-row:hover {
         position: static;
     }
 
-    .peteval-layout,
-    .peteval-detail-layout {
+    .agroeval-layout,
+    .agroeval-detail-layout {
         grid-template-columns: 1fr;
     }
 
-    .peteval-sidebar {
+    .agroeval-sidebar {
         position: static;
     }
 
@@ -6757,21 +6800,21 @@ a.admin-list-row:hover {
     }
 
     .diagnostic-band,
-    .diseases-band {
+    .problems-band {
         grid-template-columns: 1fr;
         gap: 30px;
         padding: 38px;
     }
 
     .case-grid,
-    .disease-grid {
+    .problem-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .case-layout,
     .diagnostic-layout,
     .result-layout,
-    .disease-detail-layout,
+    .problem-detail-layout,
     .profile-layout,
     .form-layout {
         grid-template-columns: 1fr;
@@ -6888,7 +6931,7 @@ a.admin-list-row:hover {
         flex-direction: column;
     }
 
-    .peteval-task-grid {
+    .agroeval-task-grid {
         grid-template-columns: 1fr;
     }
 
@@ -6897,7 +6940,7 @@ a.admin-list-row:hover {
         align-items: flex-start;
     }
 
-    .peteval-entity-list {
+    .agroeval-entity-list {
         grid-template-columns: 1fr;
     }
 
@@ -6956,7 +6999,7 @@ a.admin-list-row:hover {
 }
 
 .topic-match-card h3 a:hover {
-    color: var(--teal-700);
+    color: var(--moss-700);
 }
 
 .topic-match-card p {
@@ -7040,7 +7083,7 @@ a.admin-list-row:hover {
     }
 
     .case-grid,
-    .disease-grid,
+    .problem-grid,
     .resource-grid,
     .resource-grid-4 {
         grid-template-columns: 1fr;
@@ -7119,7 +7162,7 @@ a.admin-list-row:hover {
     .field-grid-4,
     .consent-grid,
     .review-summary,
-    .sign-profile-list {
+    .symptom-profile-list {
         grid-template-columns: 1fr;
     }
 
@@ -7243,7 +7286,7 @@ a.admin-list-row:hover {
     }
 
     .diagnostic-band,
-    .diseases-band,
+    .problems-band,
     .cta-band {
         padding: 26px;
         border-radius: var(--radius-lg);

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 return [
-    'name' => env('APP_NAME', 'Diagnóstico Veterinario'),
+    'name' => env('APP_NAME', 'AgroDiagnóstico'),
     'env' => env('APP_ENV', 'production'),
     'debug' => env_bool('APP_DEBUG', false),
     'url' => rtrim(env('APP_URL', 'http://127.0.0.1:8080'), '/'),
@@ -19,7 +19,7 @@ return [
     ],
 
     'session' => [
-        'name' => env('SESSION_NAME', 'dv_session'),
+        'name' => env('SESSION_NAME', 'agro_session'),
         'lifetime' => (int) env('SESSION_LIFETIME', '7200'),
         'secure' => env_bool('SESSION_SECURE', str_starts_with((string) env('APP_URL', ''), 'https://')),
     ],
@@ -45,8 +45,8 @@ return [
 
     'mail' => [
         'enabled' => env_bool('MAIL_ENABLED', false),
-        'from' => env('MAIL_FROM', 'no-reply@diagnosticoveterinario.mx'),
-        'from_name' => env('MAIL_FROM_NAME', 'Diagnóstico Veterinario'),
+        'from' => env('MAIL_FROM', 'no-reply@agrodiagnostico.mx'),
+        'from_name' => env('MAIL_FROM_NAME', 'AgroDiagnóstico'),
     ],
 
     'pagination' => [
@@ -56,8 +56,8 @@ return [
     ],
 
     'roles' => [
-        'veterinario' => 'Médico veterinario',
-        'editor' => 'Editor clínico',
+        'agronomo' => 'Ingeniero agrónomo',
+        'editor' => 'Editor técnico',
         'admin' => 'Administrador',
     ],
 

@@ -49,7 +49,7 @@ $howToValue = old('how_to', implode("\n", $resource['how_to'] ?? []));
             </div>
         </div>
         <div class="field">
-            <label for="what_for">¿Para qué le sirve a un veterinario?</label>
+            <label for="what_for">¿Para qué le sirve a un agrónomo?</label>
             <textarea id="what_for" name="what_for" rows="3" required maxlength="2000" placeholder="Explica el uso concreto, sin tecnicismos."><?= e(old('what_for', $resource['what_for'] ?? '')) ?></textarea>
         </div>
         <div class="field">

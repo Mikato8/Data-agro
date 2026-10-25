@@ -14,7 +14,7 @@ $line = static function (string $label, string $value, bool $good = true) use (&
     printf("%-34s %s %s\n", $label, $good ? '✓' : '✗', $value);
 };
 
-echo "Diagnóstico Veterinario · verificación del entorno\n";
+echo "AgroDiagnóstico · verificación del entorno\n";
 echo str_repeat('─', 68) . "\n";
 
 $line('PHP', PHP_VERSION, version_compare(PHP_VERSION, '8.2.0', '>='));
@@ -44,9 +44,9 @@ try {
         foreach ([
             'usuarios' => 'users',
             'casos' => 'cases',
-            'enfermedades' => 'diseases',
+            'enfermedades' => 'problems',
             'recursos' => 'resources',
-            'signos clínicos' => 'clinical_signs',
+            'síntomas' => 'symptoms',
         ] as $label => $table) {
             $count = (int) Database::value('select count(*) from ' . $table);
             $line($label, (string) $count, $count > 0 || $table === 'cases');
@@ -61,13 +61,7 @@ $line('Directorio de imágenes', $uploads, is_dir($uploads) && is_writable($uplo
 $line('Directorio de sesiones', BASE_PATH . '/storage/sessions', is_dir(BASE_PATH . '/storage/sessions') && is_writable(BASE_PATH . '/storage/sessions'));
 $line('Directorio de logs', BASE_PATH . '/storage/logs', is_dir(BASE_PATH . '/storage/logs') && is_writable(BASE_PATH . '/storage/logs'));
 $line('.env', is_file(BASE_PATH . '/.env') ? 'presente' : 'ausente', is_file(BASE_PATH . '/.env'));
-$vethubFile = BASE_PATH . '/database/data/vetdatahub.json';
-$vethub = is_file($vethubFile) ? json_decode((string) file_get_contents($vethubFile), true) : null;
-$line('VetDataHub integrado', is_array($vethub) ? count($vethub['datasets'] ?? []) . ' datasets' : 'sin catálogo', is_array($vethub) && !empty($vethub['datasets']));
-$petevalFile = BASE_PATH . '/database/data/peteval.json';
-$peteval = is_file($petevalFile) ? json_decode((string) file_get_contents($petevalFile), true) : null;
-$line('PetEVAL integrado', is_array($peteval) ? count($peteval['records'] ?? []) . ' registros' : 'sin dataset', is_array($peteval) && !empty($peteval['records']));
-$line('IA de urgencia', (string) config('app.ai.url') !== '' ? 'configurada' : 'sin configurar (opcional)', true);
+$line('Clasificador de riesgo', (string) config('app.ai.url') !== '' ? 'configurada' : 'sin configurar (opcional)', true);
 $cedulaEnabled = (bool) config('app.cedula.enabled', false);
 $cedulaConfigured = $cedulaEnabled && (string) config('app.cedula.token', '') !== '';
 $line('Verificación de cédula', $cedulaConfigured ? 'automática (API Market)' : ($cedulaEnabled ? 'activada sin token' : 'manual'), true);

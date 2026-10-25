@@ -15,7 +15,7 @@ jobs:
       postgres:
         image: postgres:16
         env:
-          POSTGRES_DB: diagnostico
+          POSTGRES_DB: agro
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
         ports:
@@ -40,16 +40,16 @@ jobs:
       - name: Configurar entorno
         run: |
           cat > .env <<'EOF'
-          APP_NAME="Diagnóstico Veterinario"
+          APP_NAME="AgroDiagnóstico"
           APP_ENV=testing
           APP_DEBUG=false
           APP_URL=http://127.0.0.1:8080
           APP_TIMEZONE=America/Mexico_City
           APP_LOCALE=es_MX
-          DATABASE_URL="postgresql://postgres:postgres@127.0.0.1:5432/diagnostico?sslmode=disable"
-          DATABASE_URL_UNPOOLED="postgresql://postgres:postgres@127.0.0.1:5432/diagnostico?sslmode=disable"
+          DATABASE_URL="postgresql://postgres:postgres@127.0.0.1:5432/agro?sslmode=disable"
+          DATABASE_URL_UNPOOLED="postgresql://postgres:postgres@127.0.0.1:5432/agro?sslmode=disable"
           DB_DRIVER=pdo
-          SESSION_NAME=dv_session
+          SESSION_NAME=agro_session
           SESSION_LIFETIME=7200
           SESSION_SECURE=false
           UPLOAD_MAX_BYTES=5242880
@@ -74,7 +74,7 @@ jobs:
       - name: Pruebas de humo
         run: |
           php -S 127.0.0.1:8080 -t public public/router.php > storage/logs/server.log 2>&1 &
-          echo $! > /tmp/dv_server.pid
+          echo $! > /tmp/agro_server.pid
           for i in $(seq 1 30); do
             if curl -fsS http://127.0.0.1:8080/salud > /dev/null; then
               break
@@ -82,7 +82,7 @@ jobs:
             sleep 1
           done
           ./tests/smoke.sh
-          kill "$(cat /tmp/dv_server.pid)" || true
+          kill "$(cat /tmp/agro_server.pid)" || true
 
       - name: Logs del servidor si falla
         if: failure()

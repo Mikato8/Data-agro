@@ -20,30 +20,30 @@
         <div class="prose-page-grid">
             <div>
                 <h2>1. Responsable del tratamiento</h2>
-                <p>El comité editorial de <strong>Diagnóstico Veterinario</strong>, con domicilio de contacto en la Ciudad de México, es responsable del tratamiento de los datos personales que recaba a través de este portal. Para asuntos de privacidad: <a href="mailto:privacidad@diagnosticoveterinario.mx">privacidad@diagnosticoveterinario.mx</a>.</p>
+                <p><strong>AgroDiagnóstico</strong>, a través de su comité editorial y con domicilio en la Ciudad de México, es responsable del tratamiento de los datos personales que recaba a través de este portal. Para asuntos de privacidad: <a href="mailto:privacidad@agrodiagnostico.mx">privacidad@agrodiagnostico.mx</a>.</p>
 
                 <h2>2. Datos personales que recabamos</h2>
                 <ul>
-                    <li><strong>Datos de identificación y contacto:</strong> nombre, correo electrónico, estado de residencia, institución y foto de perfil opcional.</li>
-                    <li><strong>Datos profesionales:</strong> cédula profesional, semblanza y áreas de interés.</li>
-                    <li><strong>Datos de actividad:</strong> casos publicados, comentarios, reacciones y fecha de acceso.</li>
+                    <li><strong>Datos de identificación y contacto:</strong> nombre, correo electrónico, estado de residencia y foto de perfil opcional.</li>
+                    <li><strong>Datos profesionales:</strong> cédula profesional, institución, semblanza y áreas de interés.</li>
+                    <li><strong>Datos de actividad:</strong> casos publicados, imágenes que acompañan los casos, comentarios, reacciones y fecha de último acceso.</li>
                     <li><strong>Datos técnicos:</strong> dirección IP, navegador, sistema operativo y registros de seguridad.</li>
-                    <li><strong>Datos de los casos:</strong> información clínica de animales, que no constituye dato personal del tutor cuando está debidamente anonimizada.</li>
+                    <li><strong>Datos de los casos:</strong> información agronómica de parcelas y cultivos, que no constituye dato personal cuando está debidamente anonimizada.</li>
                 </ul>
-                <p>No solicitamos datos personales sensibles, datos financieros ni información de salud de personas. Si un caso incluye datos de una persona, el autor debe eliminarlos antes de publicar.</p>
+                <p>No solicitamos datos personales sensibles ni datos financieros. Si un caso incluye datos de una persona, el autor debe eliminarlos antes de publicar.</p>
 
                 <h2>3. Finalidades del tratamiento</h2>
                 <p><strong>Primarias:</strong> crear y administrar la cuenta, verificar la identidad profesional, publicar y moderar casos, habilitar comentarios, enviar notificaciones relacionadas con el servicio y proteger la seguridad del portal.</p>
                 <p><strong>Secundarias:</strong> elaborar estadísticas agregadas, mejorar la experiencia del sitio y difundir el proyecto. Puedes oponerte a las finalidades secundarias escribiendo a nuestro correo de privacidad, sin que ello afecte el servicio principal.</p>
 
-                <h2>4. Base legal y consentimiento</h2>
-                <p>El tratamiento se basa en el consentimiento que otorgas al registrarte y al utilizar el portal, así como en el cumplimiento de obligaciones legales aplicables. Al crear una cuenta aceptas este aviso y los términos de uso.</p>
+                <h2>4. Fundamento legal y consentimiento</h2>
+                <p>El tratamiento se realiza con base en el consentimiento que otorgas al registrarte y al utilizar el portal, así como en el cumplimiento de las obligaciones legales aplicables. Al crear una cuenta aceptas este aviso y los términos de uso.</p>
 
-                <h2>5. Transferencias y encargados</h2>
+                <h2>5. Encargados y transferencias</h2>
                 <p>Para operar el portal utilizamos proveedores de infraestructura:</p>
                 <ul>
                     <li><strong>Hostinger</strong>, para el alojamiento del sitio web.</li>
-                    <li><strong>Neon (Lakebase Postgres)</strong>, para la base de datos, con servidores en Estados Unidos.</li>
+                    <li><strong>Neon (Postgres en la nube)</strong>, para la base de datos, con servidores en Estados Unidos.</li>
                     <li>Proveedores de correo transaccional, cuando estén habilitados, para el envío de enlaces de recuperación y notificaciones.</li>
                     <li><strong>API Market</strong>, cuando la verificación automática está activa, para consultar tu cédula y nombre en el Registro Nacional de Profesionistas de la SEP. Recibe cédula y nombre, y devuelve nombre, título, institución y CURP; el portal conserva nombre, título e institución verificados y no almacena el CURP.</li>
                 </ul>
@@ -54,7 +54,7 @@
                 <p>Si eliminas tu cuenta desde <strong>Mi perfil → Eliminar mi cuenta</strong>, anonimizamos tu nombre, correo, cédula, institución y semblanza. Tus casos publicados y comentarios pueden permanecer en el archivo bajo la identidad <strong>“Cuenta eliminada”</strong>; tus borradores dejan de ser accesibles.</p>
 
                 <h2>7. Derechos ARCO</h2>
-                <p>Puedes ejercer tus derechos de acceso, rectificación, cancelación y oposición, así como revocar tu consentimiento, enviando una solicitud a <a href="mailto:privacidad@diagnosticoveterinario.mx">privacidad@diagnosticoveterinario.mx</a> con:</p>
+                <p>Puedes ejercer tus derechos de acceso, rectificación, cancelación y oposición, así como revocar tu consentimiento, enviando una solicitud a <a href="mailto:privacidad@agrodiagnostico.mx">privacidad@agrodiagnostico.mx</a> con:</p>
                 <ul>
                     <li>Nombre completo y correo de contacto.</li>
                     <li>Documento que acredite tu identidad o representación.</li>
@@ -69,7 +69,7 @@
                 <p>Aplicamos medidas administrativas, técnicas y físicas razonables: contraseñas con hash, conexiones cifradas, control de acceso por roles, validación de archivos, registros de auditoría y respaldos. Ningún sistema es completamente infalible; si ocurre un incidente relevante, lo notificaremos conforme a la ley.</p>
 
                 <h2>10. Menores de edad</h2>
-                <p>El portal está dirigido a médicos veterinarios y profesionales de la salud animal. No recabamos intencionalmente datos de menores de edad. Si detectamos una cuenta de un menor, la desactivaremos.</p>
+                <p>El portal está dirigido a ingenieros agrónomos, técnicos agrícolas y profesionales del sector. No recabamos intencionalmente datos de menores de edad. Si detectamos que una persona menor de edad tiene una cuenta, la desactivaremos.</p>
 
                 <h2>11. Cambios al aviso</h2>
                 <p>Podemos actualizar este aviso para reflejar cambios legales u operativos. Publicaremos la versión vigente en esta página y, si los cambios son sustanciales, lo notificaremos por correo o en el portal.</p>
@@ -77,15 +77,15 @@
             <aside class="prose-aside">
                 <div class="sidebar-card">
                     <h2 class="sidebar-title"><?= icon('mail', 'icon icon-sm') ?> Contacto</h2>
-                    <p><strong>Privacidad</strong><br><a href="mailto:privacidad@diagnosticoveterinario.mx">privacidad@diagnosticoveterinario.mx</a></p>
-                    <p><strong>Ética editorial</strong><br><a href="mailto:etica@diagnosticoveterinario.mx">etica@diagnosticoveterinario.mx</a></p>
+                    <p><strong>Privacidad</strong><br><a href="mailto:privacidad@agrodiagnostico.mx">privacidad@agrodiagnostico.mx</a></p>
+                    <p><strong>Ética editorial</strong><br><a href="mailto:etica@agrodiagnostico.mx">etica@agrodiagnostico.mx</a></p>
                 </div>
                 <div class="sidebar-card">
                     <h2 class="sidebar-title"><?= icon('shield', 'icon icon-sm') ?> Tus controles</h2>
                     <ul class="check-list">
                         <li><?= icon('check', 'icon icon-xs') ?> Accede y corrige tu perfil.</li>
                         <li><?= icon('check', 'icon icon-xs') ?> Solicita la eliminación de tu cuenta.</li>
-                        <li><?= icon('check', 'icon icon-xs') ?> Opón a finalidades secundarias.</li>
+                        <li><?= icon('check', 'icon icon-xs') ?> Opónte a las finalidades secundarias.</li>
                         <li><?= icon('check', 'icon icon-xs') ?> Reporta un caso con datos identificables.</li>
                     </ul>
                 </div>

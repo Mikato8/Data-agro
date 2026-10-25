@@ -26,7 +26,7 @@ final class SimplePdf
     /** @var array<int, array{data: string, width: int, height: int}> */
     private array $images = [];
 
-    public function __construct(private readonly string $documentTitle = 'Diagnóstico Veterinario')
+    public function __construct(private readonly string $documentTitle = 'AgroDiagnóstico')
     {
         $this->addPage();
     }
@@ -43,7 +43,7 @@ final class SimplePdf
         $this->buffer .= $this->textCommand(
             self::MARGIN,
             self::PAGE_HEIGHT - 30,
-            'DIAGNÓSTICO VETERINARIO',
+            'AGRODIAGNÓSTICO',
             8,
             true,
             [0.36, 0.45, 0.42]
@@ -51,7 +51,7 @@ final class SimplePdf
         $this->buffer .= $this->textCommand(
             self::PAGE_WIDTH - self::MARGIN - 120,
             self::PAGE_HEIGHT - 30,
-            'Documento clínico',
+            'Documento técnico',
             8,
             false,
             [0.45, 0.52, 0.49]
@@ -197,7 +197,7 @@ Q
             $page .= $this->textCommand(
                 self::MARGIN,
                 32,
-                'Documento educativo · Diagnóstico Veterinario · Página ' . ($index + 1) . ' de ' . $total,
+                'Documento educativo · AgroDiagnóstico · Página ' . ($index + 1) . ' de ' . $total,
                 7.5,
                 false,
                 [0.45, 0.52, 0.49]

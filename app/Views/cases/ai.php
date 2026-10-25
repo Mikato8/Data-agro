@@ -12,16 +12,16 @@ $levelOrder = ['emergencia', 'urgente', 'consulta', 'preventivo'];
             <a href="<?= e(url('/')) ?>">Inicio</a> <?= icon('chevron-right', 'icon icon-xs') ?>
             <a href="<?= e(url('/casos')) ?>">Casos</a> <?= icon('chevron-right', 'icon icon-xs') ?>
             <a href="<?= e(url('/casos/' . $case['slug'])) ?>"><?= e(excerpt($case['title'], 48)) ?></a> <?= icon('chevron-right', 'icon icon-xs') ?>
-            <span>IA de urgencia</span>
+            <span>IA de emergencia</span>
         </nav>
         <div class="page-hero-grid">
             <div>
                 <div class="case-kicker">
-                    <span class="badge badge-soft"><?= icon('cpu', 'icon icon-xs') ?> SetFit + ONNX</span>
-                    <span class="badge badge-success"><?= e($case['species_name']) ?></span>
+                    <span class="badge badge-soft"><?= icon('cpu', 'icon icon-xs') ?> Clasificador de riesgo</span>
+                    <span class="badge badge-success"><?= e($case['crop_name']) ?></span>
                 </div>
-                <h1>Urgencia del caso con IA</h1>
-                <p class="page-hero-lead">El clasificador lee el relato clínico de <strong><?= e($case['title']) ?></strong> y estima un nivel de urgencia. Revisa y edita el texto antes de analizarlo: el diagnóstico final no se envía.</p>
+                <h1>Emergencia del caso con IA</h1>
+                <p class="page-hero-lead">El clasificador lee el relato de campo de <strong><?= e($case['title']) ?></strong> y estima un nivel de emergencia. Revisa y edita el texto antes de analizarlo: el diagnóstico final no se envía.</p>
             </div>
             <div class="page-hero-aside">
                 <a class="btn btn-outline btn-sm" href="<?= e(url('/casos/' . $case['slug'])) ?>"><?= icon('arrow-left', 'icon icon-xs') ?> Volver al caso</a>
@@ -38,7 +38,7 @@ $levelOrder = ['emergencia', 'urgente', 'consulta', 'preventivo'];
                     <?= icon('info', 'icon') ?>
                     <div>
                         <strong>La IA aún no está conectada en este entorno.</strong>
-                        <p>La interfaz y el cliente están listos; falta desplegar el servicio SetFit + ONNX y definir <code>AI_SERVICE_URL</code>.</p>
+                        <p>La interfaz y el cliente están listos; falta desplegar el servicio Clasificador de riesgo y definir <code>AI_SERVICE_URL</code>.</p>
                     </div>
                 </div>
             <?php endif; ?>
@@ -77,41 +77,41 @@ $levelOrder = ['emergencia', 'urgente', 'consulta', 'preventivo'];
                             </div>
                         <?php endforeach; ?>
                     </div>
-                    <p class="ai-disclaimer"><?= icon('alert-triangle', 'icon icon-xs') ?> <?= e($result['disclaimer'] ?? 'No es un diagnóstico ni sustituye la valoración clínica.') ?></p>
+                    <p class="ai-disclaimer"><?= icon('alert-triangle', 'icon icon-xs') ?> <?= e($result['disclaimer'] ?? 'No es un diagnóstico ni sustituye la valoración en campo.') ?></p>
                 </article>
             <?php endif; ?>
 
-            <form class="ai-form" method="post" action="<?= e(url('/casos/' . $case['slug'] . '/ia-urgencia')) ?>" data-ai-form>
+            <form class="ai-form" method="post" action="<?= e(url('/casos/' . $case['slug'] . '/ia-emergencia')) ?>" data-ai-form>
                 <?= csrf_field() ?>
                 <div class="ai-form-head">
                     <div><span class="form-step">01</span><h2>Relato para analizar</h2></div>
                     <span class="ai-form-limit">máx. 2,000 caracteres</span>
                 </div>
-                <textarea id="case-ai-text" name="text" rows="10" maxlength="2000" required aria-label="Relato clínico" data-ai-text><?= e($text) ?></textarea>
+                <textarea id="case-ai-text" name="text" rows="10" maxlength="2000" required aria-label="Relato de campo" data-ai-text><?= e($text) ?></textarea>
                 <div class="ai-form-foot">
-                    <p><?= icon('lock', 'icon icon-xs') ?> Edita o recorta el texto. No incluyas nombres, direcciones, teléfonos ni datos del tutor. El texto se envía al servicio de IA y no se guarda en el portal.</p>
-                    <button class="btn btn-primary" type="submit" <?= !$configured ? 'disabled' : '' ?>><?= icon('cpu', 'icon icon-sm') ?> Analizar urgencia</button>
+                    <p><?= icon('lock', 'icon icon-xs') ?> Edita o recorta el texto. No incluyas nombres, direcciones, teléfonos ni datos del productor. El texto se envía al servicio de IA y no se guarda en el portal.</p>
+                    <button class="btn btn-primary" type="submit" <?= !$configured ? 'disabled' : '' ?>><?= icon('cpu', 'icon icon-sm') ?> Analizar riesgo</button>
                 </div>
             </form>
         </div>
 
         <aside class="ai-sidebar">
             <div class="sidebar-card">
-                <h2 class="sidebar-title"><?= icon('paw', 'icon icon-sm') ?> Datos del caso</h2>
-                <dl class="patient-data">
-                    <div><dt>Especie</dt><dd><?= e($case['species_name']) ?></dd></div>
-                    <div><dt>Sexo</dt><dd><?= e(sex_label($case['sex'])) ?></dd></div>
-                    <div><dt>Edad</dt><dd><?= e(age_label($case['age_value'] !== null ? (int) $case['age_value'] : null, $case['age_unit'])) ?></dd></div>
-                    <div><dt>Entorno</dt><dd><?= e(setting_label($case['setting'])) ?></dd></div>
+                <h2 class="sidebar-title"><?= icon('leaf', 'icon icon-sm') ?> Datos del caso</h2>
+                <dl class="plot-data">
+                    <div><dt>Cultivo</dt><dd><?= e($case['crop_name']) ?></dd></div>
+                    <div><dt>Etapa</dt><dd><?= e(stage_label($case['crop_stage'])) ?></dd></div>
+                    <div><dt>Sistema</dt><dd><?= e(system_label($case['system'])) ?></dd></div>
+                    <div><dt>Ubicación</dt><dd><?= e($case['municipality'] ?? $case['state_name'] ?? 'México') ?></dd></div>
                 </dl>
             </div>
             <div class="sidebar-card">
                 <h2 class="sidebar-title"><?= icon('cpu', 'icon icon-sm') ?> Qué analiza</h2>
-                <p>Especie, sexo, edad, motivo, anamnesis y exploración física. No se envía el diagnóstico final ni el tratamiento para evitar sesgos.</p>
+                <p>Cultivo, etapa fenológica, sistema de producción, motivo, historial de manejo e inspección de campo. No se envía el diagnóstico final ni el manejo para evitar sesgos.</p>
             </div>
             <div class="sidebar-card sidebar-cta">
                 <h2 class="sidebar-title"><?= icon('alert-triangle', 'icon icon-sm') ?> Límite</h2>
-                <p>El modelo es un prototipo con datos sintéticos. Si hay un signo de alarma, actúa de inmediato; no esperes la clasificación.</p>
+                <p>El clasificador es un prototipo educativo. Si detectas un brote o una plaga cuarentenaria, notifica de inmediato a la autoridad fitosanitaria; no esperes la clasificación.</p>
                 <a class="text-link" href="<?= e(url('/casos/' . $case['slug'])) ?>">Volver a la ficha del caso <?= icon('arrow-right', 'icon icon-xs') ?></a>
             </div>
         </aside>

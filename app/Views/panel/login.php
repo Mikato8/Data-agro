@@ -3,9 +3,9 @@ $errors = \App\Core\Flash::errors();
 ?>
 <section class="crm-auth">
     <div class="crm-auth-card">
-        <span class="crm-eyebrow"><span></span> Clínica veterinaria</span>
-        <h1>CRM de la Clínica Veterinaria</h1>
-        <p class="crm-lead">Entra para administrar pacientes, citas, recetas, inventario y ventas.</p>
+        <span class="crm-eyebrow"><span></span> Parcela agronómica</span>
+        <h1>CRM de la Unidad de Producción</h1>
+        <p class="crm-lead">Entra para administrar cultivos, visitas, recomendaciones, inventario y ventas.</p>
 
         <?php if ($errors !== []): ?>
             <div class="form-error-summary" role="alert">
@@ -21,7 +21,7 @@ $errors = \App\Core\Flash::errors();
             <?= csrf_field() ?>
             <div class="field">
                 <label for="email">Correo electrónico</label>
-                <input id="email" name="email" type="email" autocomplete="email" required value="<?= e(old('email')) ?>" placeholder="tu@clinica.mx">
+                <input id="email" name="email" type="email" autocomplete="email" required value="<?= e(old('email')) ?>" placeholder="tu@campo.mx">
             </div>
             <div class="field">
                 <label for="password">Contraseña</label>
@@ -37,11 +37,11 @@ $errors = \App\Core\Flash::errors();
             <button class="btn btn-primary btn-block" type="submit">Entrar</button>
         </form>
 
-        <p class="crm-auth-register">¿Aún no tienes cuenta? <a href="<?= e(url('/panel/registro')) ?>">Regístrate como veterinario</a></p>
+        <p class="crm-auth-register">¿Aún no tienes cuenta? <a href="<?= e(url('/panel/registro')) ?>">Regístrate como agrónomo</a></p>
         <div class="crm-auth-links">
             <a href="<?= e(url('/recuperar')) ?>">¿Olvidaste tu contraseña?</a>
             <a href="<?= e(url('/')) ?>">Volver al portal</a>
         </div>
-        <p class="crm-auth-foot">Clínica Veterinaria · CRM</p>
+        <p class="crm-auth-foot">Unidad de Producción · CRM</p>
     </div>
 </section>

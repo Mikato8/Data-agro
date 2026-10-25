@@ -22,8 +22,7 @@ final class SitemapController extends BaseController
             ['loc' => url('/recursos/kit'), 'priority' => '0.6'],
             ['loc' => url('/recursos/glosario'), 'priority' => '0.6'],
             ['loc' => url('/recursos/revistas'), 'priority' => '0.7'],
-            ['loc' => url('/vetdatahub'), 'priority' => '0.8'],
-            ['loc' => url('/peteval'), 'priority' => '0.8'],
+            ['loc' => url('/agrodatos'), 'priority' => '0.8'],
             ['loc' => url('/nosotros'), 'priority' => '0.5'],
             ['loc' => url('/etica'), 'priority' => '0.4'],
             ['loc' => url('/privacidad'), 'priority' => '0.3'],
@@ -33,8 +32,8 @@ final class SitemapController extends BaseController
         foreach (Database::select("select slug, updated_at from cases where status = 'publicado' and deleted_at is null order by published_at desc") as $case) {
             $urls[] = ['loc' => url('/casos/' . $case['slug']), 'lastmod' => date('Y-m-d', strtotime((string) $case['updated_at'])), 'priority' => '0.7'];
         }
-        foreach (Database::select('select slug, updated_at from diseases order by name') as $disease) {
-            $urls[] = ['loc' => url('/enfermedades/' . $disease['slug']), 'lastmod' => date('Y-m-d', strtotime((string) $disease['updated_at'])), 'priority' => '0.6'];
+        foreach (Database::select('select slug, updated_at from problems order by name') as $problem) {
+            $urls[] = ['loc' => url('/enfermedades/' . $problem['slug']), 'lastmod' => date('Y-m-d', strtotime((string) $problem['updated_at'])), 'priority' => '0.6'];
         }
         foreach (Database::select('select slug, updated_at from resources where slug is not null order by title') as $resource) {
             $urls[] = ['loc' => url('/recursos/' . $resource['slug']), 'lastmod' => date('Y-m-d', strtotime((string) $resource['updated_at'])), 'priority' => '0.5'];

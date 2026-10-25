@@ -19,8 +19,8 @@ final class PanelController extends PanelBaseController
             return $this->redirect('/panel');
         }
         return $this->view('panel.login', [
-            'title' => 'Entrar al panel clínico · Diagnóstico Veterinario',
-            'metaDescription' => 'Accede al CRM de tu clínica veterinaria.',
+            'title' => 'Entrar al panel de campo · AgroDiagnóstico',
+            'metaDescription' => 'Accede al CRM de tu unidad de producción.',
             'robots' => 'noindex,nofollow',
         ], 'plain');
     }
@@ -48,7 +48,7 @@ final class PanelController extends PanelBaseController
             return $this->redirect('/panel/entrar');
         }
 
-        Flash::success('Bienvenido a tu panel clínico.');
+        Flash::success('Bienvenido a tu panel de campo.');
         return $this->redirect('/panel');
     }
 
@@ -63,7 +63,7 @@ final class PanelController extends PanelBaseController
     public function logout(Request $request): Response
     {
         Auth::logout();
-        Flash::info('Cerraste sesión del panel clínico.');
+        Flash::info('Cerraste sesión del panel de campo.');
         return $this->redirect('/panel/entrar');
     }
 
@@ -75,25 +75,25 @@ final class PanelController extends PanelBaseController
         $tomorrow = $today->modify('+1 day');
 
         $stats = [
-            'patients' => (int) Database::value('select count(*) from clinic_patients where owner_id = $1', [$uid]),
-            'appointments_today' => (int) Database::value(
-                'select count(*) from clinic_appointments where owner_id = $1 and starts_at >= $2 and starts_at < $3',
+            'plots' => (int) Database::value('select count(*) from farm_plots where owner_id = $1', [$uid]),
+            'visits_today' => (int) Database::value(
+                'select count(*) from farm_visits where owner_id = $1 and starts_at >= $2 and starts_at < $3',
                 [$uid, $today->format('c'), $tomorrow->format('c')]
             ),
             'low_stock' => (int) Database::value(
-                'select count(*) from clinic_products where owner_id = $1 and active = true and stock <= min_stock',
+                'select count(*) from farm_inputs where owner_id = $1 and active = true and stock <= min_stock',
                 [$uid]
             ),
             'sales_today' => (string) (Database::value(
-                'select coalesce(sum(total), 0) from clinic_sales where owner_id = $1 and created_at >= $2 and created_at < $3',
+                'select coalesce(sum(total), 0) from farm_sales where owner_id = $1 and created_at >= $2 and created_at < $3',
                 [$uid, $today->format('c'), $tomorrow->format('c')]
             ) ?? '0'),
         ];
 
-        $appointments = Database::select(
-            "select a.*, p.name as patient_name, p.species, p.tutor_name, p.tutor_phone
-             from clinic_appointments a
-             join clinic_patients p on p.id = a.patient_id
+        $visits = Database::select(
+            "select a.*, p.name as plot_name, p.crop, p.producer_name, p.producer_phone
+             from farm_visits a
+             join farm_plots p on p.id = a.plot_id
              where a.owner_id = $1 and a.starts_at >= $2 and a.starts_at < $3
              order by a.starts_at
              limit 8",
@@ -101,24 +101,24 @@ final class PanelController extends PanelBaseController
         );
 
         $lowStock = Database::select(
-            'select * from clinic_products where owner_id = $1 and active = true and stock <= min_stock
+            'select * from farm_inputs where owner_id = $1 and active = true and stock <= min_stock
              order by stock, name limit 6',
             [$uid]
         );
 
-        $recentPatients = Database::select(
-            'select * from clinic_patients where owner_id = $1 order by created_at desc limit 6',
+        $recentPlots = Database::select(
+            'select * from farm_plots where owner_id = $1 order by created_at desc limit 6',
             [$uid]
         );
 
         return $this->panelView('panel.dashboard', [
-            'title' => 'Panel clínico · Diagnóstico Veterinario',
-            'metaDescription' => 'Pacientes, citas, recetas, inventario y ventas de tu clínica.',
+            'title' => 'Panel de campo · AgroDiagnóstico',
+            'metaDescription' => 'Parcelas, visitas, recomendaciones, inventario y ventas de tu operación agronómica.',
             'user' => $user,
             'stats' => $stats,
-            'appointments' => $appointments,
+            'visits' => $visits,
             'lowStock' => $lowStock,
-            'recentPatients' => $recentPatients,
+            'recentPlots' => $recentPlots,
             'today' => $today,
             'bodyClass' => 'page-panel',
         ]);

@@ -29,7 +29,7 @@ final class CedulaVerifier
 
     /**
      * Consulta el Registro Nacional de Profesionistas y compara el nombre.
-     * @return array{found: bool, name_match: bool, veterinary: bool, name: string, title: string, institution: string, curp: ?string, source: string}
+     * @return array{found: bool, name_match: bool, agronomy: bool, name: string, title: string, institution: string, curp: ?string, source: string}
      */
     public function verify(string $cedula, string $fullName): array
     {
@@ -55,7 +55,7 @@ final class CedulaVerifier
             CURLOPT_CONNECTTIMEOUT => 6,
             CURLOPT_TIMEOUT => (int) config('app.cedula.timeout', 15),
             CURLOPT_FOLLOWLOCATION => false,
-            CURLOPT_USERAGENT => 'DiagnosticoVeterinario/1.0',
+            CURLOPT_USERAGENT => 'DiagnosticoAgrónomo/1.0',
         ]);
         $body = curl_exec($ch);
         $status = (int) curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
@@ -83,7 +83,7 @@ final class CedulaVerifier
             return [
                 'found' => false,
                 'name_match' => false,
-                'veterinary' => false,
+                'agronomy' => false,
                 'name' => '',
                 'title' => '',
                 'institution' => '',
@@ -107,10 +107,10 @@ final class CedulaVerifier
             $recordTokens = $this->nameTokens($recordName);
             $matches = $userTokens !== [] && $recordTokens !== [] && array_diff($userTokens, $recordTokens) === [];
             $title = (string) ($record['titulo'] ?? '');
-            $veterinary = $this->isVeterinaryTitle($title);
+            $agronomy = $this->isAgronomyTitle($title);
             $recordCedula = ltrim((string) ($record['idCedula'] ?? ''), '0');
             $sameCedula = $cedulaKey !== '' && $recordCedula === $cedulaKey;
-            $score = ($sameCedula ? 4 : 0) + ($matches ? 2 : 0) + ($veterinary ? 1 : 0);
+            $score = ($sameCedula ? 4 : 0) + ($matches ? 2 : 0) + ($agronomy ? 1 : 0);
             if ($score > $bestScore) {
                 $selected = $record;
                 $selectedMatches = $matches;
@@ -122,7 +122,7 @@ final class CedulaVerifier
             return [
                 'found' => false,
                 'name_match' => false,
-                'veterinary' => false,
+                'agronomy' => false,
                 'name' => '',
                 'title' => '',
                 'institution' => '',
@@ -141,7 +141,7 @@ final class CedulaVerifier
         return [
             'found' => true,
             'name_match' => $selectedMatches,
-            'veterinary' => $this->isVeterinaryTitle($title),
+            'agronomy' => $this->isAgronomyTitle($title),
             'name' => $recordName,
             'title' => $title,
             'institution' => trim((string) ($selected['desins'] ?? '')),
@@ -162,14 +162,23 @@ final class CedulaVerifier
         }
         $value = preg_replace('/[^a-z0-9]+/', ' ', $value) ?? '';
         $tokens = preg_split('/\s+/', trim($value)) ?: [];
-        $titles = ['dr', 'dra', 'doctor', 'doctora', 'mv', 'mvz', 'medico', 'medica', 'veterinario', 'veterinaria'];
+        $titles = ['dr', 'dra', 'doctor', 'doctora', 'ing', 'ingeniero', 'ingeniera', 'agronomo', 'agronoma'];
         $tokens = array_values(array_filter($tokens, static fn (string $token): bool => $token !== '' && !in_array($token, $titles, true)));
         return array_values(array_unique($tokens));
     }
 
-    private function isVeterinaryTitle(string $title): bool
+    private function isAgronomyTitle(string $title): bool
     {
         $title = mb_strtoupper($title);
-        return str_contains($title, 'VETERINAR') || str_contains($title, 'MEDICINA VETERINARIA');
+        if (class_exists('Transliterator')) {
+            $converted = transliterator_transliterate('Any-Latin; Latin-ASCII;', $title);
+            if (is_string($converted) && $converted !== '') {
+                $title = mb_strtoupper($converted);
+            }
+        }
+        return str_contains($title, 'AGRONOM')
+            || str_contains($title, 'INGENIER')
+            || str_contains($title, 'FITOTECN')
+            || str_contains($title, 'AGRO');
     }
 }

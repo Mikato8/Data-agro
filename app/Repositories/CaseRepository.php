@@ -46,9 +46,9 @@ final class CaseRepository
             $rankSql = "ts_rank_cd(c.search_vector, websearch_to_tsquery('spanish', {$rankParam}))";
         }
 
-        $species = (string) ($filters['species'] ?? '');
-        if ($species !== '') {
-            $params[] = $species;
+        $crops = (string) ($filters['crops'] ?? '');
+        if ($crops !== '') {
+            $params[] = $crops;
             $where[] = 's.code = $' . count($params);
         }
 
@@ -59,7 +59,7 @@ final class CaseRepository
         }
 
         $outcome = (string) ($filters['outcome'] ?? '');
-        if ($outcome !== '' && in_array($outcome, ['curado', 'en_tratamiento', 'secuela', 'fallecido', 'eutanasia', 'desconocido'], true)) {
+        if ($outcome !== '' && in_array($outcome, ['recuperado', 'en_manejo', 'perdida_parcial', 'perdida_total', 'en_observacion', 'desconocido'], true)) {
             $params[] = $outcome;
             $where[] = 'c.outcome = $' . count($params);
         }
@@ -104,8 +104,9 @@ final class CaseRepository
         $items = Database::select(
             "select c.id, c.slug, c.folio, c.title, c.final_diagnosis, c.outcome, c.views,
                     c.published_at, c.created_at, c.featured, c.is_demo, c.status,
-                    c.chief_complaint, c.sex, c.age_value, c.age_unit,
-                    s.name as species_name, s.code as species_code, s.emoji as species_emoji,
+                    c.chief_complaint, c.cycle, c.crop_stage, c.area_ha, c.incidence_pct,
+                    c.municipality, c.system,
+                    s.name as crop_name, s.code as crop_code, s.emoji as crop_emoji,
                     st.name as state_name, u.name as author_name, u.institution as author_institution,
                     u.status as author_status,
                     (select ci.path from case_images ci where ci.case_id = c.id order by ci.sort_order limit 1) as cover_image,
@@ -113,7 +114,7 @@ final class CaseRepository
                     count(*) over() as total_count,
                     {$rankSql} as rank
              from cases c
-             join species s on s.id = c.species_id
+             join crops s on s.id = c.crop_id
              join users u on u.id = c.author_id
              left join states st on st.code = c.state_code
              where {$whereSql}
@@ -161,8 +162,8 @@ final class CaseRepository
 
     private function detailSql(): string
     {
-        return "select c.*, s.name as species_name, s.code as species_code, s.emoji as species_emoji,
-                       st.name as state_name, b.name as breed_name,
+        return "select c.*, s.name as crop_name, s.code as crop_code, s.emoji as crop_emoji,
+                       st.name as state_name, b.name as variety_name,
                        u.name as author_name, u.email as author_email, u.institution as author_institution, u.bio as author_bio,
                        u.avatar_url as author_avatar_url,
                        u.status as author_status, u.license_number as author_license,
@@ -180,10 +181,10 @@ final class CaseRepository
                        (select count(*) from case_comments cc where cc.case_id = c.id and cc.status = 'visible') as comments_count,
                        (select count(*) from case_reactions cr where cr.case_id = c.id) as reactions_count
                 from cases c
-                join species s on s.id = c.species_id
+                join crops s on s.id = c.crop_id
                 join users u on u.id = c.author_id
                 left join states st on st.code = c.state_code
-                left join breeds b on b.id = c.breed_id";
+                left join varieties b on b.id = c.variety_id";
     }
 
     /** @param array<string, mixed> $row
@@ -197,7 +198,7 @@ final class CaseRepository
         $row['reactions_count'] = (int) $row['reactions_count'];
         $row['featured'] = $row['featured'] === true || $row['featured'] === 't';
         $row['is_demo'] = $row['is_demo'] === true || $row['is_demo'] === 't';
-        $row['owner_consent'] = $row['owner_consent'] === true || $row['owner_consent'] === 't';
+        $row['producer_consent'] = $row['producer_consent'] === true || $row['producer_consent'] === 't';
         $row['anonymized'] = $row['anonymized'] === true || $row['anonymized'] === 't';
         $row['images'] = json_decode((string) ($row['images_json'] ?? '[]'), true) ?: [];
         $row['tags'] = json_decode((string) ($row['tags_json'] ?? '[]'), true) ?: [];
@@ -212,18 +213,18 @@ final class CaseRepository
     {
         return Database::select(
             "select c.id, c.slug, c.title, c.final_diagnosis, c.published_at,
-                    s.name as species_name, s.code as species_code, s.emoji as species_emoji,
+                    s.name as crop_name, s.code as crop_code, s.emoji as crop_emoji,
                     st.name as state_name, u.name as author_name,
                     similarity(c.final_diagnosis, $1) as diagnosis_similarity
              from cases c
-             join species s on s.id = c.species_id
+             join crops s on s.id = c.crop_id
              join users u on u.id = c.author_id
              left join states st on st.code = c.state_code
              where c.status = 'publicado' and c.deleted_at is null
-               and c.id <> $2 and c.species_id = $3
+               and c.id <> $2 and c.crop_id = $3
              order by diagnosis_similarity desc, c.published_at desc
              limit $4",
-            [(string) $case['final_diagnosis'], (int) $case['id'], (int) $case['species_id'], $limit]
+            [(string) $case['final_diagnosis'], (int) $case['id'], (int) $case['crop_id'], $limit]
         );
     }
 
@@ -241,8 +242,8 @@ final class CaseRepository
         $row = Database::first(
             "select
                 (select count(*) from cases where status = 'publicado' and deleted_at is null) as cases,
-                (select count(*) from users where status = 'verificado' and deleted_at is null) as vets,
-                (select count(distinct species_id) from cases where status = 'publicado' and deleted_at is null) as species,
+                (select count(*) from users where status = 'verificado' and deleted_at is null) as agronomos,
+                (select count(distinct crop_id) from cases where status = 'publicado' and deleted_at is null) as crops,
                 (select count(distinct state_code) from cases where status = 'publicado' and state_code is not null) as states,
                 (select count(*) from case_comments where status = 'visible') as comments"
         ) ?? [];
@@ -269,12 +270,12 @@ final class CaseRepository
     {
         return Database::select(
             "select c.id, c.slug, c.folio, c.title, c.final_diagnosis, c.chief_complaint, c.outcome, c.views, c.published_at,
-                    c.featured, c.is_demo, s.name as species_name, s.code as species_code,
-                    s.emoji as species_emoji, st.name as state_name, u.name as author_name,
+                    c.featured, c.is_demo, s.name as crop_name, s.code as crop_code,
+                    s.emoji as crop_emoji, st.name as state_name, u.name as author_name,
                     (select ci.path from case_images ci where ci.case_id = c.id order by ci.sort_order limit 1) as cover_image,
                     (select count(*) from case_comments cc where cc.case_id = c.id and cc.status = 'visible') as comments_count
              from cases c
-             join species s on s.id = c.species_id
+             join crops s on s.id = c.crop_id
              join users u on u.id = c.author_id
              left join states st on st.code = c.state_code
              where c.status = 'publicado' and c.deleted_at is null
@@ -289,13 +290,13 @@ final class CaseRepository
     {
         return Database::select(
             "select c.id, c.slug, c.title, c.final_diagnosis, c.outcome, c.views, c.published_at,
-                    c.featured, c.is_demo, c.chief_complaint, s.name as species_name,
-                    s.code as species_code, s.emoji as species_emoji, st.name as state_name,
+                    c.featured, c.is_demo, c.chief_complaint, s.name as crop_name,
+                    s.code as crop_code, s.emoji as crop_emoji, st.name as state_name,
                     u.name as author_name,
                     (select ci.path from case_images ci where ci.case_id = c.id order by ci.sort_order limit 1) as cover_image,
                     (select count(*) from case_comments cc where cc.case_id = c.id and cc.status = 'visible') as comments_count
              from cases c
-             join species s on s.id = c.species_id
+             join crops s on s.id = c.crop_id
              join users u on u.id = c.author_id
              left join states st on st.code = c.state_code
              where c.status = 'publicado' and c.deleted_at is null
@@ -309,10 +310,10 @@ final class CaseRepository
     public function byAuthor(int $authorId): array
     {
         return Database::select(
-            "select c.*, s.name as species_name, s.code as species_code, s.emoji as species_emoji,
+            "select c.*, s.name as crop_name, s.code as crop_code, s.emoji as crop_emoji,
                     (select count(*) from case_comments cc where cc.case_id = c.id and cc.status = 'visible') as comments_count,
                     (select count(*) from case_reviews cr where cr.case_id = c.id) as reviews_count
-             from cases c join species s on s.id = c.species_id
+             from cases c join crops s on s.id = c.crop_id
              where c.author_id = $1 and c.deleted_at is null
              order by c.updated_at desc",
             [$authorId]
@@ -324,22 +325,23 @@ final class CaseRepository
     {
         $row = Database::insert(
             'insert into cases (
-                folio, slug, author_id, title, species_id, breed_id, sex, age_value, age_unit,
-                weight_kg, state_code, setting, chief_complaint, anamnesis, physical_exam,
-                diagnostics, differentials, final_diagnosis, icd11_code, treatment, outcome,
-                discussion, references_text, owner_consent, anonymized, consent_at, license, status
+                folio, slug, author_id, title, crop_id, variety_id, cycle, crop_stage,
+                area_ha, incidence_pct, state_code, municipality, system, chief_complaint,
+                crop_history, field_inspection, lab_tests, differentials, final_diagnosis,
+                reference_code, management, outcome, discussion, references_text,
+                producer_consent, anonymized, consent_at, license, status
              ) values (
                 $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15,
-                $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28
+                $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29
              ) returning id',
             [
                 $data['folio'], $data['slug'], $data['author_id'], $data['title'],
-                $data['species_id'], $data['breed_id'], $data['sex'], $data['age_value'],
-                $data['age_unit'], $data['weight_kg'], $data['state_code'], $data['setting'],
-                $data['chief_complaint'], $data['anamnesis'], $data['physical_exam'],
-                $data['diagnostics'], $data['differentials'], $data['final_diagnosis'],
-                $data['icd11_code'], $data['treatment'], $data['outcome'], $data['discussion'],
-                $data['references_text'], $data['owner_consent'], $data['anonymized'],
+                $data['crop_id'], $data['variety_id'], $data['cycle'], $data['crop_stage'],
+                $data['area_ha'], $data['incidence_pct'], $data['state_code'], $data['municipality'],
+                $data['system'], $data['chief_complaint'], $data['crop_history'], $data['field_inspection'],
+                $data['lab_tests'], $data['differentials'], $data['final_diagnosis'],
+                $data['reference_code'], $data['management'], $data['outcome'], $data['discussion'],
+                $data['references_text'], $data['producer_consent'], $data['anonymized'],
                 $data['consent_at'], $data['license'], $data['status'],
             ]
         );
@@ -351,21 +353,21 @@ final class CaseRepository
     {
         Database::execute(
             'update cases set
-                title = $1, species_id = $2, breed_id = $3, sex = $4, age_value = $5,
-                age_unit = $6, weight_kg = $7, state_code = $8, setting = $9,
-                chief_complaint = $10, anamnesis = $11, physical_exam = $12,
-                diagnostics = $13, differentials = $14, final_diagnosis = $15,
-                icd11_code = $16, treatment = $17, outcome = $18, discussion = $19,
-                references_text = $20, owner_consent = $21, anonymized = $22,
-                license = $23, consent_at = $24, status = $25
-             where id = $26',
+                title = $1, crop_id = $2, variety_id = $3, cycle = $4, crop_stage = $5,
+                area_ha = $6, incidence_pct = $7, state_code = $8, municipality = $9,
+                system = $10, chief_complaint = $11, crop_history = $12, field_inspection = $13,
+                lab_tests = $14, differentials = $15, final_diagnosis = $16,
+                reference_code = $17, management = $18, outcome = $19, discussion = $20,
+                references_text = $21, producer_consent = $22, anonymized = $23,
+                license = $24, consent_at = $25, status = $26
+             where id = $27',
             [
-                $data['title'], $data['species_id'], $data['breed_id'], $data['sex'],
-                $data['age_value'], $data['age_unit'], $data['weight_kg'], $data['state_code'],
-                $data['setting'], $data['chief_complaint'], $data['anamnesis'], $data['physical_exam'],
-                $data['diagnostics'], $data['differentials'], $data['final_diagnosis'],
-                $data['icd11_code'], $data['treatment'], $data['outcome'], $data['discussion'],
-                $data['references_text'], $data['owner_consent'], $data['anonymized'],
+                $data['title'], $data['crop_id'], $data['variety_id'], $data['cycle'],
+                $data['crop_stage'], $data['area_ha'], $data['incidence_pct'], $data['state_code'],
+                $data['municipality'], $data['system'], $data['chief_complaint'], $data['crop_history'], $data['field_inspection'],
+                $data['lab_tests'], $data['differentials'], $data['final_diagnosis'],
+                $data['reference_code'], $data['management'], $data['outcome'], $data['discussion'],
+                $data['references_text'], $data['producer_consent'], $data['anonymized'],
                 $data['license'], $data['consent_at'], $data['status'], $id,
             ]
         );

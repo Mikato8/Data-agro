@@ -1,4 +1,4 @@
--- Diagnóstico Veterinario · esquema inicial
+-- AgroDiagnóstico · esquema inicial
 -- PostgreSQL 15+ (probado en Neon PostgreSQL 18)
 -- Ejecutar con una conexión directa (sin -pooler).
 
@@ -21,7 +21,7 @@ end;
 $$;
 
 -- ---------------------------------------------------------------------------
--- Catálogos geográficos y biológicos
+-- Catálogos geográficos y agronómicos
 -- ---------------------------------------------------------------------------
 
 create table if not exists states (
@@ -30,20 +30,23 @@ create table if not exists states (
     region text not null
 );
 
-create table if not exists species (
+create table if not exists crops (
     id smallint generated always as identity primary key,
     code text not null unique,
     name text not null unique,
     scientific_name text,
     emoji text,
+    family text,
+    cycle text not null default 'anual'
+        check (cycle in ('anual', 'perenne', 'bianual')),
     sort_order smallint not null default 100
 );
 
-create table if not exists breeds (
+create table if not exists varieties (
     id integer generated always as identity primary key,
-    species_id smallint not null references species(id) on delete cascade,
+    crop_id smallint not null references crops(id) on delete cascade,
     name text not null,
-    unique (species_id, name)
+    unique (crop_id, name)
 );
 
 create table if not exists specialties (
@@ -62,8 +65,8 @@ create table if not exists users (
     name text not null check (char_length(name) between 2 and 120),
     email citext not null unique check (char_length(email) <= 254),
     password_hash text not null,
-    role text not null default 'veterinario'
-        check (role in ('veterinario', 'editor', 'admin')),
+    role text not null default 'agronomo'
+        check (role in ('agronomo', 'editor', 'admin')),
     status text not null default 'pendiente'
         check (status in ('pendiente', 'verificado', 'suspendido')),
     license_number text unique,
@@ -109,10 +112,10 @@ create table if not exists password_resets (
 create index if not exists password_resets_user_idx on password_resets (user_id);
 
 -- ---------------------------------------------------------------------------
--- Conocimiento clínico
+-- Conocimiento fitosanitario
 -- ---------------------------------------------------------------------------
 
-create table if not exists diseases (
+create table if not exists problems (
     id integer generated always as identity primary key,
     slug text not null unique,
     name text not null,
@@ -121,33 +124,33 @@ create table if not exists diseases (
     summary text not null,
     etiology text,
     diagnosis text,
-    treatment text,
+    management text,
     prevention text,
     prognosis text,
-    zoonotic boolean not null default false,
-    urgency text not null default 'media'
-        check (urgency in ('baja', 'media', 'alta', 'critica')),
-    icd11_code text,
+    reportable boolean not null default false,
+    risk text not null default 'medio'
+        check (risk in ('bajo', 'medio', 'alto', 'critico')),
+    reference_code text,
     references_text text,
     created_at timestamptz not null default now(),
     updated_at timestamptz not null default now()
 );
 
-drop trigger if exists diseases_updated_at on diseases;
-create trigger diseases_updated_at before update on diseases
+drop trigger if exists problems_updated_at on problems;
+create trigger problems_updated_at before update on problems
 for each row execute function set_updated_at();
 
-create index if not exists diseases_name_trgm_idx
-    on diseases using gin (name gin_trgm_ops);
-create index if not exists diseases_category_idx on diseases (category);
+create index if not exists problems_name_trgm_idx
+    on problems using gin (name gin_trgm_ops);
+create index if not exists problems_category_idx on problems (category);
 
-create table if not exists disease_species (
-    disease_id integer not null references diseases(id) on delete cascade,
-    species_id smallint not null references species(id) on delete cascade,
-    primary key (disease_id, species_id)
+create table if not exists problem_crops (
+    problem_id integer not null references problems(id) on delete cascade,
+    crop_id smallint not null references crops(id) on delete cascade,
+    primary key (problem_id, crop_id)
 );
 
-create table if not exists clinical_signs (
+create table if not exists symptoms (
     id integer generated always as identity primary key,
     slug text not null unique,
     name text not null,
@@ -156,20 +159,20 @@ create table if not exists clinical_signs (
     sort_order smallint not null default 100
 );
 
-create index if not exists clinical_signs_category_idx on clinical_signs (category);
+create index if not exists symptoms_category_idx on symptoms (category);
 
-create table if not exists disease_signs (
-    disease_id integer not null references diseases(id) on delete cascade,
-    sign_id integer not null references clinical_signs(id) on delete cascade,
+create table if not exists problem_symptoms (
+    problem_id integer not null references problems(id) on delete cascade,
+    symptom_id integer not null references symptoms(id) on delete cascade,
     weight smallint not null default 3 check (weight between 1 and 5),
     is_key boolean not null default false,
-    primary key (disease_id, sign_id)
+    primary key (problem_id, symptom_id)
 );
 
-create index if not exists disease_signs_sign_idx on disease_signs (sign_id);
+create index if not exists problem_symptoms_symptom_idx on problem_symptoms (symptom_id);
 
 -- ---------------------------------------------------------------------------
--- Casos clínicos
+-- Casos agronómicos
 -- ---------------------------------------------------------------------------
 
 create sequence if not exists case_folio_seq;
@@ -181,29 +184,31 @@ create table if not exists cases (
     slug text not null unique,
     author_id bigint not null references users(id) on delete restrict,
     title text not null check (char_length(title) between 10 and 180),
-    species_id smallint not null references species(id) on delete restrict,
-    breed_id integer references breeds(id) on delete set null,
-    sex text not null default 'desconocido'
-        check (sex in ('macho', 'hembra', 'desconocido')),
-    age_value integer check (age_value is null or age_value between 0 and 100),
-    age_unit text check (age_unit is null or age_unit in ('dias', 'semanas', 'meses', 'anios')),
-    weight_kg numeric(7,2) check (weight_kg is null or (weight_kg > 0 and weight_kg <= 5000)),
+    crop_id smallint not null references crops(id) on delete restrict,
+    variety_id integer references varieties(id) on delete set null,
+    cycle text not null default 'no_aplica'
+        check (cycle in ('primavera-verano', 'otono-invierno', 'perenne', 'continuo', 'no_aplica')),
+    crop_stage text not null default 'no_aplica'
+        check (crop_stage in ('siembra', 'emergencia', 'vegetativo', 'floracion', 'fructificacion', 'llenado', 'madurez', 'cosecha', 'postcosecha', 'no_aplica')),
+    area_ha numeric(10,2) check (area_ha is null or (area_ha > 0 and area_ha <= 100000)),
+    incidence_pct smallint check (incidence_pct is null or (incidence_pct between 0 and 100)),
     state_code varchar(5) references states(code),
-    setting text not null default 'clinica'
-        check (setting in ('clinica', 'hospital', 'campo', 'laboratorio', 'otro')),
+    municipality text check (municipality is null or char_length(municipality) <= 120),
+    system text not null default 'campo_abierto'
+        check (system in ('campo_abierto', 'invernadero', 'macrotunel', 'hidroponia', 'vivero', 'otro')),
     chief_complaint text not null,
-    anamnesis text not null,
-    physical_exam text not null,
-    diagnostics text not null default '',
+    crop_history text not null,
+    field_inspection text not null,
+    lab_tests text not null default '',
     differentials text,
     final_diagnosis text not null default '',
-    icd11_code text,
-    treatment text not null default '',
+    reference_code text,
+    management text not null default '',
     outcome text not null default 'desconocido'
-        check (outcome in ('curado', 'en_tratamiento', 'secuela', 'fallecido', 'eutanasia', 'desconocido')),
+        check (outcome in ('recuperado', 'en_manejo', 'perdida_parcial', 'perdida_total', 'en_observacion', 'desconocido')),
     discussion text,
     references_text text,
-    owner_consent boolean not null default false,
+    producer_consent boolean not null default false,
     anonymized boolean not null default false,
     consent_at timestamptz,
     license text not null default 'CC BY-NC-SA 4.0'
@@ -222,9 +227,9 @@ create table if not exists cases (
             'spanish',
             coalesce(title, '') || ' ' ||
             coalesce(chief_complaint, '') || ' ' ||
-            coalesce(anamnesis, '') || ' ' ||
-            coalesce(physical_exam, '') || ' ' ||
-            coalesce(diagnostics, '') || ' ' ||
+            coalesce(crop_history, '') || ' ' ||
+            coalesce(field_inspection, '') || ' ' ||
+            coalesce(lab_tests, '') || ' ' ||
             coalesce(differentials, '') || ' ' ||
             coalesce(final_diagnosis, '') || ' ' ||
             coalesce(discussion, '') || ' ' ||
@@ -233,7 +238,7 @@ create table if not exists cases (
     ) stored,
     constraint cases_published_ready check (
         status <> 'publicado' or (
-            owner_consent
+            producer_consent
             and anonymized
             and char_length(final_diagnosis) >= 3
             and published_at is not null
@@ -247,7 +252,7 @@ for each row execute function set_updated_at();
 
 create index if not exists cases_public_idx
     on cases (status, published_at desc) where deleted_at is null;
-create index if not exists cases_species_idx on cases (species_id);
+create index if not exists cases_crop_idx on cases (crop_id);
 create index if not exists cases_state_idx on cases (state_code);
 create index if not exists cases_author_idx on cases (author_id);
 create index if not exists cases_status_idx on cases (status);
@@ -328,7 +333,7 @@ create table if not exists resources (
     description text not null,
     url text not null unique,
     category text not null
-        check (category in ('dataset', 'api', 'repositorio', 'vigilancia', 'guia', 'ml', 'institucion')),
+        check (category in ('dataset', 'api', 'repositorio', 'vigilancia', 'guia', 'ml', 'institucion', 'biblioteca', 'directorio', 'revista', 'plataforma')),
     organization text,
     country text,
     access text not null default 'abierto'

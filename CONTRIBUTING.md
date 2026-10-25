@@ -1,12 +1,12 @@
-# Contribuir a Diagnóstico Veterinario
+# Contribuir a AgroDiagnóstico
 
-Gracias por querer mejorar el portal. Este proyecto prioriza claridad clínica, privacidad y una operación sencilla en hostings PHP.
+Gracias por querer mejorar el portal. Este proyecto prioriza claridad parcela, privacidad y una operación sencilla en hostings PHP.
 
 ## Antes de empezar
 
 - Lee [README.md](README.md), [SECURITY.md](SECURITY.md) y [CONTENIDO-LICENCIA.md](CONTENIDO-LICENCIA.md).
-- Para cambios clínicos, incluye referencias verificables y evita dosis que puedan interpretarse como prescripción.
-- No incluyas datos de pacientes reales, tutores o instituciones identificables en issues, capturas o pruebas.
+- Para cambios técnicos, incluye referencias verificables y evita dosis que puedan interpretarse como prescripción.
+- No incluyas datos de cultivos reales, produceres o instituciones identificables en issues, capturas o pruebas.
 
 ## Entorno local
 
@@ -51,8 +51,8 @@ Si tu cambio afecta el flujo editorial, prueba: registro, verificación, creaci�
 2. Incluye capturas si cambia la interfaz.
 3. Indica cómo probaste el cambio.
 4. Mantén el alcance acotado; separa refactors de funcionalidades.
-5. Acepta que el contenido clínico puede requerir revisión editorial adicional.
+5. Acepta que el contenido técnico puede requerir revisión editorial adicional.
 
 ## Código de conducta
 
-Sé respetuoso, específico y generoso con la revisión. La diversidad de experiencias clínicas es una fortaleza del proyecto.
+Sé respetuoso, específico y generoso con la revisión. La diversidad de experiencias parcelas es una fortaleza del proyecto.

@@ -4,7 +4,7 @@
         <div class="auth-panel">
             <span class="eyebrow">Recuperar acceso</span>
             <h1>Restablece tu contraseña</h1>
-            <p class="auth-lead">Escribe el correo con el que te registraste. Si existe una cuenta, enviaremos un enlace válido por 60 minutos.</p>
+            <p class="auth-lead">Escribe el correo con el que te registraste. Si existe una cuenta asociada, enviaremos un enlace válido por 60 minutos para crear una nueva contraseña. Revisa también la carpeta de correo no deseado.</p>
 
             <?php if ($errors !== []): ?>
                 <div class="form-error-summary" role="alert">

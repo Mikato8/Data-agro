@@ -20,7 +20,7 @@ abstract class BaseController
     protected function view(string $view, array $data = [], string $layout = 'app'): Response
     {
         $data['title'] = $data['title'] ?? (string) config('app.name');
-        $data['metaDescription'] = $data['metaDescription'] ?? 'Portal de casos clínicos veterinarios en México: comparte, consulta y aprende de casos reales revisados por colegas.';
+        $data['metaDescription'] = $data['metaDescription'] ?? 'Portal de casos agronómicos agrónomos en México: comparte, consulta y aprende de casos reales revisados por colegas.';
         $data['canonical'] = $data['canonical'] ?? url(current_path());
         return Response::html(View::render($view, $data, $layout));
     }
@@ -182,9 +182,9 @@ abstract class BaseController
     {
         $catalog = new \App\Repositories\CatalogRepository();
         return [
-            'species' => $catalog->species(),
+            'crops' => $catalog->crops(),
             'states' => $catalog->states(),
-            'breedsBySpecies' => $catalog->breedsBySpecies(),
+            'varietiesByCrops' => $catalog->varietiesByCrops(),
         ];
     }
 }

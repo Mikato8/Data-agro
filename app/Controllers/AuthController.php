@@ -23,8 +23,8 @@ final class AuthController extends BaseController
             return $this->redirect('/');
         }
         return $this->view('auth.login', [
-            'title' => 'Acceder · Diagnóstico Veterinario',
-            'metaDescription' => 'Inicia sesión en tu cuenta de Diagnóstico Veterinario.',
+            'title' => 'Acceder · AgroDiagnóstico',
+            'metaDescription' => 'Inicia sesión en tu cuenta de AgroDiagnóstico.',
         ]);
     }
 
@@ -69,8 +69,8 @@ final class AuthController extends BaseController
         }
         $catalog = new CatalogRepository();
         return $this->view('auth.register', [
-            'title' => 'Crear cuenta · Diagnóstico Veterinario',
-            'metaDescription' => 'Regístrate como médico veterinario para compartir casos clínicos y participar en la comunidad.',
+            'title' => 'Crear cuenta · AgroDiagnóstico',
+            'metaDescription' => 'Regístrate como ingeniero agrónomo para compartir casos agronómicos y participar en la comunidad.',
             'states' => $catalog->states(),
             'next' => $next,
         ]);
@@ -170,8 +170,8 @@ final class AuthController extends BaseController
                 $this->flashOld($data);
                 return $this->redirect($registerUrl);
             }
-            if (!$verification['veterinary']) {
-                $this->withErrors(['license_number' => 'La cédula existe, pero no corresponde a medicina veterinaria. Este portal es exclusivo para médicos veterinarios.']);
+            if (!$verification['agronomy']) {
+                $this->withErrors(['license_number' => 'La cédula existe, pero no corresponde a una cédula de ingeniería agronómica. Este portal es exclusivo para ingenieros agrónomos.']);
                 $this->flashOld($data);
                 return $this->redirect($registerUrl);
             }
@@ -183,7 +183,7 @@ final class AuthController extends BaseController
                 'name' => $data['name'],
                 'email' => $data['email'],
                 'password_hash' => password_hash($password, PASSWORD_DEFAULT),
-                'role' => 'veterinario',
+                'role' => 'agronomo',
                 'status' => $verified ? 'verificado' : 'pendiente',
                 'license_number' => $data['license_number'],
                 'institution' => $data['institution'],
@@ -210,11 +210,11 @@ final class AuthController extends BaseController
         $this->audit('usuario.registro', 'user', (string) $id, ['status' => $verified ? 'verificado' : 'pendiente', 'license_source' => $verification['source'] ?? 'manual']);
 
         if ($verification !== null) {
-            Flash::success('Tu cédula fue validada con el Registro Nacional de Profesionistas. Tu cuenta está verificada y ya puedes usar el panel clínico.');
+            Flash::success('Tu cédula fue validada con el Registro Nacional de Profesionistas. Tu cuenta está verificada y ya puedes usar el panel de campo.');
         } elseif ($verified) {
-            Flash::success($next === 'panel' ? 'Tu cuenta está lista. Ya puedes usar el panel clínico.' : 'Tu cuenta está lista. Ya puedes compartir casos clínicos.');
+            Flash::success($next === 'panel' ? 'Tu cuenta está lista. Ya puedes usar el panel de campo.' : 'Tu cuenta está lista. Ya puedes compartir casos agronómicos.');
         } else {
-            Flash::success($next === 'panel' ? 'Tu cuenta fue creada. Un editor revisará tu cédula; mientras tanto puedes usar el panel clínico.' : 'Tu cuenta fue creada. Un editor revisará tu cédula profesional; mientras tanto puedes guardar borradores de casos.');
+            Flash::success($next === 'panel' ? 'Tu cuenta fue creada. Un editor revisará tu cédula; mientras tanto puedes usar el panel de campo.' : 'Tu cuenta fue creada. Un editor revisará tu cédula profesional; mientras tanto puedes guardar borradores de casos.');
         }
         return $this->redirect($next === 'panel' ? '/panel' : '/mis-casos');
     }
@@ -229,7 +229,7 @@ final class AuthController extends BaseController
     public function showForgot(Request $request): Response
     {
         return $this->view('auth.forgot', [
-            'title' => 'Recuperar acceso · Diagnóstico Veterinario',
+            'title' => 'Recuperar acceso · AgroDiagnóstico',
             'metaDescription' => 'Solicita un enlace para restablecer tu contraseña.',
         ]);
     }
@@ -270,7 +270,7 @@ final class AuthController extends BaseController
             return $this->redirect('/recuperar');
         }
         return $this->view('auth.reset', [
-            'title' => 'Nueva contraseña · Diagnóstico Veterinario',
+            'title' => 'Nueva contraseña · AgroDiagnóstico',
             'metaDescription' => 'Crea una nueva contraseña para tu cuenta.',
             'token' => $token,
         ]);

@@ -102,29 +102,29 @@
     });
 
     // ---------------------------------------------------------------------
-    // Especie → razas
+    // Cultivo → variedades
     // ---------------------------------------------------------------------
-    const speciesSelect = $('[data-species-select]');
-    const breedSelect = $('[data-breed-select]');
-    if (speciesSelect && breedSelect) {
-        const filterBreeds = () => {
-            const speciesId = speciesSelect.value;
+    const cropsSelect = $('[data-crops-select]');
+    const varietySelect = $('[data-variety-select]');
+    if (cropsSelect && varietySelect) {
+        const filterVarietys = () => {
+            const cropsId = cropsSelect.value;
             let hasSelected = false;
-            $$('option', breedSelect).forEach((option) => {
-                const optionSpecies = option.getAttribute('data-species-id');
-                if (!optionSpecies) return;
-                const visible = !speciesId || optionSpecies === speciesId;
+            $$('option', varietySelect).forEach((option) => {
+                const optionCrops = option.getAttribute('data-crops-id');
+                if (!optionCrops) return;
+                const visible = !cropsId || optionCrops === cropsId;
                 option.hidden = !visible;
                 option.disabled = !visible;
                 if (visible && option.selected) hasSelected = true;
             });
             if (!hasSelected) {
-                const first = $('option[value=""]', breedSelect);
+                const first = $('option[value=""]', varietySelect);
                 if (first) first.selected = true;
             }
         };
-        speciesSelect.addEventListener('change', filterBreeds);
-        filterBreeds();
+        cropsSelect.addEventListener('change', filterVarietys);
+        filterVarietys();
     }
 
     // ---------------------------------------------------------------------
@@ -229,7 +229,7 @@
         const maxSigns = 20;
         const countEl = $('[data-selected-count]', diagnosticForm);
         const chipsEl = $('[data-selected-chips]', diagnosticForm);
-        const checkboxes = $$('[data-sign]', diagnosticForm);
+        const checkboxes = $$('[data-symptom]', diagnosticForm);
 
         const selected = () => checkboxes.filter((checkbox) => checkbox.checked);
 
@@ -240,12 +240,12 @@
             if (!checked.length) {
                 const empty = document.createElement('span');
                 empty.className = 'muted';
-                empty.textContent = 'Aún no has seleccionado signos.';
+                empty.textContent = 'Aún no has seleccionado síntomas.';
                 chipsEl.appendChild(empty);
                 return;
             }
             checked.forEach((checkbox) => {
-                const label = checkbox.closest('.sign-option');
+                const label = checkbox.closest('.symptom-option');
                 const name = label ? $('span', label)?.textContent?.trim() : 'Signo';
                 const chip = document.createElement('button');
                 chip.type = 'button';
@@ -266,7 +266,7 @@
             if (checked.length > maxSigns) {
                 const last = checked[checked.length - 1];
                 last.checked = false;
-                window.alert('Puedes seleccionar hasta ' + maxSigns + ' signos. Quita alguno para agregar otro.');
+                window.alert('Puedes seleccionar hasta ' + maxSigns + ' síntomas. Quita alguno para agregar otro.');
             }
             renderChips();
         };
@@ -274,15 +274,15 @@
         checkboxes.forEach((checkbox) => checkbox.addEventListener('change', update));
         update();
 
-        const filterInput = $('[data-sign-filter]', diagnosticForm);
+        const filterInput = $('[data-symptom-filter]', diagnosticForm);
         if (filterInput) {
             const normalize = (value) => value.toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
             filterInput.addEventListener('input', () => {
                 const term = normalize(filterInput.value.trim());
-                $$('[data-sign-group]', diagnosticForm).forEach((group) => {
+                $$('[data-symptom-group]', diagnosticForm).forEach((group) => {
                     let visible = 0;
-                    $$('[data-sign-option]', group).forEach((option) => {
-                        const match = !term || normalize(option.getAttribute('data-sign-label') || '').includes(term);
+                    $$('[data-symptom-option]', group).forEach((option) => {
+                        const match = !term || normalize(option.getAttribute('data-symptom-label') || '').includes(term);
                         option.hidden = !match;
                         if (match) visible++;
                     });
@@ -294,7 +294,7 @@
         diagnosticForm.addEventListener('submit', (event) => {
             if (selected().length === 0) {
                 event.preventDefault();
-                window.alert('Selecciona al menos un signo clínico para calcular los diferenciales.');
+                window.alert('Selecciona al menos un síntoma clínico para calcular los diferenciales.');
             }
         });
     }
@@ -342,7 +342,7 @@
     }
 })();
 
-// IA de urgencia: ejemplos que rellenan el textarea.
+// IA de emergencia: ejemplos que rellenan el textarea.
 document.querySelectorAll('[data-ai-example]').forEach((button) => {
     button.addEventListener('click', () => {
         const form = button.closest('[data-ai-form]');
@@ -388,7 +388,7 @@ document.querySelectorAll('[data-avatar-input]').forEach((input) => {
     });
 });
 
-// Menú lateral del panel clínico.
+// Menú lateral del panel de campo.
 document.querySelectorAll('[data-panel-toggle]').forEach((button) => {
     button.addEventListener('click', () => {
         const sidebar = document.getElementById(button.getAttribute('aria-controls') || 'panel-sidebar');
@@ -403,18 +403,18 @@ document.querySelectorAll('[data-print]').forEach((button) => {
     button.addEventListener('click', () => window.print());
 });
 
-// Total de una venta de la clínica.
+// Total de una venta de la parcela.
 document.querySelectorAll('[data-sale-form]').forEach((form) => {
     const rows = Array.from(form.querySelectorAll('[data-sale-row]'));
     const totalNode = form.querySelector('[data-sale-total]');
     const update = () => {
         let total = 0;
         rows.forEach((row) => {
-            const product = row.querySelector('[data-sale-product]');
+            const input = row.querySelector('[data-sale-input]');
             const qty = row.querySelector('[data-sale-quantity]');
             const priceNode = row.querySelector('[data-sale-price]');
             const subtotalNode = row.querySelector('[data-sale-subtotal]');
-            const option = product && product.options[product.selectedIndex];
+            const option = input && input.options[input.selectedIndex];
             const price = option ? Number(option.getAttribute('data-price') || 0) : 0;
             const quantity = qty ? Math.max(0, Number(qty.value || 0)) : 0;
             const subtotal = price * quantity;

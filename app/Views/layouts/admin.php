@@ -22,8 +22,8 @@ $adminPath = current_path();
         <a class="brand brand-light" href="<?= e(url('/admin')) ?>">
             <img class="brand-mark" src="<?= e(url('/assets/img/logo.svg')) ?>" alt="" width="40" height="40">
             <span class="brand-text">
-                <span class="brand-name">Diagnóstico</span>
-                <span class="brand-sub">Veterinario</span>
+                <span class="brand-name">Agro</span>
+                <span class="brand-sub">Diagnóstico</span>
             </span>
         </a>
 
@@ -61,7 +61,7 @@ $adminPath = current_path();
                 <?= icon('menu') ?>
             </button>
             <div class="admin-topbar-title">
-                <span>Diagnóstico Veterinario</span>
+                <span>AgroDiagnóstico</span>
                 <strong><?= e($title ?? 'Panel editorial') ?></strong>
             </div>
             <div class="admin-topbar-actions">

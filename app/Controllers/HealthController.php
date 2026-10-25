@@ -22,7 +22,7 @@ final class HealthController extends BaseController
 
         return Response::json([
             'status' => $db ? 'ok' : 'degradado',
-            'app' => 'Diagnóstico Veterinario',
+            'app' => 'AgroDiagnóstico',
             'php' => PHP_VERSION,
             'database' => [
                 'ok' => $db,

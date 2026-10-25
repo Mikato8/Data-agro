@@ -64,6 +64,10 @@ if (!function_exists('icon')) {
             'layers' => '<path d="m12 2 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/>',
             'download' => '<path d="M12 3v12M7 10l5 5 5-5"/><path d="M4 20h16"/>',
             'printer' => '<path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M6 14h12v7H6z"/>',
+            'sprout' => '<path d="M12 21v-8"/><path d="M12 13c0-4-3-6-7-6 0 4 3 6 7 6Z"/><path d="M12 13c0-4 3-6 7-6 0 4-3 6-7 6Z"/><path d="M7 21h10"/>',
+            'tree' => '<path d="M12 21v-5"/><path d="M12 3 6 12h3l-3 5h12l-3-5h3L12 3Z"/>',
+            'wheat' => '<path d="M12 21V9"/><path d="M12 9c-3 0-4-2-4-5 3 0 4 2 4 5Z"/><path d="M12 9c3 0 4-2 4-5-3 0-4 2-4 5Z"/><path d="M12 15c-3 0-4-2-4-5 3 0 4 2 4 5Z"/><path d="M12 15c3 0 4-2 4-5-3 0-4 2-4 5Z"/>',
+            'leaf' => '<path d="M20 4C12 4 5 8 5 15c0 3 2 5 5 5 7 0 10-7 10-16Z"/><path d="M4 21c2-6 6-9 11-11"/>',
         ];
 
         $path = $paths[$name] ?? $paths['info'];
@@ -71,13 +75,15 @@ if (!function_exists('icon')) {
     }
 }
 
-if (!function_exists('species_emoji')) {
-    function species_emoji(?string $code): string
+if (!function_exists('crop_emoji')) {
+    function crop_emoji(?string $code): string
     {
         return [
-            'canino' => '🐕', 'felino' => '🐈', 'equino' => '🐎', 'bovino' => '🐄',
-            'porcino' => '🐖', 'ovino' => '🐑', 'caprino' => '🐐', 'ave' => '🐓',
-            'exotico' => '🦎',
-        ][(string) $code] ?? '🐾';
+            'maiz' => '🌽', 'frijol' => '🫘', 'trigo' => '🌾', 'cafe' => '☕',
+            'aguacate' => '🥑', 'limon' => '🍋', 'naranja' => '🍊', 'mango' => '🥭',
+            'platano' => '🍌', 'jitomate' => '🍅', 'chile' => '🌶️', 'papa' => '🥔',
+            'fresa' => '🍓', 'vid' => '🍇', 'cacao' => '🍫', 'pina' => '🍍',
+            'sandia' => '🍉', 'calabaza' => '🎃', 'brocoli' => '🥦', 'zanahoria' => '🥕',
+        ][(string) $code] ?? '🌱';
     }
 }

@@ -1,14 +1,14 @@
 <?php
 /** @var array<string, mixed>|null $case */
-/** @var array<int, array<string, mixed>> $species */
+/** @var array<int, array<string, mixed>> $crops */
 /** @var array<int, array<string, mixed>> $states */
-/** @var array<string, array<int, array<string, mixed>>> $breedsBySpecies */
+/** @var array<string, array<int, array<string, mixed>>> $varietiesByCrops */
 /** @var string $tagsValue */
 /** @var array<string, mixed> $user */
 $isEdit = $case !== null;
 $actionUrl = $isEdit ? url('/casos/' . $case['slug']) : url('/casos');
-$speciesId = (int) old('species_id', $case['species_id'] ?? 0);
-$breedId = (int) old('breed_id', $case['breed_id'] ?? 0);
+$cropId = (int) old('crop_id', $case['crop_id'] ?? 0);
+$varietyId = (int) old('variety_id', $case['variety_id'] ?? 0);
 $errors = \App\Core\Flash::errors();
 $selectedState = (string) old('state_code', $case['state_code'] ?? '');
 ?>
@@ -21,9 +21,9 @@ $selectedState = (string) old('state_code', $case['state_code'] ?? '');
         </nav>
         <div class="page-hero-grid">
             <div>
-                <span class="eyebrow"><?= $isEdit ? 'Edición clínica' : 'Nueva aportación' ?></span>
-                <h1><?= $isEdit ? 'Editar caso clínico' : 'Comparte un caso clínico' ?></h1>
-                <p>Documenta los hechos con precisión, protege la identidad del tutor y explica lo que aprendiste. El comité editorial revisará tu envío antes de publicarlo.</p>
+                <span class="eyebrow"><?= $isEdit ? 'Edición parcela' : 'Nueva aportación' ?></span>
+                <h1><?= $isEdit ? 'Editar caso agronómico' : 'Comparte un caso agronómico' ?></h1>
+                <p>Documenta los hechos con precisión, protege la identidad del productor y explica lo que aprendiste. El comité editorial revisará tu envío antes de publicarlo.</p>
             </div>
             <div class="form-progress">
                 <span class="form-progress-label">Estado</span>
@@ -61,39 +61,39 @@ $selectedState = (string) old('state_code', $case['state_code'] ?? '');
                 </div>
                 <div class="field">
                     <label for="title">Título del caso <span class="req">*</span></label>
-                    <input id="title" name="title" type="text" maxlength="180" required value="<?= e(old('title', $case['title'] ?? '')) ?>" placeholder="Ej. Parvovirus canino en cachorro de 4 meses con diarrea hemorrágica">
-                    <div class="field-foot"><span>Entre 10 y 180 caracteres. Describe especie, problema y contexto.</span><span data-counter-for="title"></span></div>
+                    <input id="title" name="title" type="text" maxlength="180" required value="<?= e(old('title', $case['title'] ?? '')) ?>" placeholder="Ej. Tizón tardío en jitomate bajo invernadero tras lluvias">
+                    <div class="field-foot"><span>Entre 10 y 180 caracteres. Describe cultivo, problema y contexto.</span><span data-counter-for="title"></span></div>
                     <?php if (field_error('title')): ?><span class="field-error"><?= e(field_error('title')) ?></span><?php endif; ?>
                 </div>
 
                 <div class="field-grid field-grid-3">
                     <div class="field">
-                        <label for="species_id">Especie <span class="req">*</span></label>
-                        <select id="species_id" name="species_id" required data-species-select>
+                        <label for="crop_id">Cultivo <span class="req">*</span></label>
+                        <select id="crop_id" name="crop_id" required data-crops-select>
                             <option value="">Selecciona…</option>
-                            <?php foreach ($species as $item): ?>
-                                <option value="<?= (int) $item['id'] ?>" <?= $speciesId === (int) $item['id'] ? 'selected' : '' ?>><?= e($item['emoji'] . ' ' . $item['name']) ?></option>
+                            <?php foreach ($crops as $item): ?>
+                                <option value="<?= (int) $item['id'] ?>" <?= $cropId === (int) $item['id'] ? 'selected' : '' ?>><?= e($item['emoji'] . ' ' . $item['name']) ?></option>
                             <?php endforeach; ?>
                         </select>
-                        <?php if (field_error('species_id')): ?><span class="field-error"><?= e(field_error('species_id')) ?></span><?php endif; ?>
+                        <?php if (field_error('crop_id')): ?><span class="field-error"><?= e(field_error('crop_id')) ?></span><?php endif; ?>
                     </div>
                     <div class="field">
-                        <label for="breed_id">Raza</label>
-                        <select id="breed_id" name="breed_id" data-breed-select>
+                        <label for="variety_id">Variedad</label>
+                        <select id="variety_id" name="variety_id" data-variety-select>
                             <option value="">No especificada</option>
-                            <?php foreach ($breedsBySpecies as $sid => $breeds): ?>
-                                <?php foreach ($breeds as $breed): ?>
-                                    <option value="<?= (int) $breed['id'] ?>" data-species-id="<?= (int) $sid ?>" <?= $breedId === (int) $breed['id'] ? 'selected' : '' ?>><?= e($breed['name']) ?></option>
+                            <?php foreach ($varietiesByCrops as $sid => $varieties): ?>
+                                <?php foreach ($varieties as $variety): ?>
+                                    <option value="<?= (int) $variety['id'] ?>" data-crops-id="<?= (int) $sid ?>" <?= $varietyId === (int) $variety['id'] ? 'selected' : '' ?>><?= e($variety['name']) ?></option>
                                 <?php endforeach; ?>
                             <?php endforeach; ?>
                         </select>
-                        <?php if (field_error('breed_id')): ?><span class="field-error"><?= e(field_error('breed_id')) ?></span><?php endif; ?>
+                        <?php if (field_error('variety_id')): ?><span class="field-error"><?= e(field_error('variety_id')) ?></span><?php endif; ?>
                     </div>
                     <div class="field">
-                        <label for="sex">Sexo <span class="req">*</span></label>
-                        <select id="sex" name="sex" required>
-                            <?php foreach (['macho' => 'Macho', 'hembra' => 'Hembra', 'desconocido' => 'No determinado'] as $value => $label): ?>
-                                <option value="<?= e($value) ?>" <?= old('sex', $case['sex'] ?? 'desconocido') === $value ? 'selected' : '' ?>><?= e($label) ?></option>
+                        <label for="cycle">Ciclo</label>
+                        <select id="cycle" name="cycle">
+                            <?php foreach (['primavera-verano' => 'Primavera-verano', 'otono-invierno' => 'Otoño-invierno', 'perenne' => 'Perenne', 'continuo' => 'Continuo', 'no_aplica' => 'No especificado'] as $value => $label): ?>
+                                <option value="<?= e($value) ?>" <?= old('cycle', $case['cycle'] ?? 'no_aplica') === $value ? 'selected' : '' ?>><?= e($label) ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
@@ -101,43 +101,47 @@ $selectedState = (string) old('state_code', $case['state_code'] ?? '');
 
                 <div class="field-grid field-grid-4">
                     <div class="field">
-                        <label for="age_value">Edad</label>
-                        <input id="age_value" name="age_value" type="number" min="0" max="100" step="1" value="<?= e(old('age_value', $case['age_value'] ?? '')) ?>" placeholder="4">
-                        <?php if (field_error('age_value')): ?><span class="field-error"><?= e(field_error('age_value')) ?></span><?php endif; ?>
-                    </div>
-                    <div class="field">
-                        <label for="age_unit">Unidad</label>
-                        <select id="age_unit" name="age_unit">
-                            <option value="">—</option>
-                            <?php foreach (['dias' => 'Días', 'semanas' => 'Semanas', 'meses' => 'Meses', 'anios' => 'Años'] as $value => $label): ?>
-                                <option value="<?= e($value) ?>" <?= old('age_unit', $case['age_unit'] ?? '') === $value ? 'selected' : '' ?>><?= e($label) ?></option>
+                        <label for="crop_stage">Etapa fenológica</label>
+                        <select id="crop_stage" name="crop_stage">
+                            <?php foreach (['siembra' => 'Siembra', 'emergencia' => 'Emergencia', 'vegetativo' => 'Vegetativo', 'floracion' => 'Floración', 'fructificacion' => 'Fructificación', 'llenado' => 'Llenado', 'madurez' => 'Madurez', 'cosecha' => 'Cosecha', 'postcosecha' => 'Postcosecha', 'no_aplica' => 'No especificada'] as $value => $label): ?>
+                                <option value="<?= e($value) ?>" <?= old('crop_stage', $case['crop_stage'] ?? 'no_aplica') === $value ? 'selected' : '' ?>><?= e($label) ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
                     <div class="field">
-                        <label for="weight_kg">Peso (kg)</label>
-                        <input id="weight_kg" name="weight_kg" type="number" min="0.1" max="5000" step="0.1" value="<?= e(old('weight_kg', $case['weight_kg'] ?? '')) ?>" placeholder="9.2">
-                        <?php if (field_error('weight_kg')): ?><span class="field-error"><?= e(field_error('weight_kg')) ?></span><?php endif; ?>
+                        <label for="area_ha">Superficie (ha)</label>
+                        <input id="area_ha" name="area_ha" type="number" min="0.01" max="100000" step="0.01" value="<?= e(old('area_ha', $case['area_ha'] ?? '')) ?>" placeholder="1.5">
+                        <?php if (field_error('area_ha')): ?><span class="field-error"><?= e(field_error('area_ha')) ?></span><?php endif; ?>
                     </div>
                     <div class="field">
-                        <label for="setting">Entorno</label>
-                        <select id="setting" name="setting">
-                            <?php foreach (['clinica' => 'Clínica', 'hospital' => 'Hospital', 'campo' => 'Campo', 'laboratorio' => 'Laboratorio', 'otro' => 'Otro'] as $value => $label): ?>
-                                <option value="<?= e($value) ?>" <?= old('setting', $case['setting'] ?? 'clinica') === $value ? 'selected' : '' ?>><?= e($label) ?></option>
+                        <label for="incidence_pct">Incidencia (%)</label>
+                        <input id="incidence_pct" name="incidence_pct" type="number" min="0" max="100" step="1" value="<?= e(old('incidence_pct', $case['incidence_pct'] ?? '')) ?>" placeholder="35">
+                        <?php if (field_error('incidence_pct')): ?><span class="field-error"><?= e(field_error('incidence_pct')) ?></span><?php endif; ?>
+                    </div>
+                    <div class="field">
+                        <label for="system">Sistema de producción</label>
+                        <select id="system" name="system">
+                            <?php foreach (['campo_abierto' => 'Campo abierto', 'invernadero' => 'Invernadero', 'macrotunel' => 'Macrotúnel', 'hidroponia' => 'Hidroponía', 'vivero' => 'Vivero', 'otro' => 'Otro'] as $value => $label): ?>
+                                <option value="<?= e($value) ?>" <?= old('system', $case['system'] ?? 'campo_abierto') === $value ? 'selected' : '' ?>><?= e($label) ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
                 </div>
 
-                <div class="field-grid field-grid-2">
+                <div class="field-grid field-grid-3">
                     <div class="field">
-                        <label for="state_code">Estado de México</label>
+                        <label for="state_code">Estado</label>
                         <select id="state_code" name="state_code">
                             <option value="">No especificado</option>
                             <?php foreach ($states as $state): ?>
                                 <option value="<?= e($state['code']) ?>" <?= $selectedState === $state['code'] ? 'selected' : '' ?>><?= e($state['name']) ?></option>
                             <?php endforeach; ?>
                         </select>
+                    </div>
+                    <div class="field">
+                        <label for="municipality">Municipio</label>
+                        <input id="municipality" name="municipality" type="text" maxlength="120" value="<?= e(old('municipality', $case['municipality'] ?? '')) ?>" placeholder="Ej. Culiacán">
+                        <?php if (field_error('municipality')): ?><span class="field-error"><?= e(field_error('municipality')) ?></span><?php endif; ?>
                     </div>
                     <div class="field">
                         <label for="license">Licencia de publicación</label>
@@ -148,13 +152,14 @@ $selectedState = (string) old('state_code', $case['state_code'] ?? '');
                         </select>
                     </div>
                 </div>
+
             </section>
 
             <section class="form-section">
                 <div class="form-section-head">
                     <span class="form-step">02</span>
                     <div>
-                        <h2>Historia clínica</h2>
+                        <h2>Historial del cultivo</h2>
                         <p>Describe los hechos en orden cronológico. Evita interpretaciones en esta sección.</p>
                     </div>
                 </div>
@@ -164,16 +169,16 @@ $selectedState = (string) old('state_code', $case['state_code'] ?? '');
                     <?php if (field_error('chief_complaint')): ?><span class="field-error"><?= e(field_error('chief_complaint')) ?></span><?php endif; ?>
                 </div>
                 <div class="field">
-                    <label for="anamnesis">Anamnesis <span class="req">*</span></label>
-                    <textarea id="anamnesis" name="anamnesis" rows="7" maxlength="10000" required data-counter placeholder="Antecedentes, manejo, alimentación, vacunación, exposición, tratamientos previos…"><?= e(old('anamnesis', $case['anamnesis'] ?? '')) ?></textarea>
-                    <div class="field-foot"><span>Mínimo 30 caracteres. Incluye sólo información relevante y anonimizada.</span><span data-counter-for="anamnesis"></span></div>
-                    <?php if (field_error('anamnesis')): ?><span class="field-error"><?= e(field_error('anamnesis')) ?></span><?php endif; ?>
+                    <label for="crop_history">Historial de manejo <span class="req">*</span></label>
+                    <textarea id="crop_history" name="crop_history" rows="7" maxlength="10000" required data-counter placeholder="Ciclo anterior, variedad, fertilización, riego, aplicaciones fitosanitarias, labores, clima y eventos previos…"><?= e(old('crop_history', $case['crop_history'] ?? '')) ?></textarea>
+                    <div class="field-foot"><span>Mínimo 30 caracteres. Incluye sólo información relevante y anonimizada.</span><span data-counter-for="crop_history"></span></div>
+                    <?php if (field_error('crop_history')): ?><span class="field-error"><?= e(field_error('crop_history')) ?></span><?php endif; ?>
                 </div>
                 <div class="field">
-                    <label for="physical_exam">Exploración física <span class="req">*</span></label>
-                    <textarea id="physical_exam" name="physical_exam" rows="7" maxlength="10000" required data-counter placeholder="Constantes, condición corporal, hallazgos por aparatos y sistemas…"><?= e(old('physical_exam', $case['physical_exam'] ?? '')) ?></textarea>
-                    <div class="field-foot"><span>Mínimo 30 caracteres. Reporta hallazgos positivos y negativos relevantes.</span><span data-counter-for="physical_exam"></span></div>
-                    <?php if (field_error('physical_exam')): ?><span class="field-error"><?= e(field_error('physical_exam')) ?></span><?php endif; ?>
+                    <label for="field_inspection">Inspección de campo <span class="req">*</span></label>
+                    <textarea id="field_inspection" name="field_inspection" rows="7" maxlength="10000" required data-counter placeholder="Distribución en la parcela, patrón de daño, órganos afectados, presencia de insectos, síntomas en hojas, tallos, raíz y fruto, condiciones de humedad y temperatura…"><?= e(old('field_inspection', $case['field_inspection'] ?? '')) ?></textarea>
+                    <div class="field-foot"><span>Mínimo 30 caracteres. Reporta hallazgos positivos y negativos relevantes.</span><span data-counter-for="field_inspection"></span></div>
+                    <?php if (field_error('field_inspection')): ?><span class="field-error"><?= e(field_error('field_inspection')) ?></span><?php endif; ?>
                 </div>
             </section>
 
@@ -186,9 +191,9 @@ $selectedState = (string) old('state_code', $case['state_code'] ?? '');
                     </div>
                 </div>
                 <div class="field">
-                    <label for="diagnostics">Estudios y resultados</label>
-                    <textarea id="diagnostics" name="diagnostics" rows="6" maxlength="10000" data-counter placeholder="Hemograma, bioquímica, imagen, citología, cultivo, PCR…"><?= e(old('diagnostics', $case['diagnostics'] ?? '')) ?></textarea>
-                    <div class="field-foot"><span data-counter-for="diagnostics"></span></div>
+                    <label for="lab_tests">Estudios y resultados</label>
+                    <textarea id="lab_tests" name="lab_tests" rows="6" maxlength="10000" data-counter placeholder="Análisis de suelo, foliar, cultivo microbiológico, PCR, trampas, conteos de insectos, fotografías y muestras enviadas al laboratorio…"><?= e(old('lab_tests', $case['lab_tests'] ?? '')) ?></textarea>
+                    <div class="field-foot"><span data-counter-for="lab_tests"></span></div>
                 </div>
                 <div class="field">
                     <label for="differentials">Diagnósticos diferenciales</label>
@@ -197,24 +202,24 @@ $selectedState = (string) old('state_code', $case['state_code'] ?? '');
                 <div class="field-grid field-grid-2">
                     <div class="field">
                         <label for="final_diagnosis">Diagnóstico final <span class="req">*</span></label>
-                        <input id="final_diagnosis" name="final_diagnosis" type="text" maxlength="300" value="<?= e(old('final_diagnosis', $case['final_diagnosis'] ?? '')) ?>" placeholder="Ej. Parvovirus canino con enteritis hemorrágica">
+                        <input id="final_diagnosis" name="final_diagnosis" type="text" maxlength="300" value="<?= e(old('final_diagnosis', $case['final_diagnosis'] ?? '')) ?>" placeholder="Ej. Tizón tardío por Phytophthora infestans">
                         <?php if (field_error('final_diagnosis')): ?><span class="field-error"><?= e(field_error('final_diagnosis')) ?></span><?php endif; ?>
                     </div>
                     <div class="field">
-                        <label for="icd11_code">Código ICD-11 <span class="optional">(opcional)</span></label>
-                        <input id="icd11_code" name="icd11_code" type="text" maxlength="30" value="<?= e(old('icd11_code', $case['icd11_code'] ?? '')) ?>" placeholder="Si lo tienes, agrégalo">
+                        <label for="reference_code">Clave de referencia <span class="optional">(opcional)</span></label>
+                        <input id="reference_code" name="reference_code" type="text" maxlength="30" value="<?= e(old('reference_code', $case['reference_code'] ?? '')) ?>" placeholder="Ej. clave SENASICA o código interno">
                     </div>
                 </div>
                 <div class="field">
-                    <label for="treatment">Tratamiento y manejo</label>
-                    <textarea id="treatment" name="treatment" rows="6" maxlength="10000" data-counter placeholder="Describe el manejo, la respuesta y los ajustes. Evita dosis que puedan interpretarse como prescripción."><?= e(old('treatment', $case['treatment'] ?? '')) ?></textarea>
-                    <div class="field-foot"><span>No incluyas dosis específicas. El objetivo es documentar el razonamiento y la respuesta.</span><span data-counter-for="treatment"></span></div>
-                    <?php if (field_error('treatment')): ?><span class="field-error"><?= e(field_error('treatment')) ?></span><?php endif; ?>
+                    <label for="management">Manejo recomendado</label>
+                    <textarea id="management" name="management" rows="6" maxlength="10000" data-counter placeholder="Describe el manejo, la respuesta y los ajustes. Evita dosis que puedan interpretarse como prescripción."><?= e(old('management', $case['management'] ?? '')) ?></textarea>
+                    <div class="field-foot"><span>No incluyas dosis específicas. El objetivo es documentar el razonamiento y la respuesta.</span><span data-counter-for="management"></span></div>
+                    <?php if (field_error('management')): ?><span class="field-error"><?= e(field_error('management')) ?></span><?php endif; ?>
                 </div>
                 <div class="field">
-                    <label for="outcome">Desenlace <span class="req">*</span></label>
+                    <label for="outcome">Resultado <span class="req">*</span></label>
                     <select id="outcome" name="outcome" required>
-                        <?php foreach (['curado' => 'Resuelto / curado', 'en_tratamiento' => 'En tratamiento', 'secuela' => 'Con secuela', 'fallecido' => 'Fallecido', 'eutanasia' => 'Eutanasia', 'desconocido' => 'Sin seguimiento'] as $value => $label): ?>
+                        <?php foreach (['recuperado' => 'Recuperado', 'en_manejo' => 'En manejo', 'perdida_parcial' => 'Pérdida parcial', 'perdida_total' => 'Pérdida total', 'en_observacion' => 'En observación', 'desconocido' => 'Sin seguimiento'] as $value => $label): ?>
                             <option value="<?= e($value) ?>" <?= old('outcome', $case['outcome'] ?? 'desconocido') === $value ? 'selected' : '' ?>><?= e($label) ?></option>
                         <?php endforeach; ?>
                     </select>
@@ -230,7 +235,7 @@ $selectedState = (string) old('state_code', $case['state_code'] ?? '');
                     </div>
                 </div>
                 <div class="field">
-                    <label for="discussion">Discusión clínica</label>
+                    <label for="discussion">Discusión y aprendizaje</label>
                     <textarea id="discussion" name="discussion" rows="6" maxlength="15000" data-counter placeholder="Aprendizajes, limitaciones, decisiones controvertidas, recomendaciones…"><?= e(old('discussion', $case['discussion'] ?? '')) ?></textarea>
                     <div class="field-foot"><span data-counter-for="discussion"></span></div>
                 </div>
@@ -240,7 +245,7 @@ $selectedState = (string) old('state_code', $case['state_code'] ?? '');
                 </div>
                 <div class="field">
                     <label for="tags">Temas del caso</label>
-                    <input id="tags" name="tags" type="text" maxlength="300" value="<?= e(old('tags', $tagsValue)) ?>" placeholder="parvovirus, urgencia, cachorro">
+                    <input id="tags" name="tags" type="text" maxlength="300" value="<?= e(old('tags', $tagsValue)) ?>" placeholder="cogollero, maíz, emergencia">
                     <div class="field-foot"><span>Separa hasta 10 temas con comas. Ayudan a encontrar el caso.</span></div>
                 </div>
             </section>
@@ -279,9 +284,9 @@ $selectedState = (string) old('state_code', $case['state_code'] ?? '');
 
                 <div class="consent-grid">
                     <label class="check-card">
-                        <input type="checkbox" name="owner_consent" value="1" <?= old('owner_consent', $case['owner_consent'] ?? false) ? 'checked' : '' ?>>
+                        <input type="checkbox" name="producer_consent" value="1" <?= old('producer_consent', $case['producer_consent'] ?? false) ? 'checked' : '' ?>>
                         <span>
-                            <strong>Consentimiento del tutor</strong>
+                            <strong>Consentimiento del productor</strong>
                             <small>Confirmo que cuento con consentimiento informado para publicar este caso con fines educativos, con datos anonimizados.</small>
                         </span>
                     </label>
@@ -289,11 +294,11 @@ $selectedState = (string) old('state_code', $case['state_code'] ?? '');
                         <input type="checkbox" name="anonymized" value="1" <?= old('anonymized', $case['anonymized'] ?? false) ? 'checked' : '' ?>>
                         <span>
                             <strong>Datos anonimizados</strong>
-                            <small>Eliminé nombres del tutor y del paciente, direcciones, teléfonos, números de expediente y cualquier dato que permita identificarlos.</small>
+                            <small>Eliminé nombres del productor y del cultivo, direcciones, teléfonos, números de expediente y cualquier dato que permita identificarlos.</small>
                         </span>
                     </label>
                 </div>
-                <?php if (field_error('owner_consent')): ?><span class="field-error"><?= e(field_error('owner_consent')) ?></span><?php endif; ?>
+                <?php if (field_error('producer_consent')): ?><span class="field-error"><?= e(field_error('producer_consent')) ?></span><?php endif; ?>
                 <?php if (field_error('anonymized')): ?><span class="field-error"><?= e(field_error('anonymized')) ?></span><?php endif; ?>
                 <p class="form-legal">Al enviar, aceptas los <a href="<?= e(url('/terminos')) ?>">términos de uso</a> y el <a href="<?= e(url('/etica')) ?>">código de ética editorial</a>. Puedes guardar un borrador sin completar el consentimiento, pero no se publicará hasta cumplir todos los requisitos.</p>
             </section>
@@ -312,8 +317,8 @@ $selectedState = (string) old('state_code', $case['state_code'] ?? '');
                 <h2 class="sidebar-title"><?= icon('shield', 'icon icon-sm') ?> Antes de enviar</h2>
                 <ul class="check-list">
                     <li><?= icon('check', 'icon icon-xs') ?> Título claro y específico.</li>
-                    <li><?= icon('check', 'icon icon-xs') ?> Anamnesis y exploración completas.</li>
-                    <li><?= icon('check', 'icon icon-xs') ?> Diagnóstico final y tratamiento documentados.</li>
+                    <li><?= icon('check', 'icon icon-xs') ?> Historial de manejo e inspección de campo completos.</li>
+                    <li><?= icon('check', 'icon icon-xs') ?> Diagnóstico final y manejo documentados.</li>
                     <li><?= icon('check', 'icon icon-xs') ?> Consentimiento y anonimización confirmados.</li>
                     <li><?= icon('check', 'icon icon-xs') ?> Sin dosis que puedan interpretarse como prescripción.</li>
                 </ul>

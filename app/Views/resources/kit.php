@@ -11,8 +11,8 @@
         <div class="page-hero-grid">
             <div>
                 <span class="eyebrow">Herramientas internas</span>
-                <h1>Kit de recursos para veterinarios</h1>
-                <p class="page-hero-lead">Plantillas y guías descargables para documentar casos, proteger datos y solicitar acceso a repositorios sin conocimientos técnicos.</p>
+                <h1>Kit de recursos para agrónomos</h1>
+                <p class="page-hero-lead">Plantillas y guías descargables para documentar casos de campo, obtener consentimiento y solicitar datos a instituciones, con lenguaje claro y enfoque mexicano.</p>
             </div>
             <div class="page-hero-aside">
                 <span class="badge badge-success"><?= icon('check-circle', 'icon icon-xs') ?> Descarga libre</span>
@@ -40,13 +40,13 @@
             <div>
                 <span class="eyebrow">Cómo usarlas</span>
                 <h2>Descarga, completa y comparte</h2>
-                <p>Las plantillas están en Word (.docx) para que puedas editarlas. No incluyas datos identificables del tutor ni del paciente en documentos que vayas a compartir.</p>
+                <p>Las plantillas están en Word (.docx) para que puedas editarlas. Antes de compartir un caso, elimina nombres, teléfonos, coordenadas exactas y cualquier dato que identifique al productor o a su predio.</p>
             </div>
             <ol class="mini-steps">
                 <li><span>1</span> Descarga la plantilla que necesites.</li>
                 <li><span>2</span> Completa los campos entre corchetes.</li>
-                <li><span>3</span> Revisa el checklist de anonimización antes de enviar.</li>
-                <li><span>4</span> Si vas a publicar el caso, usa el formulario del portal.</li>
+                <li><span>3</span> Revisa el checklist de anonimización antes de compartir.</li>
+                <li><span>4</span> Publica el caso con el formulario del portal.</li>
             </ol>
         </div>
 

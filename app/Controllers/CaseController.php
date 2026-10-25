@@ -16,7 +16,7 @@ use App\Support\CasePdf;
 use App\Repositories\CaseRepository;
 use App\Repositories\CatalogRepository;
 use App\Repositories\UserRepository;
-use App\Services\UrgencyAiClient;
+use App\Services\RiskAiClient;
 
 final class CaseController extends BaseController
 {
@@ -24,7 +24,7 @@ final class CaseController extends BaseController
     {
         $filters = [
             'q' => $request->string('q'),
-            'species' => $request->string('species'),
+            'crops' => $request->string('crops'),
             'state' => $request->string('state'),
             'outcome' => $request->string('outcome'),
             'year' => $request->int('year'),
@@ -38,13 +38,13 @@ final class CaseController extends BaseController
         $catalog = new CatalogRepository();
 
         return $this->view('cases.index', [
-            'title' => 'Casos clínicos veterinarios · Diagnóstico Veterinario',
-            'metaDescription' => 'Explora casos clínicos de perros, gatos, équidos, bovinos y otras especies, revisados por médicos veterinarios en México.',
+            'title' => 'Casos agronómicos agrónomos · AgroDiagnóstico',
+            'metaDescription' => 'Explora casos de campo en maíz, café, agave, hortalizas, frutales y otros cultivos de México, documentados por ingenieros agrónomos.',
             'cases' => $result['items'],
             'total' => $result['total'],
             'filters' => $filters,
             'paginator' => new Paginator($result['total'], $perPage, $page),
-            'speciesList' => $catalog->species(),
+            'cropsList' => $catalog->crops(),
             'states' => $catalog->states(),
             'years' => $repo->years(),
             'tags' => $repo->popularTags(12),
@@ -84,7 +84,7 @@ final class CaseController extends BaseController
         $reacted = $user !== null && $repo->hasReacted((int) $case['id'], (int) $user['id']);
 
         return $this->view('cases.show', [
-            'title' => $case['title'] . ' · Diagnóstico Veterinario',
+            'title' => $case['title'] . ' · AgroDiagnóstico',
             'metaDescription' => excerpt($case['chief_complaint'], 160),
             'case' => $case,
             'comments' => $comments,
@@ -106,14 +106,14 @@ final class CaseController extends BaseController
         }
 
         return $this->view('cases.ai', [
-            'title' => 'IA de urgencia · ' . $case['title'],
-            'metaDescription' => 'Analiza el relato clínico de este caso con un clasificador SetFit + ONNX de urgencia veterinaria.',
+            'title' => 'IA de emergencia · ' . $case['title'],
+            'metaDescription' => 'Analiza el relato de campo de este caso con un clasificador orientativo de riesgo fitosanitario.',
             'case' => $case,
             'text' => $this->caseAiText($case),
             'result' => null,
             'error' => null,
-            'configured' => (new UrgencyAiClient())->isConfigured(),
-            'canonical' => url('/casos/' . $case['slug'] . '/ia-urgencia'),
+            'configured' => (new RiskAiClient())->isConfigured(),
+            'canonical' => url('/casos/' . $case['slug'] . '/ia-emergencia'),
             'robots' => 'noindex,nofollow',
         ]);
     }
@@ -125,7 +125,7 @@ final class CaseController extends BaseController
             $this->notFound('Este caso no está disponible para el análisis de IA.');
         }
 
-        $client = new UrgencyAiClient();
+        $client = new RiskAiClient();
         $text = trim($request->string('text'));
         $error = null;
         $result = null;
@@ -146,20 +146,20 @@ final class CaseController extends BaseController
                     $result = $client->classify($text);
                 } catch (\RuntimeException $e) {
                     $error = $e->getMessage();
-                    \App\Core\Logger::warning('Fallo de IA en caso clínico', ['case' => $case['slug'], 'message' => $e->getMessage()]);
+                    \App\Core\Logger::warning('Fallo de IA en caso agronómico', ['case' => $case['slug'], 'message' => $e->getMessage()]);
                 }
             }
         }
 
         return $this->view('cases.ai', [
-            'title' => 'IA de urgencia · ' . $case['title'],
-            'metaDescription' => 'Analiza el relato clínico de este caso con un clasificador SetFit + ONNX de urgencia veterinaria.',
+            'title' => 'IA de emergencia · ' . $case['title'],
+            'metaDescription' => 'Analiza el relato de campo de este caso con un clasificador orientativo de riesgo fitosanitario.',
             'case' => $case,
             'text' => $text,
             'result' => $result,
             'error' => $error,
             'configured' => $client->isConfigured(),
-            'canonical' => url('/casos/' . $case['slug'] . '/ia-urgencia'),
+            'canonical' => url('/casos/' . $case['slug'] . '/ia-emergencia'),
             'robots' => 'noindex,nofollow',
         ]);
     }
@@ -204,8 +204,8 @@ final class CaseController extends BaseController
     {
         $user = Auth::requireLogin();
         $data = $this->caseFormData();
-        $data['title'] = 'Compartir un caso clínico · Diagnóstico Veterinario';
-        $data['metaDescription'] = 'Documenta un caso clínico con la estructura editorial de Diagnóstico Veterinario.';
+        $data['title'] = 'Compartir un caso agronómico · AgroDiagnóstico';
+        $data['metaDescription'] = 'Documenta un caso agronómico con la estructura editorial de AgroDiagnóstico.';
         $data['case'] = null;
         $data['user'] = $user;
         $data['tagsValue'] = '';
@@ -228,7 +228,7 @@ final class CaseController extends BaseController
         $data['slug'] = $this->uniqueSlug($data['title']);
         $data['author_id'] = (int) $user['id'];
         $data['status'] = $action === 'submit' ? 'en_revision' : 'borrador';
-        $data['consent_at'] = $data['owner_consent'] ? date('c') : null;
+        $data['consent_at'] = $data['producer_consent'] ? date('c') : null;
 
        $repo = new CaseRepository();
         try {
@@ -265,8 +265,8 @@ final class CaseController extends BaseController
         }
 
         $data = $this->caseFormData();
-        $data['title'] = 'Editar caso · Diagnóstico Veterinario';
-        $data['metaDescription'] = 'Edita tu caso clínico.';
+        $data['title'] = 'Editar caso · AgroDiagnóstico';
+        $data['metaDescription'] = 'Edita tu caso agronómico.';
         $data['case'] = $case;
         $data['user'] = $user;
         $data['tagsValue'] = implode(', ', $case['tags']);
@@ -300,7 +300,7 @@ final class CaseController extends BaseController
             }
         }
         $data['status'] = $status;
-        if ($data['owner_consent'] && !$case['owner_consent']) {
+        if ($data['producer_consent'] && !$case['producer_consent']) {
             $data['consent_at'] = date('c');
         } else {
             $data['consent_at'] = $case['consent_at'];
@@ -338,16 +338,16 @@ final class CaseController extends BaseController
         foreach ([
             'title' => 'título',
             'chief_complaint' => 'motivo de consulta',
-            'anamnesis' => 'anamnesis',
-            'physical_exam' => 'exploración física',
+            'crop_history' => 'crop_history',
+            'field_inspection' => 'inspección de campo',
             'final_diagnosis' => 'diagnóstico final',
-            'treatment' => 'tratamiento',
+            'management' => 'manejo',
         ] as $field => $label) {
             if (trim((string) $case[$field]) === '') {
                 $missing[] = $label;
             }
         }
-        if (!$case['owner_consent'] || !$case['anonymized']) {
+        if (!$case['producer_consent'] || !$case['anonymized']) {
             $missing[] = 'consentimiento y anonimización';
         }
         if ($missing !== []) {
@@ -373,8 +373,8 @@ final class CaseController extends BaseController
         }
 
         return $this->view('cases.mine', [
-            'title' => 'Mis casos · Diagnóstico Veterinario',
-            'metaDescription' => 'Gestiona tus casos clínicos, borradores y envíos a revisión.',
+            'title' => 'Mis casos · AgroDiagnóstico',
+            'metaDescription' => 'Gestiona tus casos agronómicos, borradores y envíos a revisión.',
             'cases' => $cases,
             'counts' => $counts,
             'user' => $user,
@@ -455,73 +455,77 @@ final class CaseController extends BaseController
     private function validateCase(Request $request, string $action, array $user): array
     {
         $catalog = new CatalogRepository();
-        $speciesIds = array_map('intval', array_column($catalog->species(), 'id'));
+        $cropIds = array_map('intval', array_column($catalog->crops(), 'id'));
         $stateCodes = array_column($catalog->states(), 'code');
 
-        $speciesId = $request->int('species_id');
-        $breedId = $request->int('breed_id');
+        $cropsId = $request->int('crop_id');
+        $varietyId = $request->int('variety_id');
         $data = [
             'title' => $request->string('title'),
-            'species_id' => $speciesId,
-            'breed_id' => $breedId > 0 ? $breedId : null,
-            'sex' => $request->string('sex', 'desconocido'),
-            'age_value' => $request->string('age_value') !== '' ? $request->int('age_value') : null,
-            'age_unit' => $request->string('age_unit') !== '' ? $request->string('age_unit') : null,
-            'weight_kg' => $request->string('weight_kg') !== '' ? $request->string('weight_kg') : null,
+            'crop_id' => $cropsId,
+            'variety_id' => $varietyId > 0 ? $varietyId : null,
+            'cycle' => $request->string('cycle', 'no_aplica'),
+            'crop_stage' => $request->string('crop_stage', 'no_aplica'),
+            'area_ha' => $request->string('area_ha') !== '' ? $request->string('area_ha') : null,
+            'incidence_pct' => $request->string('incidence_pct') !== '' ? $request->int('incidence_pct') : null,
             'state_code' => $request->string('state_code') !== '' ? $request->string('state_code') : null,
-            'setting' => $request->string('setting', 'clinica'),
+            'municipality' => $request->string('municipality') !== '' ? $request->string('municipality') : null,
+            'system' => $request->string('system', 'campo_abierto'),
             'chief_complaint' => $request->string('chief_complaint'),
-            'anamnesis' => $request->string('anamnesis'),
-            'physical_exam' => $request->string('physical_exam'),
-            'diagnostics' => $request->string('diagnostics'),
+            'crop_history' => $request->string('crop_history'),
+            'field_inspection' => $request->string('field_inspection'),
+            'lab_tests' => $request->string('lab_tests'),
             'differentials' => $request->string('differentials'),
             'final_diagnosis' => $request->string('final_diagnosis'),
-            'icd11_code' => $request->string('icd11_code') !== '' ? $request->string('icd11_code') : null,
-            'treatment' => $request->string('treatment'),
+            'reference_code' => $request->string('reference_code') !== '' ? $request->string('reference_code') : null,
+            'management' => $request->string('management'),
             'outcome' => $request->string('outcome', 'desconocido'),
             'discussion' => $request->string('discussion'),
             'references_text' => $request->string('references_text'),
-            'owner_consent' => $request->bool('owner_consent'),
+            'producer_consent' => $request->bool('producer_consent'),
             'anonymized' => $request->bool('anonymized'),
             'license' => $request->string('license', 'CC BY-NC-SA 4.0'),
         ];
 
         $rules = [
             'title' => 'required|min:10|max:180',
-            'species_id' => 'required|integer|in:' . implode(',', $speciesIds),
-            'sex' => 'required|in:macho,hembra,desconocido',
-            'age_value' => 'nullable|integer|between:0,100',
-            'age_unit' => 'nullable|in:dias,semanas,meses,anios',
-            'weight_kg' => 'nullable|numeric|between:0.1,5000',
+            'crop_id' => 'required|integer|in:' . implode(',', $cropIds),
+            'cycle' => 'required|in:primavera-verano,otono-invierno,perenne,continuo,no_aplica',
+            'crop_stage' => 'required|in:siembra,emergencia,vegetativo,floracion,fructificacion,llenado,madurez,cosecha,postcosecha,no_aplica',
+            'area_ha' => 'nullable|numeric|between:0.01,100000',
+            'incidence_pct' => 'nullable|integer|between:0,100',
             'state_code' => 'nullable|in:' . implode(',', $stateCodes),
-            'setting' => 'required|in:clinica,hospital,campo,laboratorio,otro',
+            'municipality' => 'nullable|max:120',
+            'system' => 'required|in:campo_abierto,invernadero,macrotunel,hidroponia,vivero,otro',
             'chief_complaint' => 'required|min:10|max:2000',
-            'anamnesis' => 'required|min:30|max:10000',
-            'physical_exam' => 'required|min:30|max:10000',
-            'diagnostics' => 'nullable|max:10000',
+            'crop_history' => 'required|min:30|max:10000',
+            'field_inspection' => 'required|min:30|max:10000',
+            'lab_tests' => 'nullable|max:10000',
             'differentials' => 'nullable|max:5000',
             'final_diagnosis' => 'nullable|max:300',
-            'icd11_code' => 'nullable|max:30',
-            'treatment' => 'nullable|max:10000',
-            'outcome' => 'required|in:curado,en_tratamiento,secuela,fallecido,eutanasia,desconocido',
+            'reference_code' => 'nullable|max:30',
+            'management' => 'nullable|max:10000',
+            'outcome' => 'required|in:recuperado,en_manejo,perdida_parcial,perdida_total,en_observacion,desconocido',
             'discussion' => 'nullable|max:15000',
             'references_text' => 'nullable|max:5000',
             'license' => 'required|in:CC BY-NC-SA 4.0,CC BY 4.0,CC BY-ND 4.0,Todos los derechos reservados',
         ];
         $labels = [
             'title' => 'título del caso',
-            'species_id' => 'especie',
-            'sex' => 'sexo',
-            'age_value' => 'edad',
-            'weight_kg' => 'peso',
+            'crop_id' => 'cultivo',
+            'cycle' => 'ciclo',
+            'crop_stage' => 'etapa fenológica',
+            'area_ha' => 'superficie',
+            'incidence_pct' => 'incidencia',
             'state_code' => 'estado',
-            'setting' => 'entorno clínico',
+            'municipality' => 'municipio',
+            'system' => 'sistema de producción',
             'chief_complaint' => 'motivo de consulta',
-            'anamnesis' => 'anamnesis',
-            'physical_exam' => 'exploración física',
+            'crop_history' => 'historial de manejo',
+            'field_inspection' => 'inspección de campo',
             'final_diagnosis' => 'diagnóstico final',
-            'treatment' => 'tratamiento',
-            'outcome' => 'desenlace',
+            'management' => 'manejo recomendado',
+            'outcome' => 'resultado',
             'license' => 'licencia',
         ];
         $validator = $this->validator($data, $labels);
@@ -531,14 +535,14 @@ final class CaseController extends BaseController
             if (mb_strlen($data['final_diagnosis']) < 3) {
                 $validator->add('final_diagnosis', 'Para enviar a revisión necesitas escribir el diagnóstico final.');
             }
-            if (mb_strlen($data['treatment']) < 20) {
-                $validator->add('treatment', 'Describe el tratamiento o manejo con al menos 20 caracteres.');
+            if (mb_strlen($data['management']) < 20) {
+                $validator->add('management', 'Describe el manejo recomendado con al menos 20 caracteres.');
             }
-            if (!$data['owner_consent']) {
-                $validator->add('owner_consent', 'Confirma que cuentas con consentimiento informado del tutor.');
+            if (!$data['producer_consent']) {
+                $validator->add('producer_consent', 'Confirma que cuentas con el consentimiento informado del productor.');
             }
             if (!$data['anonymized']) {
-                $validator->add('anonymized', 'Confirma que eliminaste datos identificables del tutor y del paciente.');
+                $validator->add('anonymized', 'Confirma que eliminaste datos identificables del productor y de la parcela.');
             }
             if ($user['status'] !== 'verificado') {
                 $validator->add('general', 'Tu cuenta debe estar verificada para enviar casos a revisión.');
@@ -549,13 +553,13 @@ final class CaseController extends BaseController
             return [$data, $validator->errors()];
         }
 
-        if ($data['breed_id'] !== null) {
-            $validBreed = Database::value(
-                'select 1 from breeds where id = $1 and species_id = $2',
-                [$data['breed_id'], $data['species_id']]
+        if ($data['variety_id'] !== null) {
+            $validVariety = Database::value(
+                'select 1 from varieties where id = $1 and crop_id = $2',
+                [$data['variety_id'], $data['crop_id']]
             );
-            if ($validBreed === null) {
-                return [$data, ['breed_id' => 'La raza seleccionada no corresponde a la especie.']];
+            if ($validVariety === null) {
+                return [$data, ['variety_id' => 'La variedad seleccionada no corresponde al cultivo.']];
             }
         }
 
@@ -566,12 +570,15 @@ final class CaseController extends BaseController
     private function caseAiText(array $case): string
     {
         $parts = [
-            'Especie: ' . $case['species_name'],
-            'Sexo: ' . sex_label((string) $case['sex']),
-            'Edad: ' . age_label($case['age_value'] !== null ? (int) $case['age_value'] : null, $case['age_unit']),
+            'Cultivo: ' . ($case['crop_name'] ?? ''),
+            'Variedad: ' . ($case['variety_name'] ?? ''),
+            'Ciclo: ' . cycle_label((string) ($case['cycle'] ?? 'no_aplica')),
+            'Etapa fenológica: ' . stage_label((string) ($case['crop_stage'] ?? 'no_aplica')),
+            'Superficie: ' . ($case['area_ha'] !== null ? $case['area_ha'] . ' ha' : ''),
+            'Sistema de producción: ' . system_label((string) ($case['system'] ?? 'campo_abierto')),
             'Motivo de consulta: ' . $case['chief_complaint'],
-            'Anamnesis: ' . $case['anamnesis'],
-            'Exploración física: ' . $case['physical_exam'],
+            'Historial de manejo: ' . $case['crop_history'],
+            'Inspección de campo: ' . $case['field_inspection'],
         ];
         return mb_substr(implode("\n", array_filter($parts, static fn (string $value): bool => trim($value) !== '')), 0, 2000);
     }

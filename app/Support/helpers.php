@@ -201,7 +201,12 @@ if (!function_exists('excerpt')) {
         if (mb_strlen($clean) <= $limit) {
             return $clean;
         }
-        return rtrim(mb_substr($clean, 0, $limit - 1)) . '…';
+        $cut = mb_substr($clean, 0, $limit - 1);
+        $space = mb_strrpos($cut, ' ');
+        if ($space !== false && $space > (int) ($limit * 0.6)) {
+            $cut = mb_substr($cut, 0, $space);
+        }
+        return rtrim($cut, " ,;:.") . '…';
     }
 }
 
@@ -210,11 +215,15 @@ if (!function_exists('initials')) {
     {
         $parts = preg_split('/\s+/', trim($name)) ?: [];
         $parts = array_values(array_filter($parts));
+        $titles = ['dra.', 'dr.', 'ing.', 'lic.', 'mtro.', 'mtra.', 'biol.'];
+        while ($parts !== [] && in_array(mb_strtolower($parts[0]), $titles, true)) {
+            array_shift($parts);
+        }
         $letters = '';
         foreach (array_slice($parts, 0, 2) as $part) {
             $letters .= mb_strtoupper(mb_substr($part, 0, 1));
         }
-        return $letters !== '' ? $letters : 'DV';
+        return $letters !== '' ? $letters : 'AG';
     }
 }
 
@@ -229,23 +238,35 @@ if (!function_exists('avatar_tag')) {
     }
 }
 
-if (!function_exists('species_label')) {
-    function species_label(string $code): string
+if (!function_exists('crops_label')) {
+    function crops_label(string $code): string
     {
-        return [
-            'canino' => 'Canino', 'felino' => 'Felino', 'equino' => 'Equino',
-            'bovino' => 'Bovino', 'porcino' => 'Porcino', 'ovino' => 'Ovino',
-            'caprino' => 'Caprino', 'ave' => 'Ave', 'exotico' => 'Exótico', 'otro' => 'Otro',
-        ][$code] ?? ucfirst($code);
+        static $names = [
+            'maiz' => 'Maíz', 'frijol' => 'Frijol', 'trigo' => 'Trigo', 'sorgo' => 'Sorgo',
+            'arroz' => 'Arroz', 'cebada' => 'Cebada', 'avena' => 'Avena', 'cana' => 'Caña de azúcar',
+            'cafe' => 'Café', 'agave' => 'Agave', 'aguacate' => 'Aguacate', 'limon' => 'Limón',
+            'naranja' => 'Naranja', 'mango' => 'Mango', 'platano' => 'Plátano', 'jitomate' => 'Jitomate',
+            'chile' => 'Chile', 'papa' => 'Papa', 'cebolla' => 'Cebolla', 'ajo' => 'Ajo',
+            'sandia' => 'Sandía', 'melon' => 'Melón', 'pepino' => 'Pepino', 'calabaza' => 'Calabaza',
+            'fresa' => 'Fresa', 'vid' => 'Vid', 'algodon' => 'Algodón', 'soya' => 'Soya',
+            'girasol' => 'Girasol', 'ajonjoli' => 'Ajonjolí', 'cacao' => 'Cacao', 'coco' => 'Coco',
+            'durazno' => 'Durazno', 'manzana' => 'Manzana', 'nogal' => 'Nogal', 'guayaba' => 'Guayaba',
+            'papaya' => 'Papaya', 'pina' => 'Piña', 'brocoli' => 'Brócoli', 'zanahoria' => 'Zanahoria',
+            'lechuga' => 'Lechuga', 'garbanzo' => 'Garbanzo', 'cacahuate' => 'Cacahuate',
+            'nopal' => 'Nopal', 'arandano' => 'Arándano', 'frambuesa' => 'Frambuesa',
+        ];
+        return $names[$code] ?? ucfirst(str_replace(['-', '_'], ' ', $code));
     }
 }
 
-if (!function_exists('species_icon')) {
-    function species_icon(string $code): string
+if (!function_exists('crop_icon')) {
+    function crop_icon(string $code): string
     {
-        return in_array($code, ['canino', 'felino', 'equino', 'bovino', 'porcino', 'ovino', 'caprino', 'ave', 'exotico'], true)
-            ? $code
-            : 'paw';
+        return match (true) {
+            in_array($code, ['cafe', 'cacao', 'aguacate', 'mango', 'limon', 'naranja', 'durazno', 'manzana', 'nogal', 'guayaba', 'papaya', 'coco', 'vid', 'arandano', 'frambuesa', 'fresa'], true) => 'tree',
+            in_array($code, ['jitomate', 'chile', 'papa', 'sandia', 'melon', 'pepino', 'calabaza', 'brocoli', 'zanahoria', 'lechuga', 'ajo', 'cebolla'], true) => 'sprout',
+            default => 'wheat',
+        };
     }
 }
 
@@ -281,51 +302,79 @@ if (!function_exists('outcome_label')) {
     function outcome_label(?string $outcome): string
     {
         return [
-            'curado' => 'Resuelto / curado',
-            'en_tratamiento' => 'En tratamiento',
-            'secuela' => 'Con secuela',
-            'fallecido' => 'Fallecido',
-            'eutanasia' => 'Eutanasia',
+            'recuperado' => 'Recuperado',
+            'en_manejo' => 'En manejo',
+            'perdida_parcial' => 'Pérdida parcial',
+            'perdida_total' => 'Pérdida total',
+            'en_observacion' => 'En observación',
             'desconocido' => 'Sin seguimiento',
         ][(string) $outcome] ?? 'Sin seguimiento';
     }
 }
 
-if (!function_exists('age_label')) {
-    function age_label(?int $value, ?string $unit): string
-    {
-        if ($value === null || $unit === null) {
-            return 'Edad no registrada';
-        }
-        $labels = ['dias' => 'día(s)', 'semanas' => 'semana(s)', 'meses' => 'mes(es)', 'anios' => 'año(s)'];
-        return $value . ' ' . ($labels[$unit] ?? $unit);
-    }
-}
-
-if (!function_exists('sex_label')) {
-    function sex_label(?string $sex): string
-    {
-        return ['macho' => 'Macho', 'hembra' => 'Hembra', 'desconocido' => 'No determinado'][(string) $sex] ?? 'No determinado';
-    }
-}
-
-if (!function_exists('setting_label')) {
-    function setting_label(?string $setting): string
+if (!function_exists('cycle_label')) {
+    function cycle_label(?string $cycle): string
     {
         return [
-            'clinica' => 'Clínica',
-            'hospital' => 'Hospital',
-            'campo' => 'Campo',
-            'laboratorio' => 'Laboratorio',
-            'otro' => 'Otro',
-        ][(string) $setting] ?? 'Clínica';
+            'primavera-verano' => 'Primavera-verano',
+            'otono-invierno' => 'Otoño-invierno',
+            'perenne' => 'Perenne',
+            'continuo' => 'Continuo',
+            'no_aplica' => 'No especificado',
+        ][(string) $cycle] ?? 'No especificado';
     }
 }
 
-if (!function_exists('urgency_label')) {
-    function urgency_label(string $urgency): string
+if (!function_exists('stage_label')) {
+    function stage_label(?string $stage): string
     {
-        return ['baja' => 'Baja', 'media' => 'Media', 'alta' => 'Alta', 'critica' => 'Crítica'][$urgency] ?? $urgency;
+        return [
+            'siembra' => 'Siembra',
+            'emergencia' => 'Emergencia',
+            'vegetativo' => 'Vegetativo',
+            'floracion' => 'Floración',
+            'fructificacion' => 'Fructificación',
+            'llenado' => 'Llenado de grano o fruto',
+            'madurez' => 'Madurez',
+            'cosecha' => 'Cosecha',
+            'postcosecha' => 'Postcosecha',
+            'no_aplica' => 'No especificada',
+        ][(string) $stage] ?? 'No especificada';
+    }
+}
+
+if (!function_exists('system_label')) {
+    function system_label(?string $system): string
+    {
+        return [
+            'campo_abierto' => 'Campo abierto',
+            'invernadero' => 'Invernadero',
+            'macrotunel' => 'Macrotúnel',
+            'hidroponia' => 'Hidroponía',
+            'vivero' => 'Vivero',
+            'otro' => 'Otro',
+        ][(string) $system] ?? 'Campo abierto';
+    }
+}
+
+if (!function_exists('irrigation_label')) {
+    function irrigation_label(?string $irrigation): string
+    {
+        return [
+            'temporal' => 'Temporal',
+            'gravedad' => 'Gravedad',
+            'goteo' => 'Goteo',
+            'aspersion' => 'Aspersión',
+            'microaspersion' => 'Microaspersión',
+            'otro' => 'Otro',
+        ][(string) $irrigation] ?? 'Temporal';
+    }
+}
+
+if (!function_exists('risk_label')) {
+    function risk_label(string $risk): string
+    {
+        return ['bajo' => 'Bajo', 'medio' => 'Medio', 'alto' => 'Alto', 'critico' => 'Crítico'][$risk] ?? $risk;
     }
 }
 
@@ -415,7 +464,7 @@ if (!function_exists('first_name')) {
         if ($parts === []) {
             return 'colega';
         }
-        $titles = ['dra.', 'dr.', 'dra', 'dr', 'mvz', 'mv', 'lic.'];
+        $titles = ['dra.', 'dr.', 'dra', 'dr', 'ing.', 'ing', 'lic.', 'mtro.', 'mtra.', 'biól.', 'biol.'];
         if (in_array(mb_strtolower($parts[0]), $titles, true)) {
             array_shift($parts);
         }

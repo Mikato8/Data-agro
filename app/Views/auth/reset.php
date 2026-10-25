@@ -6,7 +6,7 @@ $errors = \App\Core\Flash::errors();
     <div class="container auth-grid">
         <div class="auth-panel">
             <span class="eyebrow">Nueva contraseña</span>
-            <h1>Crea una contraseña segura</h1>
+            <h1>Crea una nueva contraseña</h1>
             <p class="auth-lead">Usa al menos 10 caracteres. Combina mayúsculas, minúsculas, números y símbolos.</p>
 
             <?php if ($errors !== []): ?>
@@ -39,7 +39,7 @@ $errors = \App\Core\Flash::errors();
         <aside class="auth-aside">
             <div class="auth-aside-top">
                 <span class="eyebrow eyebrow-light"><span class="eyebrow-dot"></span> Casi listo</span>
-                <h2>Vuelve a tu archivo clínico.</h2>
+                <h2>Vuelve a tu trabajo en campo.</h2>
                 <p>Al guardar, cerraremos todas las sesiones anteriores por seguridad. Después podrás iniciar sesión con tu nueva contraseña.</p>
             </div>
         </aside>

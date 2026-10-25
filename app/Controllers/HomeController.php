@@ -9,7 +9,7 @@ use App\Core\Request;
 use App\Core\Response;
 use App\Repositories\CaseRepository;
 use App\Repositories\CatalogRepository;
-use App\Repositories\DiseaseRepository;
+use App\Repositories\ProblemRepository;
 use App\Repositories\ResourceRepository;
 
 final class HomeController extends BaseController
@@ -34,18 +34,18 @@ final class HomeController extends BaseController
         }
 
         $catalog = new CatalogRepository();
-        $diseases = new DiseaseRepository();
+        $problems = new ProblemRepository();
         $resources = new ResourceRepository();
 
         return $this->view('home.index', [
-            'title' => 'Diagnóstico Veterinario · Casos clínicos para médicos veterinarios en México',
-            'metaDescription' => 'Biblioteca colaborativa de casos clínicos veterinarios en México. Consulta diagnósticos, comparte tus casos y usa herramientas de apoyo diagnóstico basadas en evidencia.',
+            'title' => 'AgroDiagnóstico · Casos agronómicos para ingenieros agrónomos en México',
+            'metaDescription' => 'Biblioteca colaborativa de casos de campo en México. Consulta diagnósticos, comparte experiencias y usa herramientas de apoyo para la sanidad vegetal.',
             'stats' => $cases->stats(),
             'featured' => $featured,
             'latest' => $latest,
             'resources' => $resources->featured(4),
-            'diseases' => $diseases->featured(4),
-            'species' => $catalog->species(),
+            'problems' => $problems->featured(4),
+            'crops' => $catalog->crops(),
             'tags' => $cases->popularTags(10),
             'bodyClass' => 'page-home',
         ]);

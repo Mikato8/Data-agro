@@ -5,10 +5,10 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?= e($title ?? 'Panel clínico') ?></title>
+    <title><?= e($title ?? 'Panel de campo') ?></title>
     <meta name="description" content="<?= e($metaDescription ?? '') ?>">
     <meta name="robots" content="<?= e($robots ?? 'noindex,nofollow') ?>">
-    <meta name="theme-color" content="#0d5c4d">
+    <meta name="theme-color" content="#2f5a3d">
     <link rel="icon" href="<?= e(url('/assets/img/favicon.svg')) ?>" type="image/svg+xml">
     <link rel="stylesheet" href="<?= e(asset('assets/css/app.css')) ?>">
     <link rel="stylesheet" href="<?= e(asset('assets/css/panel.css')) ?>">

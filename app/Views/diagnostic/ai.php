@@ -4,10 +4,10 @@
 /** @var array<string, mixed>|null $result */
 /** @var string|null $error */
 $examples = [
-    'Perro atropellado, sangra por la boca y no puede levantarse.',
-    'Gato macho intenta orinar desde hace horas y no sale ni una gota.',
-    'Perro con vómitos y diarrea desde ayer, decaído pero bebe agua.',
-    'Perro sano para vacuna anual y revisión general.',
+    'Maíz con hojas perforadas y larvas en el cogollo; el daño avanzó en una semana.',
+    'Jitomate en invernadero con manchas oscuras que crecen y frutos con pudrición.',
+    'Limón con brotes amarillos, hojas pequeñas y presencia de psílido en los brotes.',
+    'Parcela sana para muestreo de fertilidad y plan de siembra del próximo ciclo.',
 ];
 $levelOrder = ['emergencia', 'urgente', 'consulta', 'preventivo'];
 ?>
@@ -16,18 +16,18 @@ $levelOrder = ['emergencia', 'urgente', 'consulta', 'preventivo'];
         <nav class="breadcrumb breadcrumb-light" aria-label="Migas de pan">
             <a href="<?= e(url('/')) ?>">Inicio</a> <?= icon('chevron-right', 'icon icon-xs') ?>
             <a href="<?= e(url('/apoyo-diagnostico')) ?>">Apoyo diagnóstico</a> <?= icon('chevron-right', 'icon icon-xs') ?>
-            <span>IA de urgencia</span>
+            <span>Riesgo fitosanitario</span>
         </nav>
         <div class="ai-hero-grid">
             <div>
-                <span class="eyebrow eyebrow-light"><span class="eyebrow-dot"></span> SetFit + ONNX</span>
-                <h1>Orientación de urgencia con IA</h1>
-                <p class="ai-lead">Escribe un relato breve del caso y el clasificador estima si conviene actuar como emergencia, urgencia, consulta programada o prevención. Es una segunda opinión orientativa, no un diagnóstico.</p>
+                <span class="eyebrow eyebrow-light"><span class="eyebrow-dot"></span> Clasificador de riesgo</span>
+                <h1>Orientación de emergencia con IA</h1>
+                <p class="ai-lead">Escribe un relato breve del caso y el clasificador estima si conviene actuar como emergencia, emergencia, consulta programada o prevención. Es una segunda opinión orientativa, no un diagnóstico.</p>
             </div>
             <div class="ai-hero-badge">
                 <?= icon('cpu', 'icon') ?>
                 <strong>Clasificador local</strong>
-                <span>4 niveles · español · ONNX</span>
+                <span>4 niveles · español · reglas explicables</span>
             </div>
         </div>
     </div>
@@ -41,7 +41,7 @@ $levelOrder = ['emergencia', 'urgente', 'consulta', 'preventivo'];
                     <?= icon('info', 'icon') ?>
                     <div>
                         <strong>La IA aún no está conectada en este entorno.</strong>
-                        <p>El portal ya tiene la interfaz y el cliente listos. Falta desplegar el servicio SetFit + ONNX y definir <code>AI_SERVICE_URL</code>. Mientras tanto puedes usar el apoyo diagnóstico por signos.</p>
+                        <p>El portal ya tiene la interfaz y el cliente listos. Falta desplegar el servicio Clasificador de riesgo y definir <code>AI_SERVICE_URL</code>. Mientras tanto puedes usar el apoyo diagnóstico por síntomas.</p>
                     </div>
                 </div>
             <?php endif; ?>
@@ -87,7 +87,7 @@ $levelOrder = ['emergencia', 'urgente', 'consulta', 'preventivo'];
                             <?php endforeach; ?>
                         </div>
                     <?php endif; ?>
-                    <p class="ai-disclaimer"><?= icon('alert-triangle', 'icon icon-xs') ?> <?= e($result['disclaimer'] ?? 'No es un diagnóstico ni sustituye la valoración clínica.') ?></p>
+                    <p class="ai-disclaimer"><?= icon('alert-triangle', 'icon icon-xs') ?> <?= e($result['disclaimer'] ?? 'No es un diagnóstico ni sustituye la valoración en campo.') ?></p>
                     <a class="btn btn-outline btn-sm" href="<?= e(url('/apoyo-diagnostico/ia')) ?>">Clasificar otro relato</a>
                 </article>
             <?php endif; ?>
@@ -101,8 +101,8 @@ $levelOrder = ['emergencia', 'urgente', 'consulta', 'preventivo'];
                     </div>
                     <span class="ai-form-limit">máx. 2,000 caracteres</span>
                 </div>
-                <label class="sr-only" for="ai-text">Relato clínico</label>
-                <textarea id="ai-text" name="text" rows="8" maxlength="2000" required placeholder="Ej. Perro macho de 4 años, vómitos y diarrea desde ayer, decaído, bebe agua, no ha comido…" data-ai-text><?= e($text) ?></textarea>
+                <label class="sr-only" for="ai-text">Relato de campo</label>
+                <textarea id="ai-text" name="text" rows="8" maxlength="2000" required placeholder="Ej. Maíz de temporal con hojas perforadas, larvas en el cogollo y daño que avanza…" data-ai-text><?= e($text) ?></textarea>
                 <div class="ai-examples">
                     <span>Ejemplos:</span>
                     <?php foreach ($examples as $example): ?>
@@ -111,7 +111,7 @@ $levelOrder = ['emergencia', 'urgente', 'consulta', 'preventivo'];
                 </div>
                 <div class="ai-form-foot">
                     <p><?= icon('lock', 'icon icon-xs') ?> No envíes nombres, direcciones ni datos identificables. El texto se envía al servicio de clasificación y no se guarda en el portal.</p>
-                    <button class="btn btn-primary" type="submit" <?= !$configured ? 'disabled' : '' ?>><?= icon('cpu', 'icon icon-sm') ?> Clasificar urgencia</button>
+                    <button class="btn btn-primary" type="submit" <?= !$configured ? 'disabled' : '' ?>><?= icon('cpu', 'icon icon-sm') ?> Clasificar riesgo</button>
                 </div>
             </form>
         </div>
@@ -128,12 +128,12 @@ $levelOrder = ['emergencia', 'urgente', 'consulta', 'preventivo'];
             </div>
             <div class="sidebar-card">
                 <h2 class="sidebar-title"><?= icon('cpu', 'icon icon-sm') ?> Cómo funciona</h2>
-                <p>Un modelo <strong>SetFit</strong> entrenado con ejemplos breves en español convierte el texto en una representación y lo clasifica en cuatro niveles. La inferencia corre en <strong>ONNX</strong>, fuera del hosting PHP.</p>
+                <p>El clasificador combina reglas léxicas en español con evidencia agronómica y, opcionalmente, un modelo supervisado entrenado con ejemplos sintéticos. La inferencia corre fuera del hosting PHP, en un servicio FastAPI.</p>
             </div>
             <div class="sidebar-card sidebar-cta">
                 <h2 class="sidebar-title"><?= icon('alert-triangle', 'icon icon-sm') ?> Importante</h2>
-                <p>Si el paciente tiene dificultad para respirar, convulsiones, sangrado abundante, obstrucción urinaria o está inconsciente, <strong>actúa de inmediato</strong>; no esperes la clasificación.</p>
-                <a class="text-link" href="<?= e(url('/apoyo-diagnostico')) ?>">Volver al apoyo por signos <?= icon('arrow-right', 'icon icon-xs') ?></a>
+                <p>Si el cultivo tiene dificultad para respirar, convulsiones, sangrado abundante, obstrucción urinaria o está inconsciente, <strong>actúa de inmediato</strong>; no esperes la clasificación.</p>
+                <a class="text-link" href="<?= e(url('/apoyo-diagnostico')) ?>">Volver al apoyo por síntomas <?= icon('arrow-right', 'icon icon-xs') ?></a>
             </div>
         </aside>
     </div>

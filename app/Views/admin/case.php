@@ -12,7 +12,7 @@
             <?php if ($case['is_demo']): ?><span class="badge badge-demo">Demostrativo</span><?php endif; ?>
         </div>
         <h1><?= e($case['title']) ?></h1>
-        <p>Por <?= e($case['author_name']) ?> · <?= e($case['author_institution'] ?? '') ?> · <?= e($case['species_name']) ?><?php if (!empty($case['breed_name'])): ?> / <?= e($case['breed_name']) ?><?php endif; ?></p>
+        <p>Por <?= e($case['author_name']) ?> · <?= e($case['author_institution'] ?? '') ?> · <?= e($case['crop_name']) ?><?php if (!empty($case['variety_name'])): ?> / <?= e($case['variety_name']) ?><?php endif; ?></p>
     </div>
     <div class="admin-page-actions">
         <?php if ($case['status'] === 'publicado'): ?>
@@ -30,17 +30,17 @@
             <div class="review-summary">
                 <div><span>Motivo de consulta</span><p><?= e($case['chief_complaint']) ?></p></div>
                 <div><span>Diagnóstico final</span><p><strong><?= e($case['final_diagnosis'] ?: 'Sin diagnóstico') ?></strong></p></div>
-                <div><span>Desenlace</span><p><?= e(outcome_label($case['outcome'])) ?></p></div>
-                <div><span>Consentimiento</span><p><?= $case['owner_consent'] ? 'Sí' : 'No' ?> · Anonimizado: <?= $case['anonymized'] ? 'Sí' : 'No' ?></p></div>
+                <div><span>Resultado</span><p><?= e(outcome_label($case['outcome'])) ?></p></div>
+                <div><span>Consentimiento</span><p><?= $case['producer_consent'] ? 'Sí' : 'No' ?> · Anonimizado: <?= $case['anonymized'] ? 'Sí' : 'No' ?></p></div>
             </div>
         </section>
 
         <?php foreach ([
-            'Anamnesis' => $case['anamnesis'],
-            'Exploración física' => $case['physical_exam'],
-            'Estudios y diagnóstico' => $case['diagnostics'],
+            'Historial de manejo' => $case['crop_history'],
+            'Inspección de campo' => $case['field_inspection'],
+            'Análisis y diagnóstico' => $case['lab_tests'],
             'Diferenciales' => $case['differentials'],
-            'Tratamiento y manejo' => $case['treatment'],
+            'Manejo recomendado' => $case['management'],
             'Discusión' => $case['discussion'],
             'Referencias' => $case['references_text'],
         ] as $heading => $text): ?>
@@ -125,13 +125,15 @@
 
         <section class="admin-card">
             <h2 class="admin-card-title">Datos del envío</h2>
-            <dl class="patient-data">
+            <dl class="plot-data">
                 <div><dt>Autor</dt><dd><?= e($case['author_name']) ?></dd></div>
                 <div><dt>Correo</dt><dd><?= e($case['author_email'] ?? '') ?></dd></div>
                 <div><dt>Cédula</dt><dd><?= e($case['author_license'] ?? '') ?></dd></div>
-                <div><dt>Especie</dt><dd><?= e($case['species_name']) ?></dd></div>
-                <div><dt>Estado</dt><dd><?= e($case['state_name'] ?? 'No especificado') ?></dd></div>
-                <div><dt>Entorno</dt><dd><?= e(setting_label($case['setting'])) ?></dd></div>
+                <div><dt>Cultivo</dt><dd><?= e($case['crop_name']) ?><?= !empty($case['variety_name']) ? ' · ' . e($case['variety_name']) : '' ?></dd></div>
+                <div><dt>Ciclo y etapa</dt><dd><?= e(cycle_label($case['cycle'])) ?> · <?= e(stage_label($case['crop_stage'])) ?></dd></div>
+                <div><dt>Superficie</dt><dd><?= $case['area_ha'] !== null ? e((string) $case['area_ha']) . ' ha' : 'No especificada' ?></dd></div>
+                <div><dt>Ubicación</dt><dd><?= e($case['municipality'] ?? '—') ?><?= !empty($case['state_name']) ? ', ' . e($case['state_name']) : '' ?></dd></div>
+                <div><dt>Sistema</dt><dd><?= e(system_label($case['system'])) ?></dd></div>
                 <div><dt>Creado</dt><dd><?= e(format_date($case['created_at'], 'd/m/Y H:i')) ?></dd></div>
                 <div><dt>Actualizado</dt><dd><?= e(format_date($case['updated_at'], 'd/m/Y H:i')) ?></dd></div>
                 <div><dt>Licencia</dt><dd><?= e($case['license']) ?></dd></div>

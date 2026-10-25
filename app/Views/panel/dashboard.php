@@ -1,33 +1,33 @@
 <?php
 /** @var array<string, mixed> $user */
 /** @var array<string, mixed> $stats */
-/** @var array<int, array<string, mixed>> $appointments */
+/** @var array<int, array<string, mixed>> $visits */
 /** @var array<int, array<string, mixed>> $lowStock */
-/** @var array<int, array<string, mixed>> $recentPatients */
+/** @var array<int, array<string, mixed>> $recentPlots */
 /** @var \DateTimeImmutable $today */
 ?>
 <div class="panel-page-head">
     <div>
         <span class="panel-eyebrow"><?= e($today->format('d/m/Y')) ?></span>
         <h1>Hola, <?= e(first_name((string) $user['name'])) ?></h1>
-        <p>Este es el pulso de tu clínica hoy.</p>
+        <p>Este es el pulso de tu parcela hoy.</p>
     </div>
     <div class="panel-head-actions">
-        <a class="btn btn-primary btn-sm" href="<?= e(url('/panel/citas/nueva')) ?>"><?= icon('plus', 'icon icon-sm') ?> Nueva cita</a>
-        <a class="btn btn-outline btn-sm" href="<?= e(url('/panel/pacientes/nuevo')) ?>"><?= icon('paw', 'icon icon-sm') ?> Nuevo paciente</a>
+        <a class="btn btn-primary btn-sm" href="<?= e(url('/panel/visitas/nueva')) ?>"><?= icon('plus', 'icon icon-sm') ?> Nueva visita</a>
+        <a class="btn btn-outline btn-sm" href="<?= e(url('/panel/parcelas/nuevo')) ?>"><?= icon('map-pin', 'icon icon-sm') ?> Nueva parcela</a>
     </div>
 </div>
 
 <div class="panel-stat-grid">
-    <a class="panel-stat" href="<?= e(url('/panel/pacientes')) ?>">
-        <span class="panel-stat-icon"><?= icon('paw', 'icon') ?></span>
-        <strong><?= number_format((int) $stats['patients']) ?></strong>
-        <span>Pacientes</span>
+    <a class="panel-stat" href="<?= e(url('/panel/parcelas')) ?>">
+        <span class="panel-stat-icon"><?= icon('map-pin', 'icon') ?></span>
+        <strong><?= number_format((int) $stats['plots']) ?></strong>
+        <span>Parcelas</span>
     </a>
-    <a class="panel-stat" href="<?= e(url('/panel/citas')) ?>">
+    <a class="panel-stat" href="<?= e(url('/panel/visitas')) ?>">
         <span class="panel-stat-icon"><?= icon('calendar', 'icon') ?></span>
-        <strong><?= number_format((int) $stats['appointments_today']) ?></strong>
-        <span>Citas hoy</span>
+        <strong><?= number_format((int) $stats['visits_today']) ?></strong>
+        <span>Visitas hoy</span>
     </a>
     <a class="panel-stat <?= (int) $stats['low_stock'] > 0 ? 'is-warning' : '' ?>" href="<?= e(url('/panel/inventario?low=1')) ?>">
         <span class="panel-stat-icon"><?= icon('folder', 'icon') ?></span>
@@ -44,25 +44,25 @@
 <div class="panel-dashboard-grid">
     <section class="panel-card">
         <div class="panel-card-head">
-            <div><span class="panel-card-kicker">Agenda</span><h2>Citas de hoy</h2></div>
-            <a class="panel-text-link" href="<?= e(url('/panel/citas')) ?>">Ver todas <?= icon('arrow-right', 'icon icon-xs') ?></a>
+            <div><span class="panel-card-kicker">Agenda</span><h2>Visitas de hoy</h2></div>
+            <a class="panel-text-link" href="<?= e(url('/panel/visitas')) ?>">Ver todas <?= icon('arrow-right', 'icon icon-xs') ?></a>
         </div>
-        <?php if ($appointments === []): ?>
+        <?php if ($visits === []): ?>
             <div class="panel-empty">
                 <?= icon('calendar', 'icon') ?>
-                <p>No hay citas para hoy.</p>
-                <a class="btn btn-outline btn-sm" href="<?= e(url('/panel/citas/nueva')) ?>">Agendar una cita</a>
+                <p>No hay visitas para hoy.</p>
+                <a class="btn btn-outline btn-sm" href="<?= e(url('/panel/visitas/nueva')) ?>">Agendar una visita</a>
             </div>
         <?php else: ?>
-            <div class="panel-appointment-list">
-                <?php foreach ($appointments as $appointment): ?>
-                    <a class="panel-appointment" href="<?= e(url('/panel/citas?date=' . format_date($appointment['starts_at'], 'Y-m-d'))) ?>">
-                        <span class="panel-appointment-time"><?= e(format_date($appointment['starts_at'], 'H:i')) ?></span>
-                        <span class="panel-appointment-main">
-                            <strong><?= e($appointment['patient_name']) ?></strong>
-                            <small><?= e($appointment['tutor_name']) ?> · <?= e($appointment['reason']) ?></small>
+            <div class="panel-visit-list">
+                <?php foreach ($visits as $visit): ?>
+                    <a class="panel-visit" href="<?= e(url('/panel/visitas?date=' . format_date($visit['starts_at'], 'Y-m-d'))) ?>">
+                        <span class="panel-visit-time"><?= e(format_date($visit['starts_at'], 'H:i')) ?></span>
+                        <span class="panel-visit-main">
+                            <strong><?= e($visit['plot_name']) ?></strong>
+                            <small><?= e($visit['producer_name']) ?> · <?= e($visit['reason']) ?></small>
                         </span>
-                        <span class="badge badge-<?= $appointment['status'] === 'atendida' ? 'success' : ($appointment['status'] === 'cancelada' ? 'danger' : 'warning') ?>"><?= e(ucfirst($appointment['status'])) ?></span>
+                        <span class="badge badge-<?= $visit['status'] === 'realizada' ? 'success' : ($visit['status'] === 'cancelada' ? 'danger' : 'warning') ?>"><?= e(ucfirst($visit['status'])) ?></span>
                     </a>
                 <?php endforeach; ?>
             </div>
@@ -78,10 +78,10 @@
             <div class="panel-empty"><span class="panel-empty-icon"><?= icon('check-circle', 'icon') ?></span><p>Todo el inventario está por encima del mínimo.</p></div>
         <?php else: ?>
             <div class="panel-stock-list">
-                <?php foreach ($lowStock as $product): ?>
+                <?php foreach ($lowStock as $input): ?>
                     <div class="panel-stock-row">
-                        <span><strong><?= e($product['name']) ?></strong><small><?= e($product['sku']) ?></small></span>
-                        <span class="panel-stock-count <?= (int) $product['stock'] === 0 ? 'is-empty' : '' ?>"><?= (int) $product['stock'] ?> / <?= (int) $product['min_stock'] ?></span>
+                        <span><strong><?= e($input['name']) ?></strong><small><?= e($input['sku']) ?></small></span>
+                        <span class="panel-stock-count <?= (int) $input['stock'] === 0 ? 'is-empty' : '' ?>"><?= (int) $input['stock'] ?> / <?= (int) $input['min_stock'] ?></span>
                     </div>
                 <?php endforeach; ?>
             </div>
@@ -91,23 +91,23 @@
 
 <section class="panel-card">
     <div class="panel-card-head">
-        <div><span class="panel-card-kicker">Pacientes</span><h2>Ingresos recientes</h2></div>
-        <a class="panel-text-link" href="<?= e(url('/panel/pacientes')) ?>">Ver directorio <?= icon('arrow-right', 'icon icon-xs') ?></a>
+        <div><span class="panel-card-kicker">Parcelas</span><h2>Registros recientes</h2></div>
+        <a class="panel-text-link" href="<?= e(url('/panel/parcelas')) ?>">Ver directorio <?= icon('arrow-right', 'icon icon-xs') ?></a>
     </div>
-    <?php if ($recentPatients === []): ?>
+    <?php if ($recentPlots === []): ?>
         <div class="panel-empty">
-            <?= icon('paw', 'icon') ?>
-            <p>Aún no has registrado pacientes.</p>
-            <a class="btn btn-primary btn-sm" href="<?= e(url('/panel/pacientes/nuevo')) ?>">Registrar el primero</a>
+            <?= icon('map-pin', 'icon') ?>
+            <p>Aún no has registrado parcelas.</p>
+            <a class="btn btn-primary btn-sm" href="<?= e(url('/panel/parcelas/nuevo')) ?>">Registrar el primero</a>
         </div>
     <?php else: ?>
-        <div class="panel-patient-grid">
-            <?php foreach ($recentPatients as $patient): ?>
-                <a class="panel-patient-card" href="<?= e(url('/panel/pacientes/' . $patient['id'])) ?>">
-                    <span class="panel-patient-avatar"><?= icon(species_icon((string) $patient['species']), 'icon') ?></span>
+        <div class="panel-plot-grid">
+            <?php foreach ($recentPlots as $plot): ?>
+                <a class="panel-plot-card" href="<?= e(url('/panel/parcelas/' . $plot['id'])) ?>">
+                    <span class="panel-plot-avatar"><?= icon(crop_icon((string) $plot['crop']), 'icon') ?></span>
                     <span>
-                        <strong><?= e($patient['name']) ?></strong>
-                        <small><?= e($patient['tutor_name']) ?> · <?= e(species_label((string) $patient['species'])) ?></small>
+                        <strong><?= e($plot['name']) ?></strong>
+                        <small><?= e($plot['producer_name']) ?> · <?= e(crops_label((string) $plot['crop'])) ?></small>
                     </span>
                     <?= icon('chevron-right', 'icon icon-xs') ?>
                 </a>

@@ -8,7 +8,7 @@ check() {
     local path="$1"
     local expected="${2:-200}"
     local code
-    code=$(curl -sS -o /tmp/dv_smoke_body.html -w '%{http_code}' --max-time 20 "${BASE_URL}${path}" || true)
+    code=$(curl -sS -o /tmp/agro_smoke_body.html -w '%{http_code}' --max-time 20 "${BASE_URL}${path}" || true)
     if [ "$code" != "$expected" ]; then
         echo "✗ ${path}: esperado ${expected}, recibido ${code}"
         fail=1
@@ -19,39 +19,47 @@ check() {
 
 check "/"
 check "/casos"
-check "/casos/parvovirus-canino-cachorro-diarrea-hemorragica"
-check "/casos/parvovirus-canino-cachorro-diarrea-hemorragica/pdf"
-check "/casos/parvovirus-canino-cachorro-diarrea-hemorragica/docx"
-check "/casos/parvovirus-canino-cachorro-diarrea-hemorragica/ia-urgencia"
+check "/casos/cogollero-maiz-temporal-sinaloa"
+check "/casos/cogollero-maiz-temporal-sinaloa/pdf"
+check "/casos/cogollero-maiz-temporal-sinaloa/docx"
+check "/casos/cogollero-maiz-temporal-sinaloa/ia-emergencia"
 check "/apoyo-diagnostico"
+check "/apoyo-diagnostico?crops=maiz"
 check "/apoyo-diagnostico/ia"
 check "/panel/entrar"
 check "/panel" 302
+check "/panel/parcelas" 302
 check "/enfermedades"
-check "/enfermedades/parvovirus-canino"
+check "/enfermedades/gusano-cogollero"
 check "/recursos"
 check "/recursos/kit"
 check "/recursos/glosario"
 check "/recursos/revistas"
-check "/vetdatahub"
-check "/peteval"
-check "/peteval/1111025"
-check "/descargas/peteval/test-00000-of-00001.parquet"
+check "/agrodatos"
 check "/recursos/favoritos" 302
-check "/descargas/plantilla-caso-clinico.docx"
-check "/descargas/hoja-de-alta.docx"
+check "/descargas/plantilla-caso-agronomico.docx"
+check "/descargas/hoja-de-recomendacion.docx"
 check "/descargas/consentimiento-informado.docx"
+check "/descargas/kit-recursos-agronomicos.zip"
 check "/acceder"
 check "/registro"
 check "/salud"
 check "/sitemap.xml"
 check "/robots.txt"
 
-if ! grep -q '"status":"ok"' /tmp/dv_smoke_body.html 2>/dev/null; then
+if ! grep -q '"status":"ok"' /tmp/agro_smoke_body.html 2>/dev/null; then
     # El último check es robots.txt; se consulta salud de nuevo para validar JSON.
-    curl -sS --max-time 20 "${BASE_URL}/salud" -o /tmp/dv_health.json
-    if ! grep -q '"status":"ok"' /tmp/dv_health.json; then
+    curl -sS --max-time 20 "${BASE_URL}/salud" -o /tmp/agro_health.json
+    if ! grep -q '"status":"ok"' /tmp/agro_health.json; then
         echo "✗ /salud no reporta estado ok"
+        fail=1
+    fi
+fi
+
+if ! grep -qi "AgroDiagnóstico" /tmp/agro_smoke_body.html 2>/dev/null; then
+    curl -sS --max-time 20 "${BASE_URL}/" -o /tmp/agro_home.html
+    if ! grep -qi "AgroDiagnóstico" /tmp/agro_home.html; then
+        echo "✗ La portada no muestra el nombre del portal"
         fail=1
     fi
 fi

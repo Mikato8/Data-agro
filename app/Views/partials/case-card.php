@@ -5,14 +5,14 @@ $hasCover = !empty($case['cover_image']);
 $isDemo = !empty($case['is_demo']);
 ?>
 <article class="case-card">
-    <a class="case-card-media species-<?= e($case['species_code'] ?? 'exotico') ?>" href="<?= e($href) ?>" tabindex="-1" aria-hidden="true">
+    <a class="case-card-media crops-<?= e($case['crop_code'] ?? 'maiz') ?>" href="<?= e($href) ?>" tabindex="-1" aria-hidden="true">
         <?php if ($hasCover): ?>
             <img src="<?= e(url('/uploads/cases/' . $case['cover_image'])) ?>" alt="" loading="lazy">
         <?php else: ?>
-            <span class="case-card-emoji"><?= e($case['species_emoji'] ?? species_emoji($case['species_code'] ?? null)) ?></span>
+            <span class="case-card-emoji"><?= e($case['crop_emoji'] ?? crop_emoji($case['crop_code'] ?? null)) ?></span>
             <span class="case-card-pattern"></span>
         <?php endif; ?>
-        <span class="case-card-species"><?= e($case['species_name'] ?? 'Caso clínico') ?></span>
+        <span class="case-card-crop"><?= e($case['crop_name'] ?? 'Caso agronómico') ?></span>
         <?php if ($isDemo): ?><span class="badge badge-demo">Demostrativo</span><?php endif; ?>
     </a>
     <div class="case-card-body">
@@ -26,7 +26,7 @@ $isDemo = !empty($case['is_demo']);
         <p class="case-card-diagnosis"><?= e(excerpt($case['final_diagnosis'] ?: ($case['chief_complaint'] ?? ''), 118)) ?></p>
         <div class="case-card-footer">
             <span class="case-author">
-                <span class="avatar avatar-xs"><?= e(initials((string) ($case['author_name'] ?? 'DV'))) ?></span>
+                <span class="avatar avatar-xs"><?= e(initials((string) ($case['author_name'] ?? 'AG'))) ?></span>
                 <span><?= e($case['author_name'] ?? 'Autor') ?></span>
             </span>
             <span class="case-card-data">

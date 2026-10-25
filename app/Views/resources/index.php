@@ -5,21 +5,21 @@
 /** @var array<string, array{title: string, description: string, icon: string}> $goals */
 /** @var string $goal */
 /** @var array<int, array<string, mixed>> $recommendations */
-/** @var array<int, array<string, mixed>> $speciesList */
-/** @var string $speciesCode */
+/** @var array<int, array<string, mixed>> $cropsList */
+/** @var string $cropCode */
 /** @var string $topic */
-/** @var array<int, array<string, mixed>> $diseaseMatches */
+/** @var array<int, array<string, mixed>> $problemMatches */
 $hasFilters = $filters['q'] !== '' || $filters['category'] !== '' || $filters['access'] !== '';
-$speciesName = '';
-foreach ($speciesList as $speciesItem) {
-    if ($speciesItem['code'] === $speciesCode) {
-        $speciesName = (string) $speciesItem['name'];
+$cropsName = '';
+foreach ($cropsList as $cropsItem) {
+    if ($cropsItem['code'] === $cropCode) {
+        $cropsName = (string) $cropsItem['name'];
         break;
     }
 }
-$goalUrl = static function (string $key) use ($speciesCode, $topic): string {
+$goalUrl = static function (string $key) use ($cropCode, $topic): string {
     $query = ['goal' => $key];
-    if ($speciesCode !== '') { $query['species'] = $speciesCode; }
+    if ($cropCode !== '') { $query['crops'] = $cropCode; }
     if ($topic !== '') { $query['topic'] = $topic; }
     return url('/recursos?' . http_build_query($query));
 };
@@ -93,49 +93,49 @@ $resourceIcon = static fn (string $category): string => match ($category) {
         <form class="recommend-form" method="get" action="<?= e(url('/recursos')) ?>">
             <div class="recommend-form-head">
                 <span class="eyebrow">Afina la recomendación</span>
-                <p>Agrega la especie y, si quieres, una enfermedad o tema para acercar la sugerencia a tu caso.</p>
+                <p>Agrega el cultivo y, si quieres, una plaga, enfermedad o tema para acercar la sugerencia a tu caso.</p>
             </div>
             <input type="hidden" name="goal" value="<?= e($goal !== '' ? $goal : 'datos') ?>">
             <label class="filter-select">
-                <span>Especie</span>
-                <select name="species">
+                <span>Cultivo</span>
+                <select name="crops">
                     <option value="">Todas</option>
-                    <?php foreach ($speciesList as $speciesItem): ?>
-                        <option value="<?= e($speciesItem['code']) ?>" <?= $speciesCode === $speciesItem['code'] ? 'selected' : '' ?>><?= e($speciesItem['name']) ?></option>
+                    <?php foreach ($cropsList as $cropsItem): ?>
+                        <option value="<?= e($cropsItem['code']) ?>" <?= $cropCode === $cropsItem['code'] ? 'selected' : '' ?>><?= e($cropsItem['name']) ?></option>
                     <?php endforeach; ?>
                 </select>
             </label>
             <label class="recommend-topic">
-                <span>Tema o enfermedad <span class="optional">(opcional)</span></span>
-                <input type="search" name="topic" value="<?= e($topic) ?>" placeholder="Ej. parvovirus, oncología, leptospirosis…">
+                <span>Tema o problema <span class="optional">(opcional)</span></span>
+                <input type="search" name="topic" value="<?= e($topic) ?>" placeholder="Ej. cogollero, roya, salinidad…">
             </label>
             <button class="btn btn-dark btn-sm" type="submit">Recomendar</button>
-            <?php if ($goal !== '' || $speciesCode !== '' || $topic !== ''): ?>
+            <?php if ($goal !== '' || $cropCode !== '' || $topic !== ''): ?>
                 <a class="filter-clear" href="<?= e(url('/recursos')) ?>">Limpiar</a>
             <?php endif; ?>
         </form>
 
-        <?php if ($diseaseMatches !== []): ?>
+        <?php if ($problemMatches !== []): ?>
             <section class="topic-matches">
                 <div class="topic-matches-head">
                     <div>
                         <span class="eyebrow">También en el portal</span>
                         <h2>Fichas relacionadas con «<?= e($topic) ?>»</h2>
-                        <p>Antes de buscar datos externos, revisa el resumen clínico y los casos del archivo.</p>
+                        <p>Antes de buscar datos externos, revisa el resumen técnico y los casos del archivo.</p>
                     </div>
                 </div>
                 <div class="topic-match-grid">
-                    <?php foreach ($diseaseMatches as $disease): ?>
+                    <?php foreach ($problemMatches as $problem): ?>
                         <article class="topic-match-card">
-                            <div class="disease-card-top">
-                                <span class="badge badge-soft"><?= e(urgency_label($disease['urgency'])) ?></span>
-                                <?php if ($disease['zoonotic'] === true || $disease['zoonotic'] === 't'): ?><span class="badge badge-warning">Zoonosis</span><?php endif; ?>
+                            <div class="problem-card-top">
+                                <span class="badge badge-soft"><?= e(risk_label($problem['risk'])) ?></span>
+                                <?php if ($problem['reportable'] === true || $problem['reportable'] === 't'): ?><span class="badge badge-warning">Alerta cuarentenaria</span><?php endif; ?>
                             </div>
-                            <h3><a href="<?= e(url('/enfermedades/' . $disease['slug'])) ?>"><?= e($disease['name']) ?></a></h3>
-                            <p><?= e(excerpt($disease['summary'], 130)) ?></p>
+                            <h3><a href="<?= e(url('/enfermedades/' . $problem['slug'])) ?>"><?= e($problem['name']) ?></a></h3>
+                            <p><?= e(excerpt($problem['summary'], 130)) ?></p>
                             <div class="topic-match-actions">
-                                <a class="text-link" href="<?= e(url('/enfermedades/' . $disease['slug'])) ?>">Ver ficha <?= icon('arrow-right', 'icon icon-xs') ?></a>
-                                <a class="text-link" href="<?= e(url('/casos?q=' . rawurlencode((string) $disease['name']) . ($speciesCode !== '' ? '&species=' . rawurlencode($speciesCode) : ''))) ?>">Buscar casos</a>
+                                <a class="text-link" href="<?= e(url('/enfermedades/' . $problem['slug'])) ?>">Ver ficha <?= icon('arrow-right', 'icon icon-xs') ?></a>
+                                <a class="text-link" href="<?= e(url('/casos?q=' . rawurlencode((string) $problem['name']) . ($cropCode !== '' ? '&crops=' . rawurlencode($cropCode) : ''))) ?>">Buscar casos</a>
                             </div>
                         </article>
                     <?php endforeach; ?>
@@ -149,7 +149,7 @@ $resourceIcon = static fn (string $category): string => match ($category) {
                     <div>
                         <span class="eyebrow">Recomendación para ti</span>
                         <h2><?= e($goals[$goal]['title'] ?? 'Recursos sugeridos') ?></h2>
-                        <p>Estos recursos encajan con el objetivo<?= $speciesName !== '' ? ' y la especie (' . e($speciesName) . ')' : '' ?><?= $topic !== '' ? ' y el tema «' . e($topic) . '»' : '' ?>. Abre la ficha interna para ver pasos, requisitos y advertencias.</p>
+                        <p>Estos recursos encajan con el objetivo<?= $cropsName !== '' ? ' y el cultivo (' . e($cropsName) . ')' : '' ?><?= $topic !== '' ? ' y el tema «' . e($topic) . '»' : '' ?>. Abre la ficha interna para ver pasos, requisitos y advertencias.</p>
                     </div>
                     <a class="text-link" href="<?= e(url('/recursos')) ?>">Quitar selección</a>
                 </div>
@@ -175,7 +175,7 @@ $resourceIcon = static fn (string $category): string => match ($category) {
             <div>
                 <span class="eyebrow">Herramientas internas</span>
                 <h2>Plantillas que puedes usar sin registrarte</h2>
-                <p>Descarga la plantilla de caso clínico, el checklist, la hoja de alta, el consentimiento imprimible, la carta de solicitud, la guía de citas y la guía rápida sobre repositorios.</p>
+                <p>Descarga la plantilla de caso agronómico, el checklist de consentimiento, la hoja de recomendación, el consentimiento imprimible, la carta de solicitud de datos y la guía de recursos.</p>
             </div>
             <a class="btn btn-primary" href="<?= e(url('/recursos/kit')) ?>">Abrir kit <?= icon('arrow-right', 'icon icon-sm') ?></a>
         </div>

@@ -107,7 +107,7 @@ final class ResourceRepository
     }
 
     /**
-     * Recursos sugeridos según lo que el veterinario quiere hacer.
+     * Recursos sugeridos según lo que el agrónomo quiere hacer.
      * @return array<int, array<string, mixed>>
      */
     public function forGoal(string $goal, int $limit = 3): array
@@ -143,10 +143,10 @@ final class ResourceRepository
     }
 
     /**
-     * Recomendador por objetivo, especie y tema/enfermedad.
+     * Recomendador por objetivo, cultivo y tema/enfermedad.
      * @return array<int, array<string, mixed>>
      */
-    public function recommend(string $goal, string $speciesCode = '', string $topic = '', int $limit = 3): array
+    public function recommend(string $goal, string $cropCode = '', string $topic = '', int $limit = 3): array
     {
         $goalCategories = [
             'datos' => ['biblioteca', 'revista', 'directorio'],
@@ -155,22 +155,12 @@ final class ResourceRepository
             'aprender' => ['biblioteca', 'revista', 'guia'],
             'revistas' => ['revista', 'directorio'],
         ];
-        $speciesMap = [
-            'canino' => ['unam-repositorio', 'veterinaria-mexico-oa', 'libros-oa-unam', 'wikivet', 'ivis'],
-            'felino' => ['unam-repositorio', 'veterinaria-mexico-oa', 'libros-oa-unam', 'wikivet', 'ivis'],
-            'equino' => ['veterinaria-mexico-oa', 'rmcp', 'agris', 'ivis'],
-            'bovino' => ['veterinaria-mexico-oa', 'rmcp', 'agris', 'ivis'],
-            'porcino' => ['veterinaria-mexico-oa', 'rmcp', 'agris', 'ivis'],
-            'ovino' => ['veterinaria-mexico-oa', 'rmcp', 'agris', 'ivis'],
-            'caprino' => ['veterinaria-mexico-oa', 'rmcp', 'agris', 'ivis'],
-            'ave' => ['veterinaria-mexico-oa', 'rmcp', 'agris'],
-            'exotico' => ['wikivet', 'ivis', 'agris'],
-        ];
+        $cropsMap = [];
         $categories = $goalCategories[$goal] ?? [];
-        $speciesSlugs = $speciesMap[$speciesCode] ?? [];
+        $cropsSlugs = $cropsMap[$cropCode] ?? [];
         $topic = mb_strtolower(trim($topic));
 
-        return Cache::remember('resources.recommend.' . $goal . '.' . $speciesCode . '.' . sha1($topic) . '.' . $limit, 300, function () use ($categories, $speciesSlugs, $topic, $limit): array {
+        return Cache::remember('resources.recommend.' . $goal . '.' . $cropCode . '.' . sha1($topic) . '.' . $limit, 300, function () use ($categories, $cropsSlugs, $topic, $limit): array {
             $rows = array_map([$this, 'hydrate'], Database::select('select * from resources'));
             $score = static function (array $resource) use ($topic): int {
                 if ($topic === '') {
@@ -192,11 +182,11 @@ final class ResourceRepository
                 return $points;
             };
 
-            $filtered = array_values(array_filter($rows, static function (array $resource) use ($categories, $speciesSlugs): bool {
+            $filtered = array_values(array_filter($rows, static function (array $resource) use ($categories, $cropsSlugs): bool {
                 if ($categories !== [] && !in_array($resource['category'], $categories, true)) {
                     return false;
                 }
-                if ($speciesSlugs !== [] && !in_array($resource['slug'], $speciesSlugs, true)) {
+                if ($cropsSlugs !== [] && !in_array($resource['slug'], $cropsSlugs, true)) {
                     return false;
                 }
                 return true;
@@ -205,8 +195,8 @@ final class ResourceRepository
             if ($filtered === [] && $categories !== []) {
                 $filtered = array_values(array_filter($rows, static fn (array $resource): bool => in_array($resource['category'], $categories, true)));
             }
-            if ($filtered === [] && $speciesSlugs !== []) {
-                $filtered = array_values(array_filter($rows, static fn (array $resource): bool => in_array($resource['slug'], $speciesSlugs, true)));
+            if ($filtered === [] && $cropsSlugs !== []) {
+                $filtered = array_values(array_filter($rows, static fn (array $resource): bool => in_array($resource['slug'], $cropsSlugs, true)));
             }
             if ($filtered === []) {
                 $filtered = $rows;

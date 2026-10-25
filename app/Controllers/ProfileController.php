@@ -24,8 +24,8 @@ final class ProfileController extends BaseController
         $catalog = new CatalogRepository();
 
         return $this->view('profile.show', [
-            'title' => 'Mi perfil · Diagnóstico Veterinario',
-            'metaDescription' => 'Administra tu perfil profesional y tu actividad en Diagnóstico Veterinario.',
+            'title' => 'Mi perfil · AgroDiagnóstico',
+            'metaDescription' => 'Administra tu perfil profesional y tu actividad en AgroDiagnóstico.',
             'user' => $user,
             'caseCount' => $caseCount,
             'publishedCount' => $published,

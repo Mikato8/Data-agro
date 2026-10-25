@@ -10,9 +10,9 @@ use App\Core\Database;
 final class CatalogRepository
 {
     /** @return array<int, array<string, mixed>> */
-    public function species(): array
+    public function crops(): array
     {
-        return Cache::remember('catalog.species', 3600, static fn (): array => Database::select('select * from species order by sort_order, name'));
+        return Cache::remember('catalog.crops', 3600, static fn (): array => Database::select('select * from crops order by sort_order, name'));
     }
 
     /** @return array<int, array<string, mixed>> */
@@ -28,28 +28,28 @@ final class CatalogRepository
     }
 
     /** @return array<string, array<int, array<string, mixed>>> */
-    public function breedsBySpecies(): array
+    public function varietiesByCrops(): array
     {
-        return Cache::remember('catalog.breeds_by_species', 3600, static function (): array {
-            $rows = Database::select('select * from breeds order by name');
+        return Cache::remember('catalog.varieties_by_crops', 3600, static function (): array {
+            $rows = Database::select('select * from varieties order by name');
             $grouped = [];
             foreach ($rows as $row) {
-                $grouped[(string) $row['species_id']][] = $row;
+                $grouped[(string) $row['crop_id']][] = $row;
             }
             return $grouped;
         });
     }
 
     /** @return array<int, array<string, mixed>> */
-    public function breeds(int $speciesId): array
+    public function varieties(int $cropsId): array
     {
-        return Cache::remember('catalog.breeds.' . $speciesId, 3600, static fn (): array => Database::select('select * from breeds where species_id = $1 order by name', [$speciesId]));
+        return Cache::remember('catalog.varieties.' . $cropsId, 3600, static fn (): array => Database::select('select * from varieties where crop_id = $1 order by name', [$cropsId]));
     }
 
     /** @return array<string, mixed>|null */
-    public function speciesByCode(string $code): ?array
+    public function cropsByCode(string $code): ?array
     {
-        foreach ($this->species() as $item) {
+        foreach ($this->crops() as $item) {
             if ($item['code'] === $code) {
                 return $item;
             }
@@ -58,9 +58,9 @@ final class CatalogRepository
     }
 
     /** @return array<string, mixed>|null */
-    public function speciesById(int $id): ?array
+    public function cropsById(int $id): ?array
     {
-        foreach ($this->species() as $item) {
+        foreach ($this->crops() as $item) {
             if ((int) $item['id'] === $id) {
                 return $item;
             }
@@ -73,10 +73,10 @@ final class CatalogRepository
         return (string) (Database::value('select name from states where code = $1', [$code]) ?? $code);
     }
 
-    public function breedsForSpeciesCode(string $code): array
+    public function varietiesForCropsCode(string $code): array
     {
         return Database::select(
-            'select b.* from breeds b join species s on s.id = b.species_id where s.code = $1 order by b.name',
+            'select b.* from varieties b join crops s on s.id = b.crop_id where s.code = $1 order by b.name',
             [$code]
         );
     }

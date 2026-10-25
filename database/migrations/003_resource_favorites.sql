@@ -1,4 +1,4 @@
--- Recursos guardados por cada veterinario.
+-- Recursos guardados por cada agrónomo.
 create table if not exists resource_favorites (
     user_id bigint not null references users(id) on delete cascade,
     resource_id integer not null references resources(id) on delete cascade,

@@ -20,6 +20,7 @@ final class PdoDatabase implements DatabaseInterface
         parse_str($parts['query'] ?? '', $query);
         $sslmode = $query['sslmode'] ?? 'require';
         $channelBinding = $query['channel_binding'] ?? null;
+        $options = $query['options'] ?? null;
 
         $dsn = sprintf(
             'pgsql:host=%s;port=%d;dbname=%s;sslmode=%s',
@@ -30,6 +31,9 @@ final class PdoDatabase implements DatabaseInterface
         );
         if ($channelBinding !== null) {
             $dsn .= ';channel_binding=' . $channelBinding;
+        }
+        if ($options !== null && $options !== '') {
+            $dsn .= ';options=' . $options;
         }
 
         $user = isset($parts['user']) ? rawurldecode($parts['user']) : null;

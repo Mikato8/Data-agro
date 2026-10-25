@@ -7,7 +7,7 @@
 <div class="admin-page-head">
     <div>
         <span class="eyebrow">Moderación</span>
-        <h1>Casos clínicos</h1>
+        <h1>Casos agronómicos</h1>
         <p><?= number_format($total) ?> caso<?= $total === 1 ? '' : 's' ?> en el sistema.</p>
     </div>
 </div>
@@ -40,7 +40,7 @@
                 <tr>
                     <th>Caso</th>
                     <th>Autor</th>
-                    <th>Especie</th>
+                    <th>Cultivo</th>
                     <th>Estado</th>
                     <th>Publicación</th>
                     <th class="table-actions-col">Acciones</th>
@@ -51,7 +51,7 @@
                     <tr>
                         <td>
                             <div class="table-title">
-                                <span class="table-emoji"><?= e($case['species_emoji'] ?? '🐾') ?></span>
+                                <span class="table-emoji"><?= e($case['crop_emoji'] ?? '🐾') ?></span>
                                 <div>
                                     <a href="<?= e(url('/admin/casos/' . $case['id'])) ?>"><?= e(excerpt($case['title'], 72)) ?></a>
                                     <small><?= e($case['folio'] ?? '') ?> · <?= e($case['final_diagnosis'] ?: 'Sin diagnóstico') ?></small>
@@ -59,7 +59,7 @@
                             </div>
                         </td>
                         <td><?= e($case['author_name']) ?></td>
-                        <td><?= e($case['species_name']) ?></td>
+                        <td><?= e($case['crop_name']) ?></td>
                         <td><span class="badge badge-<?= e(status_tone($case['status'])) ?>"><?= e(status_label($case['status'])) ?></span></td>
                         <td>
                             <?php if (!empty($case['published_at'])): ?>

@@ -9,10 +9,8 @@ use App\Core\Flash;
 use App\Core\Request;
 use App\Core\Response;
 use App\Repositories\CatalogRepository;
-use App\Repositories\DiseaseRepository;
-use App\Repositories\PetEvalRepository;
+use App\Repositories\ProblemRepository;
 use App\Repositories\ResourceRepository;
-use App\Repositories\VetDataHubRepository;
 
 final class ResourceController extends BaseController
 {
@@ -31,8 +29,8 @@ final class ResourceController extends BaseController
                 'icon' => 'book-open',
             ],
             'vigilancia' => [
-                'title' => 'Quiero vigilar enfermedades',
-                'description' => 'Necesito contexto de brotes, zoonosis o salud poblacional.',
+                'title' => 'Quiero vigilar plagas y enfermedades',
+                'description' => 'Necesito contexto de brotes, alerta cuarentenaria o salud poblacional.',
                 'icon' => 'globe',
             ],
             'aprender' => [
@@ -57,26 +55,26 @@ final class ResourceController extends BaseController
             'access' => $request->string('access'),
         ];
         $goal = $request->string('goal');
-        $speciesCode = $request->string('species');
+        $cropCode = $request->string('crops');
         $topic = $request->string('topic');
-        $recommendations = isset(self::goals()[$goal]) ? $repo->recommend($goal, $speciesCode, $topic, 3) : [];
-        $diseaseMatches = $topic !== '' ? (new DiseaseRepository())->findForTopic($topic, $speciesCode, 3) : [];
-        $filters['species'] = $speciesCode;
+        $recommendations = isset(self::goals()[$goal]) ? $repo->recommend($goal, $cropCode, $topic, 3) : [];
+        $problemMatches = $topic !== '' ? (new ProblemRepository())->findForTopic($topic, $cropCode, 3) : [];
+        $filters['crops'] = $cropCode;
         $filters['topic'] = $topic;
 
         return $this->view('resources.index', [
-            'title' => 'Bibliotecas y recursos de acceso abierto · Diagnóstico Veterinario',
-            'metaDescription' => 'Directorio curado de bibliotecas, repositorios, revistas y recursos de acceso abierto para médicos veterinarios, con énfasis en México.',
+            'title' => 'Bibliotecas y recursos de acceso abierto · AgroDiagnóstico',
+            'metaDescription' => 'Directorio curado de bibliotecas, repositorios, revistas y recursos de acceso abierto para ingenieros agrónomos, con énfasis en México.',
             'resources' => $repo->all($filters),
             'filters' => $filters,
             'categories' => $repo->categories(),
             'goals' => self::goals(),
             'goal' => $goal,
             'recommendations' => $recommendations,
-            'speciesList' => (new CatalogRepository())->species(),
-            'speciesCode' => $speciesCode,
+            'cropsList' => (new CatalogRepository())->crops(),
+            'cropCode' => $cropCode,
             'topic' => $topic,
-            'diseaseMatches' => $diseaseMatches,
+            'problemMatches' => $problemMatches,
         ]);
     }
 
@@ -84,46 +82,47 @@ final class ResourceController extends BaseController
     {
         $groups = [
             'Directorios y buscadores' => [
-                ['DOAJ · Directory of Open Access Journals', 'https://doaj.org/', 'Directorio de revistas científicas de acceso abierto y revisadas por pares. Ideal para buscar publicaciones veterinarias gratuitas.', 'Internacional', 'Abierto'],
-                ['REVIVEC', 'https://revivec.org/', 'Red y portal iberoamericano de revistas científicas veterinarias de libre acceso, con publicaciones de España, Portugal y Latinoamérica.', 'Iberoamérica', 'Abierto'],
-                ['Latindex · Portal de Portales', 'https://www.latindex.org/', 'Sistema de información sobre revistas académicas de América Latina, el Caribe, España y Portugal; incluye enlaces a textos completos.', 'Iberoamérica', 'Abierto'],
-                ['Redalyc', 'https://www.redalyc.org/', 'Hemeroteca de artículos científicos a texto completo, con énfasis en la producción académica iberoamericana.', 'Iberoamérica', 'Abierto'],
+                ['DOAJ · Directory of Open Access Journals', 'https://doaj.org/', 'Directorio de revistas científicas de acceso abierto y revisadas por pares. Busca por título, área o país.', 'Internacional', 'Abierto'],
+                ['Latindex', 'https://www.latindex.org/', 'Sistema de información sobre revistas académicas de América Latina, el Caribe, España y Portugal.', 'Iberoamérica', 'Abierto'],
+                ['Redalyc', 'https://www.redalyc.org/', 'Hemeroteca de artículos científicos a texto completo, con énfasis en la producción iberoamericana.', 'Iberoamérica', 'Abierto'],
+                ['SciELO', 'https://scielo.org/', 'Biblioteca electrónica de revistas de América Latina, Portugal y España con acceso abierto.', 'Iberoamérica', 'Abierto'],
+                ['AGRIS · FAO', 'https://agris.fao.org/', 'Índice internacional de literatura agrícola, con registros de miles de revistas y documentos técnicos.', 'Global', 'Abierto'],
             ],
-            'Revistas de América Latina y España' => [
-                ['Veterinaria México OA', 'https://veterinariamexico.fmvz.unam.mx/', 'Revista bilingüe de la UNAM, arbitrada y de acceso abierto, sin costo para lectores ni autores.', 'México', 'Abierto'],
-                ['Revista de la Facultad de Medicina Veterinaria y de Zootecnia', 'https://revistas.unal.edu.co/index.php/remevez', 'Publicación de la Universidad Nacional de Colombia sobre medicina veterinaria y zootecnia.', 'Colombia', 'Abierto'],
-                ['Revista de Salud Animal', 'https://revistas.censa.edu.cu/index.php/RSA', 'Revista cubana con acceso libre e inmediato a sus contenidos sobre salud y producción animal.', 'Cuba', 'Abierto'],
-                ['Acta Scientiae Veterinariae', 'https://seer.ufrgs.br/index.php/ActaScientiaeVeterinariae', 'Revista brasileña con texto completo de acceso gratuito en medicina veterinaria.', 'Brasil', 'Abierto'],
-                ['Analecta Veterinaria', 'https://www.fcv.unlp.edu.ar/index.php/investigacion/analecta-veterinaria/', 'Publicación de la Universidad Nacional de La Plata; sus volúmenes anteriores están disponibles en PDF.', 'Argentina', 'Abierto'],
-                ['CES Medicina Veterinaria y Zootecnia', 'https://revistas.ces.edu.co/index.php/mvz', 'Revista electrónica colombiana de acceso gratuito en medicina veterinaria y zootecnia.', 'Colombia', 'Abierto'],
-                ['FAVE · Ciencias Veterinarias', 'https://bibliotecavirtual.unl.edu.ar/publicaciones/index.php/FAVEveterinaria', 'Revista de la Universidad Nacional del Litoral, Argentina, con acceso libre.', 'Argentina', 'Abierto'],
+            'Revistas de México' => [
+                ['Terra Latinoamericana', 'https://www.terralatinoamericana.org.mx/', 'Revista de la Sociedad Mexicana de la Ciencia del Suelo: fertilidad, manejo y conservación de suelos.', 'México', 'Abierto'],
+                ['Agrociencia', 'https://agrociencia-colpos.org/', 'Publicación del Colegio de Postgraduados sobre producción agrícola, suelos, fitotecnia y recursos naturales.', 'México', 'Abierto'],
+                ['Revista Fitotecnia Mexicana', 'https://www.revfitotecnia.mx/', 'Revista de la Sociedad Mexicana de Fitogenética: mejoramiento, genética y producción de cultivos.', 'México', 'Abierto'],
+                ['Revista Mexicana de Ciencias Agrícolas', 'https://cienciasagricolas.inifap.gob.mx/', 'Publicación del INIFAP con investigación aplicada en cultivos, sanidad y tecnología agrícola.', 'México', 'Abierto'],
+                ['Revista Chapingo Serie Horticultura', 'https://revistas.chapingo.mx/horticultura/', 'Revista de la Universidad Autónoma Chapingo dedicada a horticultura y fruticultura.', 'México', 'Abierto'],
+                ['Revista Mexicana de Fitopatología', 'https://www.rmf.smf.org.mx/', 'Órgano de la Sociedad Mexicana de Fitopatología: enfermedades, epidemiología y manejo.', 'México', 'Abierto'],
             ],
-            'Revistas internacionales' => [
-                ['Iraqi Journal of Veterinary Sciences', 'https://www.vetmedmosul.com/', 'Revista de la Universidad de Mosul con artículos completos de acceso gratuito.', 'Irak', 'Abierto'],
-                ['Ethiopian Journal of Veterinary Sciences and Animal Production', 'https://journal.mu.edu.et/index.php/ejvsap', 'Revista etíope de acceso abierto, sin costo para lectores ni autores.', 'Etiopía', 'Abierto'],
-                ['Open Veterinary Journal', 'https://www.openveterinaryjournal.com/', 'Revista arbitrada de acceso abierto que cubre todas las áreas de la veterinaria.', 'Internacional', 'Abierto'],
-                ['BMC Veterinary Research', 'https://bmcvetres.biomedcentral.com/', 'Revista de Springer Nature que abarca todas las especialidades veterinarias.', 'Internacional', 'Abierto'],
-                ['Veterinary Medicine and Science', 'https://onlinelibrary.wiley.com/journal/20531095', 'Revista de Wiley de acceso abierto en medicina veterinaria fundamental y clínica.', 'Internacional', 'Abierto'],
-                ['Veterinary Sciences · MDPI', 'https://www.mdpi.com/journal/vetsci', 'Revista internacional mensual de acceso abierto publicada por MDPI.', 'Internacional', 'Abierto'],
-                ["World's Veterinary Journal", 'https://www.wvj.science-line.com/', 'Revista arbitrada de acceso abierto en medicina veterinaria y ciencia animal.', 'Internacional', 'Abierto'],
-                ['Veterinary Quarterly', 'https://www.tandfonline.com/journals/tveq20', 'Revista internacional de Taylor & Francis, arbitrada y de acceso abierto.', 'Internacional', 'Abierto'],
+            'Iberoamérica' => [
+                ['Agronomía Mesoamericana', 'https://revistas.ucr.ac.cr/index.php/agromeso', 'Revista de la Universidad de Costa Rica sobre producción agrícola y pecuaria en el trópico.', 'Costa Rica', 'Abierto'],
+                ['Pesquisa Agropecuária Brasileira', 'https://www.scielo.br/j/pab/', 'Revista de la Embrapa con investigación agronómica y pecuaria de Brasil.', 'Brasil', 'Abierto'],
+                ['Bragantia', 'https://www.scielo.br/j/brag/', 'Revista del Instituto Agronômico de Campinas sobre cultivos, suelos y fitotecnia.', 'Brasil', 'Abierto'],
+                ['Chilean Journal of Agricultural Research', 'https://www.scielo.cl/scielo.php?script=sci_serial&pid=0718-5839', 'Revista chilena de investigación agrícola, con artículos en inglés y acceso abierto.', 'Chile', 'Abierto'],
+                ['Revista de la Facultad de Ciencias Agrarias UNCuyo', 'https://revistas.uncu.edu.ar/ojs3/index.php/revistafca', 'Publicación argentina sobre producción vegetal, suelos, riego y agroindustria.', 'Argentina', 'Abierto'],
+                ['Scientia Agropecuaria', 'https://revistas.unitru.edu.pe/index.php/scientiaagrop', 'Revista peruana de investigación en ciencias agrarias y agroindustriales.', 'Perú', 'Abierto'],
+                ['Revista Colombiana de Ciencias Hortícolas', 'https://revistas.uptc.edu.co/index.php/ciencias_horticolas', 'Revista especializada en horticultura tropical y fruticultura.', 'Colombia', 'Abierto'],
             ],
-            'Plataformas editoriales' => [
-                ['MDPI', 'https://www.mdpi.com/', 'Editorial con numerosas revistas de acceso abierto, incluyendo varias del área veterinaria.', 'Internacional', 'Abierto'],
-                ['BMC · BioMed Central', 'https://www.biomedcentral.com/', 'Parte de Springer Nature; publica revistas de acceso abierto como BMC Veterinary Research.', 'Internacional', 'Abierto'],
-                ['Wiley Online Library', 'https://onlinelibrary.wiley.com/', 'Plataforma con revistas de acceso abierto como Veterinary Medicine and Science.', 'Internacional', 'Mixto'],
-                ['Frontiers in Veterinary Science', 'https://www.frontiersin.org/journals/veterinary-science', 'Revista de acceso abierto de Frontiers dedicada a la ciencia veterinaria.', 'Internacional', 'Abierto'],
+            'Internacionales' => [
+                ['Frontiers in Plant Science', 'https://www.frontiersin.org/journals/plant-science', 'Revista de acceso abierto sobre fisiología, genética y protección de cultivos.', 'Internacional', 'Abierto'],
+                ['Agriculture · MDPI', 'https://www.mdpi.com/journal/agriculture', 'Revista de acceso abierto sobre sistemas agrícolas, manejo y sostenibilidad.', 'Internacional', 'Abierto'],
+                ['Agronomy · MDPI', 'https://www.mdpi.com/journal/agronomy', 'Publicación de acceso abierto en agronomía, suelos y protección de cultivos.', 'Internacional', 'Abierto'],
+                ['Journal of Integrative Agriculture', 'https://www.sciencedirect.com/journal/journal-of-integrative-agriculture', 'Revista de la Academia China de Ciencias Agrícolas con acceso abierto.', 'China', 'Abierto'],
+                ['Plant Disease', 'https://apsjournals.apsnet.org/journal/pdis', 'Revista de la American Phytopathological Society; algunos artículos son de acceso abierto.', 'Estados Unidos', 'Mixto'],
             ],
             'Para mantenerte al día' => [
-                ['VetLit', 'https://vetlit.org/', 'Recurso gratuito que reúne publicaciones recientes de más de 40 revistas veterinarias.', 'Internacional', 'Abierto'],
-                ['NAVC · Publicaciones', 'https://navc.com/publications/', 'Publicaciones revisadas por pares de la North American Veterinary Community.', 'Estados Unidos', 'Registro'],
-                ["Today's Veterinary Practice", 'https://todaysveterinarypractice.com/', 'Publicaciones clínicas con suscripción gratuita para profesionales veterinarios.', 'Estados Unidos', 'Registro'],
+                ['SciELO México', 'https://www.scielo.org.mx/', 'Colección mexicana de SciELO con revistas arbitradas de acceso abierto.', 'México', 'Abierto'],
+                ['CONAHCYT · Repositorios', 'https://conahcyt.mx/', 'Acceso a repositorios institucionales y producción científica nacional.', 'México', 'Abierto'],
+                ['CIMMYT · Publicaciones', 'https://www.cimmyt.org/es/publicaciones/', 'Informes, guías y artículos del Centro Internacional de Mejoramiento de Maíz y Trigo.', 'México', 'Abierto'],
+                ['INIFAP · Publicaciones', 'https://www.gob.mx/inifap', 'Guías técnicas, fichas y publicaciones del Instituto Nacional de Investigaciones Forestales, Agrícolas y Pecuarias.', 'México', 'Abierto'],
             ],
         ];
 
         return $this->view('resources.journals', [
-            'title' => 'Revistas y directorios de acceso abierto · Diagnóstico Veterinario',
-            'metaDescription' => 'Directorio de revistas veterinarias, hemerotecas y buscadores de acceso abierto en México, Iberoamérica y el mundo.',
+            'title' => 'Revistas y directorios de acceso abierto · AgroDiagnóstico',
+            'metaDescription' => 'Directorios, hemerotecas y revistas de acceso abierto para ingenieros agrónomos, con énfasis en México e Iberoamérica.',
             'groups' => $groups,
             'bodyClass' => 'page-resources',
         ]);
@@ -139,13 +138,11 @@ final class ResourceController extends BaseController
 
         $user = Auth::user();
         return $this->view('resources.show', [
-            'title' => $resource['title'] . ' · Recursos · Diagnóstico Veterinario',
+            'title' => $resource['title'] . ' · Recursos · AgroDiagnóstico',
             'metaDescription' => excerpt($resource['what_for'] ?: $resource['description'], 160),
             'resource' => $resource,
             'related' => $repo->related($resource, 3),
             'isFavorite' => $user !== null && $repo->isFavorite((int) $user['id'], (int) $resource['id']),
-            'vethubTotal' => $resource['slug'] === 'vetdatahub' ? (new VetDataHubRepository())->total() : 0,
-            'petevalTotal' => $resource['slug'] === 'peteval' ? (new PetEvalRepository())->total() : 0,
             'goals' => self::goals(),
             'canonical' => url('/recursos/' . $resource['slug']),
         ]);
@@ -169,8 +166,8 @@ final class ResourceController extends BaseController
         $user = Auth::requireLogin();
         $repo = new ResourceRepository();
         return $this->view('resources.favorites', [
-            'title' => 'Mis recursos guardados · Diagnóstico Veterinario',
-            'metaDescription' => 'Recursos de datos veterinarios que guardaste para consultar después.',
+            'title' => 'Mis recursos guardados · AgroDiagnóstico',
+            'metaDescription' => 'Recursos de datos agrónomos que guardaste para consultar después.',
             'resources' => $repo->favoritesForUser((int) $user['id']),
             'user' => $user,
         ]);
@@ -178,90 +175,144 @@ final class ResourceController extends BaseController
 
     public function kit(Request $request): Response
     {
-        $downloads = [
-            [
-                'title' => 'Plantilla de caso clínico',
-                'description' => 'Estructura lista para escribir un caso con anamnesis, exploración, estudios, diagnóstico y discusión.',
-                'file' => '/descargas/plantilla-caso-clinico.docx',
-                'type' => 'DOCX',
-                'icon' => 'file-text',
-            ],
-            [
-                'title' => 'Checklist de consentimiento y anonimización',
-                'description' => 'Lista imprimible para confirmar consentimiento del tutor y eliminar datos identificables antes de publicar.',
-                'file' => '/descargas/checklist-consentimiento.docx',
-                'type' => 'DOCX',
-                'icon' => 'shield',
-            ],
-            [
-                'title' => 'Solicitud de acceso a datos',
-                'description' => 'Carta modelo para pedir acceso a un dataset o repositorio de investigación.',
-                'file' => '/descargas/solicitud-acceso-datos.docx',
-                'type' => 'DOCX',
-                'icon' => 'mail',
-            ],
-            [
-                'title' => 'Guía rápida: recursos para veterinarios',
-                'description' => 'Explicación breve de qué es un dataset, una API, un repositorio y cómo pedir acceso sin ser programador.',
-                'file' => '/descargas/guia-recursos-para-veterinarios.docx',
-                'type' => 'DOCX',
-                'icon' => 'book-open',
-            ],
-            [
-                'title' => 'Hoja de alta y recomendaciones',
-                'description' => 'Formato para entregar al tutor: diagnóstico, medicamentos, cuidados en casa, signos de alarma y seguimiento.',
-                'file' => '/descargas/hoja-de-alta.docx',
-                'type' => 'DOCX',
-                'icon' => 'file-text',
-            ],
-            [
-                'title' => 'Consentimiento informado imprimible',
-                'description' => 'Formato para autorizar la publicación educativa del caso con datos anonimizados y firma del tutor.',
-                'file' => '/descargas/consentimiento-informado.docx',
-                'type' => 'DOCX',
-                'icon' => 'shield',
-            ],
-            [
-                'title' => 'Cómo citar casos, datos y recursos',
-                'description' => 'Ejemplos en estilo APA 7 para citar casos del portal, artículos, libros, datasets, software y este kit.',
-                'file' => '/descargas/formato-referencia-bibliografica.docx',
-                'type' => 'DOCX',
-                'icon' => 'book-open',
-            ],
-            [
-                'title' => 'Kit completo en un solo archivo',
-                'description' => 'Descarga todas las plantillas juntas en un archivo ZIP para compartirlas con tu equipo.',
-                'file' => '/descargas/kit-recursos-veterinarios.zip',
-                'type' => 'ZIP',
-                'icon' => 'download',
-            ],
-        ];
+    $downloads = [
+        [
+            'title' => 'Plantilla de caso agronómico',
+            'description' => 'Estructura lista para documentar un caso: identificación del cultivo, síntomas, diagnósticos diferenciales, manejo y resultado.',
+            'file' => '/descargas/plantilla-caso-agronomico.docx',
+            'type' => 'DOCX',
+            'icon' => 'file-text',
+        ],
+        [
+            'title' => 'Checklist de consentimiento y anonimización',
+            'description' => 'Lista imprimible para confirmar el consentimiento del productor y eliminar datos identificables antes de publicar.',
+            'file' => '/descargas/checklist-consentimiento-productor.docx',
+            'type' => 'DOCX',
+            'icon' => 'shield',
+        ],
+        [
+            'title' => 'Hoja de recomendación técnica',
+            'description' => 'Formato para entregar al productor: diagnóstico, insumos con ingrediente activo y dosis, prácticas culturales, seguimiento y firma con cédula.',
+            'file' => '/descargas/hoja-de-recomendacion.docx',
+            'type' => 'DOCX',
+            'icon' => 'printer',
+        ],
+        [
+            'title' => 'Consentimiento informado del productor',
+            'description' => 'Formato imprimible para autorizar la publicación del caso y el uso de imágenes con datos anonimizados.',
+            'file' => '/descargas/consentimiento-informado.docx',
+            'type' => 'DOCX',
+            'icon' => 'shield',
+        ],
+        [
+            'title' => 'Solicitud de acceso a datos agrícolas',
+            'description' => 'Carta modelo para pedir información a SIAP, INIFAP, SENASICA u otra institución, con objetivos, compromisos y anexo de verificación ética.',
+            'file' => '/descargas/solicitud-acceso-datos.docx',
+            'type' => 'DOCX',
+            'icon' => 'mail',
+        ],
+        [
+            'title' => 'Guía rápida: datos agrícolas',
+            'description' => 'Qué es un dataset, una API o un repositorio, cómo elegir un recurso y solicitar acceso sin ser programador.',
+            'file' => '/descargas/guia-recursos-para-agronomos.docx',
+            'type' => 'DOCX',
+            'icon' => 'book-open',
+        ],
+        [
+            'title' => 'Referencias bibliográficas (APA 7)',
+            'description' => 'Ejemplos para citar artículos, informes técnicos, conjuntos de datos y normas oficiales en casos y publicaciones.',
+            'file' => '/descargas/formato-referencia-bibliografica.docx',
+            'type' => 'DOCX',
+            'icon' => 'book-open',
+        ],
+        [
+            'title' => 'Kit completo en un solo archivo',
+            'description' => 'Los siete documentos en un ZIP para compartirlos con tu equipo o imprimirlos en campo.',
+            'file' => '/descargas/kit-recursos-agronomicos.zip',
+            'type' => 'ZIP',
+            'icon' => 'download',
+        ],
+    ];
 
         return $this->view('resources.kit', [
-            'title' => 'Kit de recursos para veterinarios · Diagnóstico Veterinario',
-            'metaDescription' => 'Plantillas y guías descargables para usar datos, publicar casos y solicitar acceso a repositorios veterinarios sin conocimientos técnicos.',
+            'title' => 'Kit de recursos para agrónomos · AgroDiagnóstico',
+            'metaDescription' => 'Plantillas y guías descargables para usar datos, publicar casos y solicitar acceso a repositorios agrónomos sin conocimientos técnicos.',
             'downloads' => $downloads,
         ]);
     }
 
     public function glossary(Request $request): Response
     {
-        $terms = [
-            ['término' => 'Dataset', 'definición' => 'Un conjunto de datos organizado en filas y columnas, o en archivos, que puede analizarse con una hoja de cálculo o un programa.'],
-            ['término' => 'Repositorio', 'definición' => 'Un sitio donde se guardan y comparten archivos, datos o código. GitHub es un repositorio de código; Dryad es un repositorio de datos de investigación.'],
-            ['término' => 'API', 'definición' => 'Una forma de que dos sistemas se comuniquen. No necesitas programar para beneficiarte de una API, pero sí para integrarla en tu software.'],
-            ['término' => 'CSV', 'definición' => 'Archivo de texto con datos separados por comas. Se abre con Excel, Numbers o Google Sheets.'],
-            ['término' => 'Licencia', 'definición' => 'Reglas que indican qué puedes hacer con un contenido: leerlo, copiarlo, modificarlo o usarlo comercialmente.'],
-            ['término' => 'Acceso abierto', 'definición' => 'El recurso puede consultarse sin pagar ni pedir permiso, aunque puede tener condiciones de atribución.'],
-            ['término' => 'Acceso por solicitud', 'definición' => 'Debes llenar un formulario o escribir al equipo responsable. Puede tardar días o semanas.'],
-            ['término' => 'Metadatos', 'definición' => 'Información que describe un dato: quién lo generó, cuándo, cómo y con qué método.'],
-            ['término' => 'Anonimización', 'definición' => 'Eliminar o modificar datos que permiten identificar a una persona o animal.'],
-            ['término' => 'ICD-11', 'definición' => 'Clasificación internacional de enfermedades. En veterinaria se usa para estandarizar diagnósticos y facilitar la comparación.'],
-        ];
+    $terms = [
+        [
+            'término' => 'Dataset',
+            'definición' => 'Conjunto de datos organizado en filas y columnas o en archivos. Ejemplo: la superficie sembrada y el rendimiento por cultivo y municipio que publica el SIAP.',
+        ],
+        [
+            'término' => 'Repositorio',
+            'definición' => 'Sitio donde se guardan y comparten datos, documentos o código, con versión y licencia. Ejemplo: el repositorio institucional del INIFAP.',
+        ],
+        [
+            'término' => 'API',
+            'definición' => 'Forma en que dos sistemas intercambian datos. Puedes leer su documentación sin programar; para integrarla en un programa hace falta apoyo técnico. Ejemplo: una API que devuelve precios agrícolas por fecha.',
+        ],
+        [
+            'término' => 'CSV',
+            'definición' => 'Archivo de texto con datos separados por comas. Se abre con Excel, Numbers o Google Sheets y conserva las columnas originales.',
+        ],
+        [
+            'término' => 'Metadatos',
+            'definición' => 'Información que describe un dato: quién lo generó, cuándo, dónde, con qué método y en qué unidad. Ejemplo: rendimiento expresado en t/ha.',
+        ],
+        [
+            'término' => 'Diccionario de variables',
+            'definición' => 'Documento que explica el significado y la unidad de cada columna. Ejemplo: “sup_sembrada” se mide en hectáreas y “produccion” en toneladas.',
+        ],
+        [
+            'término' => 'Licencia',
+            'definición' => 'Reglas para usar un contenido: leerlo, copiarlo, modificarlo o usarlo comercialmente. Ejemplo: CC BY 4.0 exige atribución; CC BY-NC-SA 4.0 no permite uso comercial.',
+        ],
+        [
+            'término' => 'Acceso abierto',
+            'definición' => 'El recurso se consulta sin pagar ni pedir permiso, aunque puede exigir atribución y conservar la misma licencia.',
+        ],
+        [
+            'término' => 'Acceso por solicitud',
+            'definición' => 'Requiere llenar un formulario o enviar una carta al área responsable; puede tardar días o semanas y condicionarse a datos agregados.',
+        ],
+        [
+            'término' => 'Anonimización',
+            'definición' => 'Eliminar o modificar datos que permitan identificar a una persona, un predio o una empresa. Ejemplo: publicar el municipio en lugar de las coordenadas GPS exactas de la parcela.',
+        ],
+        [
+            'término' => 'Rendimiento (t/ha)',
+            'definición' => 'Producción obtenida por hectárea. No es lo mismo que la producción total: 10 t/ha en 5 ha son 50 t. Se expresa en toneladas por hectárea o en kilogramos por hectárea.',
+        ],
+        [
+            'término' => 'Superficie sembrada, cosechada y siniestrada',
+            'definición' => 'Sembrada: hectáreas plantadas. Cosechada: las que llegaron a cosecha. Siniestrada: las pérdidas por sequía, helada, plaga u otro evento.',
+        ],
+        [
+            'término' => 'Ciclo agrícola',
+            'definición' => 'Periodo de producción. En México suele hablarse de Primavera-Verano (PV) y Otoño-Invierno (OI), con siembras y cosechas en fechas distintas.',
+        ],
+        [
+            'término' => 'Etapa fenológica',
+            'definición' => 'Fase de desarrollo del cultivo: emergencia, vegetativo, floración, llenado de fruto o grano, madurez y cosecha. Condiciona el manejo y la interpretación de los síntomas.',
+        ],
+        [
+            'término' => 'Norma Oficial Mexicana (NOM)',
+            'definición' => 'Regulación técnica obligatoria emitida por una dependencia federal. Ejemplo: NOM-021-RECNAT-2000, sobre fertilidad, salinidad y clasificación de suelos.',
+        ],
+        [
+            'término' => 'DOI',
+            'definición' => 'Identificador permanente de un documento o conjunto de datos. Sirve para citar la fuente aunque cambie la dirección del sitio.',
+        ],
+    ];
 
         return $this->view('resources.glossary', [
-            'title' => 'Glosario de datos y tecnología · Diagnóstico Veterinario',
-            'metaDescription' => 'Glosario en español para entender datasets, APIs, repositorios, licencias y términos de datos veterinarios.',
+            'title' => 'Glosario de datos y tecnología · AgroDiagnóstico',
+            'metaDescription' => 'Glosario en español para entender datasets, APIs, repositorios, licencias y términos de datos agrónomos.',
             'terms' => $terms,
         ]);
     }

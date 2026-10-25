@@ -31,7 +31,7 @@
             <span>Rol</span>
             <select name="role">
                 <option value="">Todos</option>
-                <?php foreach (['veterinario' => 'Veterinario', 'editor' => 'Editor', 'admin' => 'Administrador'] as $value => $label): ?>
+                <?php foreach (['agronomo' => 'Agrónomo', 'editor' => 'Editor', 'admin' => 'Administrador'] as $value => $label): ?>
                     <option value="<?= e($value) ?>" <?= $filters['role'] === $value ? 'selected' : '' ?>><?= e($label) ?></option>
                 <?php endforeach; ?>
             </select>
@@ -93,7 +93,7 @@
                             <form class="inline-form" method="post" action="<?= e(url('/admin/usuarios/' . $user['id'] . '/rol')) ?>">
                                 <?= csrf_field() ?>
                                 <select name="role" aria-label="Rol de <?= e($user['name']) ?>">
-                                    <?php foreach (['veterinario' => 'Veterinario', 'editor' => 'Editor', 'admin' => 'Administrador'] as $value => $label): ?>
+                                    <?php foreach (['agronomo' => 'Agrónomo', 'editor' => 'Editor', 'admin' => 'Administrador'] as $value => $label): ?>
                                         <option value="<?= e($value) ?>" <?= $user['role'] === $value ? 'selected' : '' ?>><?= e($label) ?></option>
                                     <?php endforeach; ?>
                                 </select>

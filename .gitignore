@@ -25,6 +25,9 @@ public/uploads/*
 !public/uploads/cases/
 public/uploads/cases/*
 !public/uploads/cases/.gitkeep
+!public/uploads/avatars/
+public/uploads/avatars/*
+!public/uploads/avatars/.gitkeep
 
 # Logs y sistema
 *.log

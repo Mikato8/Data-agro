@@ -14,7 +14,7 @@ foreach ($groups as $items) { $total += count($items); }
             <div>
                 <span class="eyebrow">Bibliotecas y evidencia</span>
                 <h1>Revistas y directorios de acceso abierto</h1>
-                <p class="page-hero-lead">Buscadores, hemerotecas y publicaciones veterinarias gratuitas para leer, citar y mantenerte actualizado. La mayoría no requiere cuenta; algunas piden registro sin costo.</p>
+                <p class="page-hero-lead">Buscadores, hemerotecas y publicaciones agronómicas gratuitas para leer, citar y mantenerte actualizado. La mayoría no requiere cuenta; algunas piden registro sin costo.</p>
             </div>
             <div class="page-hero-aside">
                 <span class="big-number"><?= $total ?></span>

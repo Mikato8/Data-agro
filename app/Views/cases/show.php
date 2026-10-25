@@ -8,7 +8,7 @@
 /** @var bool $canModerate */
 $caseUrl = url('/casos/' . $case['slug']);
 $publishedYear = $case['published_at'] ? date('Y', strtotime((string) $case['published_at'])) : date('Y');
-$citation = $case['author_name'] . ' (' . $publishedYear . '). ' . $case['title'] . '. Diagnóstico Veterinario. ' . $caseUrl;
+$citation = $case['author_name'] . ' (' . $publishedYear . '). ' . $case['title'] . '. AgroDiagnóstico. ' . $caseUrl;
 ?>
 <section class="case-header">
     <div class="container">
@@ -36,7 +36,7 @@ $citation = $case['author_name'] . ' (' . $publishedYear . '). ' . $case['title'
                 <?= icon('info', 'icon') ?>
                 <div>
                     <strong>Caso demostrativo.</strong>
-                    <p>Este contenido fue elaborado para mostrar el flujo editorial del portal. No corresponde a un paciente real y los datos son ficticios.</p>
+                    <p>Este contenido fue elaborado para mostrar el flujo editorial del portal. No corresponde a una parcela ni a un productor reales; los datos son ficticios.</p>
                 </div>
             </div>
         <?php endif; ?>
@@ -44,7 +44,7 @@ $citation = $case['author_name'] . ' (' . $publishedYear . '). ' . $case['title'
         <div class="case-title-row">
             <div class="case-title-main">
                 <div class="case-kicker">
-                    <span class="species-pill species-<?= e($case['species_code']) ?>"><?= e($case['species_emoji'] ?? species_emoji($case['species_code'])) ?> <?= e($case['species_name']) ?></span>
+                    <span class="crops-pill crops-<?= e($case['crop_code']) ?>"><?= e($case['crop_emoji'] ?? crop_emoji($case['crop_code'])) ?> <?= e($case['crop_name']) ?></span>
                     <span class="badge badge-soft"><?= e(outcome_label($case['outcome'])) ?></span>
                     <?php if ($case['featured']): ?><span class="badge badge-accent"><?= icon('sparkles', 'icon icon-xs') ?> Destacado</span><?php endif; ?>
                 </div>
@@ -54,7 +54,7 @@ $citation = $case['author_name'] . ' (' . $publishedYear . '). ' . $case['title'
                     <?= avatar_tag((string) $case['author_name'], $case['author_avatar_url'] ?? null, 'avatar-sm') ?>
                     <div>
                         <strong><?= e($case['author_name']) ?></strong>
-                        <span><?= e($case['author_institution'] ?? 'Médico veterinario') ?><?php if ($case['author_status'] === 'verificado'): ?> · <span class="verified"><?= icon('check-circle', 'icon icon-xs') ?> Verificado</span><?php endif; ?></span>
+                        <span><?= e($case['author_institution'] ?? 'Ingeniero agrónomo') ?><?php if ($case['author_status'] === 'verificado'): ?> · <span class="verified"><?= icon('check-circle', 'icon icon-xs') ?> Verificado</span><?php endif; ?></span>
                     </div>
                     <span class="byline-divider"></span>
                     <span class="byline-meta"><?= icon('calendar', 'icon icon-xs') ?> <?= e(format_date($case['published_at'], 'd M Y')) ?></span>
@@ -69,7 +69,7 @@ $citation = $case['author_name'] . ' (' . $publishedYear . '). ' . $case['title'
                 <button class="btn btn-ghost btn-sm" type="button" data-copy="<?= e($citation) ?>"><?= icon('copy', 'icon icon-xs') ?> Citar</button>
                 <a class="btn btn-ghost btn-sm" href="<?= e(url('/casos/' . $case['slug'] . '/pdf')) ?>"><?= icon('download', 'icon icon-xs') ?> PDF</a>
                 <a class="btn btn-ghost btn-sm" href="<?= e(url('/casos/' . $case['slug'] . '/docx')) ?>"><?= icon('file-text', 'icon icon-xs') ?> Word</a>
-                <a class="btn btn-ghost btn-sm" href="<?= e(url('/casos/' . $case['slug'] . '/ia-urgencia')) ?>"><?= icon('cpu', 'icon icon-xs') ?> IA</a>
+                <a class="btn btn-ghost btn-sm" href="<?= e(url('/casos/' . $case['slug'] . '/ia-emergencia')) ?>"><?= icon('cpu', 'icon icon-xs') ?> Riesgo</a>
             </div>
         </div>
     </div>
@@ -86,7 +86,7 @@ $citation = $case['author_name'] . ' (' . $publishedYear . '). ' . $case['title'
                 <div>
                     <span class="summary-label">Diagnóstico final</span>
                     <p class="summary-diagnosis"><?= e($case['final_diagnosis']) ?></p>
-                    <?php if (!empty($case['icd11_code'])): ?><span class="summary-code">ICD-11: <?= e($case['icd11_code']) ?></span><?php endif; ?>
+                    <?php if (!empty($case['reference_code'])): ?><span class="summary-code">Clave: <?= e($case['reference_code']) ?></span><?php endif; ?>
                 </div>
             </div>
 
@@ -96,29 +96,29 @@ $citation = $case['author_name'] . ' (' . $publishedYear . '). ' . $case['title'
                     <div class="case-gallery">
                         <?php foreach ($case['images'] as $image): ?>
                             <figure>
-                                <img src="<?= e(url('/uploads/cases/' . $image['path'])) ?>" alt="<?= e($image['alt_text'] ?: ($image['caption'] ?: 'Imagen del caso clínico')) ?>" loading="lazy">
+                                <img src="<?= e(url('/uploads/cases/' . $image['path'])) ?>" alt="<?= e($image['alt_text'] ?: ($image['caption'] ?: 'Imagen del caso agronómico')) ?>" loading="lazy">
                                 <?php if (!empty($image['caption'])): ?><figcaption><?= e($image['caption']) ?></figcaption><?php endif; ?>
                             </figure>
                         <?php endforeach; ?>
                     </div>
-                    <p class="case-disclaimer">Las imágenes se publican con consentimiento y fines educativos. No permiten identificar al tutor ni al paciente.</p>
+                    <p class="case-disclaimer">Las imágenes se publican con consentimiento y fines educativos. No permiten identificar al productor ni al cultivo.</p>
                 </section>
             <?php endif; ?>
 
             <section class="case-section">
-                <h2><span class="section-index">01</span> Anamnesis</h2>
-                <div class="prose"><?= nl2br(e($case['anamnesis'])) ?></div>
+                <h2><span class="section-index">01</span> Historial de manejo</h2>
+                <div class="prose"><?= nl2br(e($case['crop_history'])) ?></div>
             </section>
 
             <section class="case-section">
-                <h2><span class="section-index">02</span> Exploración física</h2>
-                <div class="prose"><?= nl2br(e($case['physical_exam'])) ?></div>
+                <h2><span class="section-index">02</span> Inspección de campo</h2>
+                <div class="prose"><?= nl2br(e($case['field_inspection'])) ?></div>
             </section>
 
-            <?php if (trim((string) $case['diagnostics']) !== ''): ?>
+            <?php if (trim((string) $case['lab_tests']) !== ''): ?>
                 <section class="case-section">
-                    <h2><span class="section-index">03</span> Estudios y diagnóstico</h2>
-                    <div class="prose"><?= nl2br(e($case['diagnostics'])) ?></div>
+                    <h2><span class="section-index">03</span> Análisis y diagnóstico</h2>
+                    <div class="prose"><?= nl2br(e($case['lab_tests'])) ?></div>
                 </section>
             <?php endif; ?>
 
@@ -132,13 +132,13 @@ $citation = $case['author_name'] . ' (' . $publishedYear . '). ' . $case['title'
             <section class="case-section case-section-highlight">
                 <h2><span class="section-index">05</span> Diagnóstico final</h2>
                 <p class="final-diagnosis"><?= e($case['final_diagnosis']) ?></p>
-                <?php if (!empty($case['icd11_code'])): ?><p class="case-muted">Código ICD-11: <?= e($case['icd11_code']) ?></p><?php endif; ?>
+                <?php if (!empty($case['reference_code'])): ?><p class="case-muted">Código Clave: <?= e($case['reference_code']) ?></p><?php endif; ?>
             </section>
 
-            <?php if (trim((string) $case['treatment']) !== ''): ?>
+            <?php if (trim((string) $case['management']) !== ''): ?>
                 <section class="case-section">
-                    <h2><span class="section-index">06</span> Tratamiento y manejo</h2>
-                    <div class="prose"><?= nl2br(e($case['treatment'])) ?></div>
+                    <h2><span class="section-index">06</span> Manejo recomendado</h2>
+                    <div class="prose"><?= nl2br(e($case['management'])) ?></div>
                 </section>
             <?php endif; ?>
 
@@ -148,7 +148,7 @@ $citation = $case['author_name'] . ' (' . $publishedYear . '). ' . $case['title'
                     <?= icon($case['outcome'] === 'curado' ? 'check-circle' : ($case['outcome'] === 'fallecido' || $case['outcome'] === 'eutanasia' ? 'alert-triangle' : 'clock'), 'icon') ?>
                     <div>
                         <strong><?= e(outcome_label($case['outcome'])) ?></strong>
-                        <p><?= e($case['outcome'] === 'curado' ? 'El paciente se recuperó o el problema se resolvió.' : ($case['outcome'] === 'en_tratamiento' ? 'El paciente continúa en seguimiento al momento de la publicación.' : 'El desenlace se documenta con fines educativos y de aprendizaje.')) ?></p>
+                        <p><?= e($case['outcome'] === 'curado' ? 'El cultivo se recuperó o el problema se resolvió.' : ($case['outcome'] === 'en_manejo' ? 'El cultivo continúa en seguimiento al momento de la publicación.' : 'El desenlace se documenta con fines educativos y de aprendizaje.')) ?></p>
                     </div>
                 </div>
             </section>
@@ -186,14 +186,14 @@ $citation = $case['author_name'] . ' (' . $publishedYear . '). ' . $case['title'
 
             <section class="comments" id="comentarios">
                 <div class="comments-head">
-                    <h2>Discusión clínica <span class="count-badge"><?= count($comments) ?></span></h2>
+                    <h2>Discusión entre colegas <span class="count-badge"><?= count($comments) ?></span></h2>
                     <p>Comentarios de colegas verificados. Mantén un tono respetuoso y basado en evidencia.</p>
                 </div>
 
                 <?php if ($comments === []): ?>
                     <div class="comments-empty">
                         <?= icon('message-circle', 'icon') ?>
-                        <p>Aún no hay comentarios. Inicia la conversación con una observación clínica.</p>
+                        <p>Aún no hay comentarios. Inicia la conversación con una observación técnica.</p>
                     </div>
                 <?php else: ?>
                     <ol class="comment-list">
@@ -203,7 +203,7 @@ $citation = $case['author_name'] . ' (' . $publishedYear . '). ' . $case['title'
                                 <div class="comment-body">
                                     <div class="comment-head">
                                         <strong><?= e($comment['author_name']) ?></strong>
-                                        <?php if ($comment['author_role'] !== 'veterinario'): ?><span class="badge badge-soft"><?= e((string) config('app.roles.' . $comment['author_role'], $comment['author_role'])) ?></span><?php endif; ?>
+                                        <?php if ($comment['author_role'] !== 'agronomo'): ?><span class="badge badge-soft"><?= e((string) config('app.roles.' . $comment['author_role'], $comment['author_role'])) ?></span><?php endif; ?>
                                         <?php if ($comment['status'] === 'oculto'): ?><span class="badge badge-warning">Oculto</span><?php endif; ?>
                                         <time datetime="<?= e($comment['created_at']) ?>"><?= e(time_ago($comment['created_at'])) ?></time>
                                     </div>
@@ -233,7 +233,7 @@ $citation = $case['author_name'] . ' (' . $publishedYear . '). ' . $case['title'
                 <?php else: ?>
                     <form class="comment-form" method="post" action="<?= e(url('/casos/' . $case['slug'] . '/comentarios')) ?>">
                         <?= csrf_field() ?>
-                        <label for="comment-body">Añadir un comentario clínico</label>
+                        <label for="comment-body">Añadir un comentario técnico</label>
                         <textarea id="comment-body" name="body" rows="4" maxlength="3000" required placeholder="Comparte una observación, pregunta o experiencia relacionada…"></textarea>
                         <div class="comment-form-foot">
                             <span>Máximo 3,000 caracteres. No incluyas datos identificables.</span>
@@ -246,15 +246,17 @@ $citation = $case['author_name'] . ' (' . $publishedYear . '). ' . $case['title'
 
         <aside class="case-sidebar">
             <div class="sidebar-card">
-                <h2 class="sidebar-title"><?= icon('file-text', 'icon icon-sm') ?> Ficha del paciente</h2>
-                <dl class="patient-data">
-                    <div><dt>Especie</dt><dd><?= e($case['species_name']) ?></dd></div>
-                    <?php if (!empty($case['breed_name'])): ?><div><dt>Raza</dt><dd><?= e($case['breed_name']) ?></dd></div><?php endif; ?>
-                    <div><dt>Sexo</dt><dd><?= e(sex_label($case['sex'])) ?></dd></div>
-                    <div><dt>Edad</dt><dd><?= e(age_label($case['age_value'] !== null ? (int) $case['age_value'] : null, $case['age_unit'])) ?></dd></div>
-                    <?php if ($case['weight_kg'] !== null): ?><div><dt>Peso</dt><dd><?= e($case['weight_kg']) ?> kg</dd></div><?php endif; ?>
+                <h2 class="sidebar-title"><?= icon('file-text', 'icon icon-sm') ?> Datos del caso</h2>
+                <dl class="plot-data">
+                    <div><dt>Cultivo</dt><dd><?= e($case['crop_name']) ?></dd></div>
+                    <?php if (!empty($case['variety_name'])): ?><div><dt>Variedad</dt><dd><?= e($case['variety_name']) ?></dd></div><?php endif; ?>
+                    <div><dt>Ciclo</dt><dd><?= e(cycle_label($case['cycle'])) ?></dd></div>
+                    <div><dt>Etapa</dt><dd><?= e(stage_label($case['crop_stage'])) ?></dd></div>
+                    <?php if (($case['area_ha'] ?? null) !== null): ?><div><dt>Superficie</dt><dd><?= e($case['area_ha']) ?> ha</dd></div><?php endif; ?>
+                    <?php if (($case['incidence_pct'] ?? null) !== null): ?><div><dt>Incidencia</dt><dd><?= e($case['incidence_pct']) ?> %</dd></div><?php endif; ?>
                     <?php if (!empty($case['state_name'])): ?><div><dt>Estado</dt><dd><?= e($case['state_name']) ?></dd></div><?php endif; ?>
-                    <div><dt>Entorno</dt><dd><?= e(setting_label($case['setting'])) ?></dd></div>
+                    <?php if (!empty($case['municipality'])): ?><div><dt>Municipio</dt><dd><?= e($case['municipality']) ?></dd></div><?php endif; ?>
+                    <div><dt>Sistema</dt><dd><?= e(system_label($case['system'])) ?></dd></div>
                     <div><dt>Folio</dt><dd><?= e($case['folio']) ?></dd></div>
                 </dl>
             </div>
@@ -262,7 +264,7 @@ $citation = $case['author_name'] . ' (' . $publishedYear . '). ' . $case['title'
             <div class="sidebar-card author-card">
                 <?= avatar_tag((string) $case['author_name'], $case['author_avatar_url'] ?? null, 'avatar-lg') ?>
                 <h2><?= e($case['author_name']) ?></h2>
-                <p class="author-inst"><?= e($case['author_institution'] ?? 'Médico veterinario') ?></p>
+                <p class="author-inst"><?= e($case['author_institution'] ?? 'Ingeniero agrónomo') ?></p>
                 <?php if ($case['author_status'] === 'verificado'): ?>
                     <span class="badge badge-success"><?= icon('check-circle', 'icon icon-xs') ?> Cédula verificada</span>
                 <?php endif; ?>
@@ -270,12 +272,12 @@ $citation = $case['author_name'] . ' (' . $publishedYear . '). ' . $case['title'
             </div>
 
             <div class="sidebar-card utility-card">
-                <h2 class="sidebar-title"><?= icon('heart-pulse', 'icon icon-sm') ?> ¿Te resultó útil?</h2>
-                <p>Reconoce el trabajo del autor y ayuda a destacar casos con valor clínico.</p>
+                <h2 class="sidebar-title"><?= icon('check-circle', 'icon icon-sm') ?> ¿Te resultó útil?</h2>
+                <p>Reconoce el trabajo del autor y ayuda a destacar casos con valor agronómico.</p>
                 <form method="post" action="<?= e(url('/casos/' . $case['slug'] . '/util')) ?>" data-reaction-form>
                     <?= csrf_field() ?>
                     <button class="btn <?= $reacted ? 'btn-primary' : 'btn-outline' ?> btn-block" type="submit" data-reaction-button>
-                        <?= icon('heart-pulse', 'icon icon-sm') ?> <span data-reaction-label><?= $reacted ? 'Marcado como útil' : 'Me resultó útil' ?></span>
+                        <?= icon('check-circle', 'icon icon-sm') ?> <span data-reaction-label><?= $reacted ? 'Marcado como útil' : 'Me resultó útil' ?></span>
                         <span class="reaction-count" data-reaction-count><?= (int) $case['reactions_count'] ?></span>
                     </button>
                 </form>
@@ -298,7 +300,7 @@ $citation = $case['author_name'] . ' (' . $publishedYear . '). ' . $case['title'
                     <div class="similar-list">
                         <?php foreach ($similar as $item): ?>
                             <a href="<?= e(url('/casos/' . $item['slug'])) ?>">
-                                <span class="similar-species"><?= e($item['species_emoji'] ?? species_emoji($item['species_code'])) ?></span>
+                                <span class="similar-crops"><?= e($item['crop_emoji'] ?? crop_emoji($item['crop_code'])) ?></span>
                                 <span>
                                     <strong><?= e(excerpt($item['title'], 70)) ?></strong>
                                     <small><?= e($item['final_diagnosis']) ?> · <?= e($item['state_name'] ?? 'México') ?></small>

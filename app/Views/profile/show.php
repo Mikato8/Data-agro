@@ -19,7 +19,7 @@ $errors = \App\Core\Flash::errors();
                     <span class="badge badge-soft"><?= e((string) config('app.roles.' . $user['role'], $user['role'])) ?></span>
                 </div>
                 <h1><?= e($user['name']) ?></h1>
-                <p><?= e($user['institution'] ?? 'Médico veterinario') ?><?php if (!empty($user['state_name'])): ?> · <?= e($user['state_name']) ?><?php endif; ?></p>
+                <p><?= e($user['institution'] ?? 'Ingeniero agrónomo') ?><?php if (!empty($user['state_name'])): ?> · <?= e($user['state_name']) ?><?php endif; ?></p>
             </div>
             <div class="profile-hero-stats">
                 <div><strong><?= (int) $caseCount ?></strong><span>casos</span></div>
@@ -48,7 +48,7 @@ $errors = \App\Core\Flash::errors();
                     <span class="form-step">01</span>
                     <div>
                         <h2>Datos profesionales</h2>
-                        <p>Esta información se muestra en tu perfil público y junto a tus casos.</p>
+                        <p>Tu nombre, institución y semblanza se muestran en tu perfil y junto a los casos que publicas.</p>
                     </div>
                 </div>
                 <form method="post" action="<?= e(url('/perfil')) ?>">
@@ -68,7 +68,7 @@ $errors = \App\Core\Flash::errors();
                         <div class="field">
                             <label for="license_number">Cédula profesional</label>
                             <input id="license_number" name="license_number" type="text" required maxlength="40" value="<?= e(old('license_number', $user['license_number'])) ?>">
-                            <span class="field-help">Solo el comité editorial ve este dato completo.</span>
+                            <span class="field-help">No se muestra públicamente; el comité editorial la usa para verificar tu identidad profesional.</span>
                         </div>
                         <div class="field">
                             <label for="state_code">Estado</label>
@@ -80,12 +80,12 @@ $errors = \App\Core\Flash::errors();
                         </div>
                     </div>
                     <div class="field">
-                        <label for="institution">Institución, clínica u hospital</label>
+                        <label for="institution">Institución, empresa o despacho</label>
                         <input id="institution" name="institution" type="text" required maxlength="160" value="<?= e(old('institution', $user['institution'])) ?>">
                     </div>
                     <div class="field">
                         <label for="bio">Semblanza</label>
-                        <textarea id="bio" name="bio" rows="4" maxlength="1200" placeholder="Áreas de interés, formación, tipo de práctica…"><?= e(old('bio', $user['bio'])) ?></textarea>
+                        <textarea id="bio" name="bio" rows="4" maxlength="1200" placeholder="Especialidades, formación y cultivos que atiendes…"><?= e(old('bio', $user['bio'])) ?></textarea>
                     </div>
                     <button class="btn btn-primary" type="submit">Guardar cambios</button>
                 </form>
@@ -180,7 +180,7 @@ $errors = \App\Core\Flash::errors();
                         <button class="btn btn-ghost btn-sm" type="submit">Quitar foto</button>
                     </form>
                 <?php endif; ?>
-                <p class="avatar-upload-help">Se recorta en círculo. No uses imágenes con datos de pacientes.</p>
+                <p class="avatar-upload-help">Se recorta en círculo. No uses imágenes con personas identificables, documentos o datos de parcelas.</p>
             </div>
 
             <div class="sidebar-card">
@@ -189,7 +189,7 @@ $errors = \App\Core\Flash::errors();
                     <p>Tu cédula fue verificada por el comité editorial. Puedes enviar casos a revisión y comentar.</p>
                     <span class="badge badge-success"><?= icon('check-circle', 'icon icon-xs') ?> Verificado</span>
                 <?php elseif ($user['status'] === 'pendiente'): ?>
-                    <p>Tu cuenta está en revisión. Un administrador verificará tu cédula profesional. Mientras tanto puedes guardar borradores.</p>
+                    <p>Tu cuenta está en revisión. El equipo editorial verificará tu cédula profesional. Mientras tanto puedes guardar borradores.</p>
                     <span class="badge badge-warning">Pendiente</span>
                 <?php else: ?>
                     <p>Tu cuenta está suspendida. Contacta al comité editorial para más información.</p>

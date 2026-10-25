@@ -11,7 +11,7 @@
         <div class="page-hero-grid">
             <div>
                 <span class="eyebrow">Mi actividad</span>
-                <h1>Mis casos clínicos</h1>
+                <h1>Mis casos agronómicos</h1>
                 <p>Gestiona tus borradores, revisa la retroalimentación editorial y da seguimiento a tus casos publicados.</p>
             </div>
             <div class="page-hero-aside">
@@ -48,7 +48,7 @@
             <div class="empty-state">
                 <span class="empty-icon"><?= icon('file-text', 'icon') ?></span>
                 <h2>Tu primer caso está por escribirse</h2>
-                <p>Documenta una experiencia clínica, compártela con la comunidad y recibe retroalimentación de colegas.</p>
+                <p>Documenta una experiencia de campo, compártela con la comunidad y recibe retroalimentación de colegas.</p>
                 <div class="empty-actions">
                     <a class="btn btn-primary" href="<?= e(url('/casos/nuevo')) ?>">Compartir mi primer caso</a>
                     <a class="btn btn-outline" href="<?= e(url('/etica')) ?>">Leer la guía editorial</a>
@@ -59,19 +59,19 @@
                 <?php foreach ($cases as $case): ?>
                     <?php
                     $complete = 0;
-                    foreach (['final_diagnosis', 'treatment', 'diagnostics', 'discussion'] as $field) {
+                    foreach (['final_diagnosis', 'management', 'lab_tests', 'discussion'] as $field) {
                         if (trim((string) ($case[$field] ?? '')) !== '') {
                             $complete++;
                         }
                     }
-                    if (!empty($case['owner_consent'])) { $complete++; }
+                    if (!empty($case['producer_consent'])) { $complete++; }
                     if (!empty($case['anonymized'])) { $complete++; }
                     $percent = (int) round(($complete / 6) * 100);
                     $editable = in_array($case['status'], ['borrador', 'cambios_solicitados', 'rechazado'], true) || in_array($user['role'], (array) config('app.moderators', []), true);
                     ?>
                     <article class="my-case-row">
-                        <div class="my-case-species species-<?= e($case['species_code'] ?? 'exotico') ?>">
-                            <span><?= e($case['species_emoji'] ?? '🐾') ?></span>
+                        <div class="my-case-crops crops-<?= e($case['crop_code'] ?? 'exotico') ?>">
+                            <span><?= e($case['crop_emoji'] ?? '🐾') ?></span>
                         </div>
                         <div class="my-case-main">
                             <div class="my-case-top">
@@ -88,7 +88,7 @@
                             </h2>
                             <p><?= e($case['final_diagnosis'] ?: $case['chief_complaint']) ?></p>
                             <div class="my-case-meta">
-                                <span><?= e($case['species_name'] ?? '') ?></span>
+                                <span><?= e($case['crop_name'] ?? '') ?></span>
                                 <span><?= icon('message-circle', 'icon icon-xs') ?> <?= (int) ($case['comments_count'] ?? 0) ?> comentarios</span>
                                 <?php if (($case['reviews_count'] ?? 0) > 0): ?><span><?= icon('check-circle', 'icon icon-xs') ?> <?= (int) $case['reviews_count'] ?> revisión(es)</span><?php endif; ?>
                             </div>

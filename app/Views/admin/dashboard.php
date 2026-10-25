@@ -51,7 +51,7 @@
             <div class="admin-list">
                 <?php foreach ($pendingCases as $case): ?>
                     <a class="admin-list-row" href="<?= e(url('/admin/casos/' . $case['id'])) ?>">
-                        <span class="admin-list-emoji"><?= e($case['species_emoji'] ?? '🐾') ?></span>
+                        <span class="admin-list-emoji"><?= e($case['crop_emoji'] ?? '🐾') ?></span>
                         <span class="admin-list-main">
                             <strong><?= e($case['title']) ?></strong>
                             <small><?= e($case['author_name']) ?> · <?= e(time_ago($case['updated_at'] ?? $case['created_at'] ?? null)) ?></small>

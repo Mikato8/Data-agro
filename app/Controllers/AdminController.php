@@ -34,7 +34,7 @@ final class AdminController extends BaseController
         );
 
         return $this->view('admin.dashboard', [
-            'title' => 'Panel editorial · Diagnóstico Veterinario',
+            'title' => 'Panel editorial · AgroDiagnóstico',
             'metaDescription' => 'Panel de administración y moderación de casos.',
             'stats' => $cases->adminStats(),
             'pendingCases' => $pending['items'],
@@ -56,7 +56,7 @@ final class AdminController extends BaseController
 
         return $this->view('admin.cases', [
             'title' => 'Casos · Panel editorial',
-            'metaDescription' => 'Administra los casos clínicos del portal.',
+            'metaDescription' => 'Administra los casos agronómicos del portal.',
             'cases' => $result['items'],
             'total' => $result['total'],
             'filters' => $filters,
@@ -75,7 +75,7 @@ final class AdminController extends BaseController
 
         return $this->view('admin.case', [
             'title' => 'Revisar caso · Panel editorial',
-            'metaDescription' => 'Revisión editorial del caso clínico.',
+            'metaDescription' => 'Revisión editorial del caso agronómico.',
             'case' => $case,
             'reviews' => $repo->reviews((int) $case['id']),
             'comments' => $repo->comments((int) $case['id'], true),
@@ -107,10 +107,10 @@ final class AdminController extends BaseController
             if (mb_strlen((string) $case['final_diagnosis']) < 3) {
                 $missing[] = 'diagnóstico final';
             }
-            if (mb_strlen((string) $case['treatment']) < 20) {
-                $missing[] = 'tratamiento';
+            if (mb_strlen((string) $case['management']) < 20) {
+                $missing[] = 'manejo';
             }
-            if (!$case['owner_consent'] || !$case['anonymized']) {
+            if (!$case['producer_consent'] || !$case['anonymized']) {
                 $missing[] = 'consentimiento y anonimización';
             }
             if ($missing !== []) {
@@ -176,7 +176,7 @@ final class AdminController extends BaseController
     {
         $admin = Auth::requireAdmin();
         $role = $request->string('role');
-        if (!in_array($role, ['veterinario', 'editor', 'admin'], true)) {
+        if (!in_array($role, ['agronomo', 'editor', 'admin'], true)) {
             Flash::error('Rol no válido.');
             return $this->back('/admin/usuarios');
         }
@@ -342,7 +342,7 @@ final class AdminController extends BaseController
             'title' => 'required|min:4|max:160',
             'description' => 'required|min:20|max:1200',
             'url' => 'required|url|max:500',
-            'category' => 'required|in:dataset,api,repositorio,vigilancia,guia,ml,institucion',
+            'category' => 'required|in:dataset,api,repositorio,vigilancia,guia,ml,institucion,biblioteca,directorio,revista,plataforma',
             'access' => 'required|in:abierto,solicitud,pago,mixto',
             'organization' => 'nullable|max:160',
             'country' => 'nullable|max:80',
