@@ -12,7 +12,7 @@ $levelOrder = ['emergencia', 'urgente', 'consulta', 'preventivo'];
             <a href="<?= e(url('/')) ?>">Inicio</a> <?= icon('chevron-right', 'icon icon-xs') ?>
             <a href="<?= e(url('/casos')) ?>">Casos</a> <?= icon('chevron-right', 'icon icon-xs') ?>
             <a href="<?= e(url('/casos/' . $case['slug'])) ?>"><?= e(excerpt($case['title'], 48)) ?></a> <?= icon('chevron-right', 'icon icon-xs') ?>
-            <span>IA de emergencia</span>
+            <span>Riesgo fitosanitario</span>
         </nav>
         <div class="page-hero-grid">
             <div>
@@ -21,7 +21,7 @@ $levelOrder = ['emergencia', 'urgente', 'consulta', 'preventivo'];
                     <span class="badge badge-success"><?= e($case['crop_name']) ?></span>
                 </div>
                 <h1>Emergencia del caso con IA</h1>
-                <p class="page-hero-lead">El clasificador lee el relato de campo de <strong><?= e($case['title']) ?></strong> y estima un nivel de emergencia. Revisa y edita el texto antes de analizarlo: el diagnóstico final no se envía.</p>
+                <p class="page-hero-lead">El clasificador lee el relato de campo de <strong><?= e($case['title']) ?></strong> y estima un nivel de riesgo fitosanitario. Revisa y edita el texto antes de analizarlo: el diagnóstico final no se envía.</p>
             </div>
             <div class="page-hero-aside">
                 <a class="btn btn-outline btn-sm" href="<?= e(url('/casos/' . $case['slug'])) ?>"><?= icon('arrow-left', 'icon icon-xs') ?> Volver al caso</a>

@@ -21,8 +21,8 @@ $levelOrder = ['emergencia', 'urgente', 'consulta', 'preventivo'];
         <div class="ai-hero-grid">
             <div>
                 <span class="eyebrow eyebrow-light"><span class="eyebrow-dot"></span> Clasificador de riesgo</span>
-                <h1>Orientación de emergencia con IA</h1>
-                <p class="ai-lead">Escribe un relato breve del caso y el clasificador estima si conviene actuar como emergencia, emergencia, consulta programada o prevención. Es una segunda opinión orientativa, no un diagnóstico.</p>
+                <h1>Clasificador de riesgo fitosanitario</h1>
+                <p class="ai-lead">Escribe un relato breve del caso y el clasificador estima si conviene actuar como emergencia, atención prioritaria, consulta programada o prevención. Es una segunda opinión orientativa, no un diagnóstico.</p>
             </div>
             <div class="ai-hero-badge">
                 <?= icon('cpu', 'icon') ?>

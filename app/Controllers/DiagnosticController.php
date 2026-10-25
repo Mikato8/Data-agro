@@ -34,7 +34,7 @@ final class DiagnosticController extends BaseController
 
         return $this->view('diagnostic.index', [
             'title' => 'Apoyo diagnóstico por similitud · AgroDiagnóstico',
-            'metaDescription' => 'Selecciona cultivo y síntomas para obtener diagnósticos diferenciales ponderados, con síntomas clave y nivel de emergencia.',
+            'metaDescription' => 'Selecciona cultivo y síntomas para obtener diagnósticos diferenciales ponderados, con síntomas clave y nivel de riesgo fitosanitario.',
             'cropsList' => $cropsList,
             'crops' => $crops,
             'signGroups' => $grouped,

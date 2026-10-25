@@ -38,7 +38,7 @@ final class CaseController extends BaseController
         $catalog = new CatalogRepository();
 
         return $this->view('cases.index', [
-            'title' => 'Casos agronómicos agrónomos · AgroDiagnóstico',
+            'title' => 'Casos de campo · AgroDiagnóstico',
             'metaDescription' => 'Explora casos de campo en maíz, café, agave, hortalizas, frutales y otros cultivos de México, documentados por ingenieros agrónomos.',
             'cases' => $result['items'],
             'total' => $result['total'],
@@ -106,7 +106,7 @@ final class CaseController extends BaseController
         }
 
         return $this->view('cases.ai', [
-            'title' => 'IA de emergencia · ' . $case['title'],
+            'title' => 'Riesgo fitosanitario · ' . $case['title'],
             'metaDescription' => 'Analiza el relato de campo de este caso con un clasificador orientativo de riesgo fitosanitario.',
             'case' => $case,
             'text' => $this->caseAiText($case),
@@ -152,7 +152,7 @@ final class CaseController extends BaseController
         }
 
         return $this->view('cases.ai', [
-            'title' => 'IA de emergencia · ' . $case['title'],
+            'title' => 'Riesgo fitosanitario · ' . $case['title'],
             'metaDescription' => 'Analiza el relato de campo de este caso con un clasificador orientativo de riesgo fitosanitario.',
             'case' => $case,
             'text' => $text,
