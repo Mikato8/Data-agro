@@ -282,6 +282,9 @@ mkdir -p public/uploads/cases public/uploads/avatars
 chmod -R 775 storage public/uploads
 find storage public/uploads -type d -exec chmod 775 {} \;
 find storage public/uploads -type f -exec chmod 664 {} \;
+# Todo el código y los assets deben ser legibles por el servidor web.
+find . -type d -exec chmod 755 {} \;
+find . -type f ! -name '.env' -exec chmod 644 {} \;
 find . -name '.htaccess' -exec chmod 644 {} \;
 chmod 600 .env
 ```
@@ -289,7 +292,7 @@ chmod 600 .env
 - Los `.htaccess` deben quedar **legibles** (644) para que LiteSpeed/Hostinger aplique las reglas. Con permisos 600 el servidor puede ignorarlos: la portada devuelve 403 y el código de `app/` queda expuesto. Verifica la raíz, `public/` y `public/uploads/`.
 - El usuario de PHP debe poder escribir en `storage/sessions`, `storage/logs`, `storage/cache`, `public/uploads/cases` y `public/uploads/avatars`.
 - No uses `777`. Si el usuario de PHP no es el mismo que el de SSH, ajusta el grupo o consulta a soporte de Hostinger.
-- No cambies los permisos de `public/index.php` ni de los assets a valores que impidan la lectura.
+- No cambies los permisos de `public/index.php` ni de los assets a valores que impidan la lectura. Si subes con `rsync -a`, los archivos pueden conservar 600 desde tu equipo: el CSS, el logo y las descargas responderán 403 aunque el HTML cargue. Corrige con `find . -type f ! -name '.env' -exec chmod 644 {} \;`.
 
 ## 8. Verificación inicial
 
