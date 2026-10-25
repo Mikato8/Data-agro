@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /perfil
+Disallow: /mis-casos
+Sitemap: https://khaki-gnu-402937.hostingersite.com/sitemap.xml
